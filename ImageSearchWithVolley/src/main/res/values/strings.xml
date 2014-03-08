@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Image Search With Volley</string>
+    <string name="action_share">Share</string>
+    <string name="action_search">Search</string>
+    <string name="action_clear_history">Clear Search History</string>
+    <string name="detail_image_description">detail image</string>
+    <string name="list_image_description">list_image</string>
+    <string name="search_hint">Keyword for Image search</string>
+    <string name="send_to"> Share Image info to ..</string>
+</resources>
+

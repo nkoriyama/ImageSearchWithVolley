@@ -1,0 +1,80 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        maven { url 'http://download.crashlytics.com/maven' }
+
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:0.9.+'
+        classpath 'com.crashlytics.tools.gradle:crashlytics-gradle:1.+'
+
+    }
+}
+apply plugin: 'android'
+apply plugin: 'crashlytics'
+
+repositories {
+    mavenCentral()
+    maven { url 'http://download.crashlytics.com/maven' }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
+    compile 'com.android.support:support-v13:19.+'
+    compile 'com.android.support:support-v4:19.+'
+    compile 'com.google.code.gson:gson:2.+'
+    compile 'com.squareup.okhttp:okhttp:1.+'
+    compile ('org.simpleframework:simple-xml:2.+') {
+        exclude module: 'stax'
+        exclude module: 'stax-api'
+        exclude module: 'xpp3'
+    }
+    compile 'com.jakewharton:butterknife:4.+'
+    compile 'com.crashlytics.android:crashlytics:1.+'
+}
+
+android {
+    compileSdkVersion 19
+    buildToolsVersion "19.0.3"
+
+    defaultConfig {
+        minSdkVersion 17
+        targetSdkVersion 19
+
+        buildConfigField "String", "AWS_ENDPOINT", project.properties.AWS_ENDPOINT
+        buildConfigField "String", "AWS_ACCESS_KEY_ID", project.properties.AWS_ACCESS_KEY_ID
+        buildConfigField "String", "AWS_SECRET_KEY", project.properties.AWS_SECRET_KEY
+        buildConfigField "String", "AWS_ASSOCIATE_TAG", project.properties.AWS_ASSOCIATE_TAG
+        buildConfigField "String", "BING_API_KEY", project.properties.BING_API_KEY
+        buildConfigField "String", "FLICKR_API_KEY", project.properties.FLICKR_API_KEY
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+
+    signingConfigs {
+        release {
+            storeFile file(project.properties.storeFile)
+            storePassword project.properties.storePassword
+            keyAlias project.properties.keyAlias
+            keyPassword project.properties.keyPassword
+        }
+    }
+
+    buildTypes {
+        release {
+            runProguard true
+            proguardFile file('proguard-project.txt')
+            proguardFile getDefaultProguardFile('proguard-android.txt')
+            signingConfig signingConfigs.release
+        }
+    }
+
+    productFlavors {
+    }
+
+    packagingOptions {
+        exclude 'AndroidManifest.xml'
+    }
+}
