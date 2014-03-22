@@ -43,7 +43,7 @@ public class PhotoAdapter extends ArrayAdapter<PhotoInfo> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder viewHolder;
+        final ViewHolder viewHolder;
         if (convertView == null) {
             convertView = mLayoutInflater.inflate(R.layout.list_item, parent, false);
             if (convertView == null) {
@@ -55,7 +55,7 @@ public class PhotoAdapter extends ArrayAdapter<PhotoInfo> {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        PhotoInfo photoInfo = getItem(position);
+        final PhotoInfo photoInfo = getItem(position);
         viewHolder.title.setText(photoInfo.getTitle());
         viewHolder.image.setImageUrl(photoInfo.getThumbnailUrl(), mImageLoader);
 

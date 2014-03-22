@@ -13,7 +13,7 @@ public class PhotoDetailPagerAdapter extends FragmentStatePagerAdapter {
     }
 
     public static PhotoDetailPagerAdapter newInstance(FragmentManager fm, PhotoAdapter photoadapter) {
-        PhotoDetailPagerAdapter photoDetailPagerAdapter = new PhotoDetailPagerAdapter(fm);
+        final PhotoDetailPagerAdapter photoDetailPagerAdapter = new PhotoDetailPagerAdapter(fm);
         photoDetailPagerAdapter.mPhotoAdapter = photoadapter;
         return  photoDetailPagerAdapter;
     }

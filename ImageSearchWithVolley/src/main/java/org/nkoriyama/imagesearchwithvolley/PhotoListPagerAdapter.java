@@ -22,8 +22,7 @@ public class PhotoListPagerAdapter extends FragmentPagerAdapter {
     @Override
     public Fragment getItem(int i) {
         try {
-            PhotoListFragment photoListFragment =
-                    mFragmentClassList.get(i).newInstance();
+            final PhotoListFragment photoListFragment = mFragmentClassList.get(i).newInstance();
             photoListFragment.init(mQuery);
             return photoListFragment;
         } catch (InstantiationException e) {
@@ -41,7 +40,7 @@ public class PhotoListPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public CharSequence getPageTitle(int position) {
-        String fragmentName = mFragmentClassList.get(position).getSimpleName();
+        final String fragmentName = mFragmentClassList.get(position).getSimpleName();
         return fragmentName.substring(0, fragmentName.indexOf("PhotoListFragment"));
     }
 }

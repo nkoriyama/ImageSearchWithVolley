@@ -24,7 +24,7 @@ public class PhotoDetailFragment extends Fragment {
     public static PhotoDetailFragment newInstance(PhotoInfo photoinfo, boolean zoomEnabled)
     {
         PhotoDetailFragment photodetailfragment = new PhotoDetailFragment();
-        Bundle bundle = new Bundle();
+        final Bundle bundle = new Bundle();
         bundle.putParcelable("photoInfo", new PhotoInfoParcelable(photoinfo));
         bundle.putBoolean("zoomEnabled", zoomEnabled);
         photodetailfragment.setArguments(bundle);

@@ -23,7 +23,7 @@ public class PhotoListPagerFragment extends Fragment {
     public static PhotoListPagerFragment newInstance(String query) {
         PhotoListPagerFragment photoListPagerFragment = new PhotoListPagerFragment();
 
-        Bundle bundle = new Bundle();
+        final Bundle bundle = new Bundle();
         bundle.putString("query", query);
         photoListPagerFragment.setArguments(bundle);
         return photoListPagerFragment;
@@ -45,7 +45,7 @@ public class PhotoListPagerFragment extends Fragment {
             return;
         }
 
-        String query = bundle.getString("query");
+        final String query = bundle.getString("query");
         mPhotoListPagerAdapter = new PhotoListPagerAdapter(
                 getChildFragmentManager(),
                 new ArrayList<Class<? extends PhotoListFragment>>() {{
@@ -59,7 +59,7 @@ public class PhotoListPagerFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_photolistpager, container, false);
+        final View view = inflater.inflate(R.layout.fragment_photolistpager, container, false);
         if (view == null) {
             return null;
         }
@@ -76,14 +76,14 @@ public class PhotoListPagerFragment extends Fragment {
             return null;
         }
 
-        String query = bundle.getString("query");
+        final String query = bundle.getString("query");
 
         ButterKnife.inject(this, view);
 
         mPager.setAdapter(mPhotoListPagerAdapter);
         mPager.setPageTransformer(true, new ZoomOutPageTransformer());
 
-        MainActivity activity = (MainActivity) getActivity();
+        final MainActivity activity = (MainActivity) getActivity();
         if (activity == null) {
             return null;
         }
@@ -138,7 +138,7 @@ public class PhotoListPagerFragment extends Fragment {
     public void onResume() {
         super.onResume();
 
-        MainActivity activity = (MainActivity) getActivity();
+        final MainActivity activity = (MainActivity) getActivity();
         if (activity == null) {
             return;
         }

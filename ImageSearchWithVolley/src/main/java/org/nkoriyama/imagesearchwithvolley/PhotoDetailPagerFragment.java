@@ -30,9 +30,9 @@ public class PhotoDetailPagerFragment extends Fragment {
     }
 
     public static PhotoDetailPagerFragment newInstance(PhotoAdapter photoAdapter, int position) {
-        PhotoDetailPagerFragment photoDetailPagerFragment = new PhotoDetailPagerFragment();
+        final PhotoDetailPagerFragment photoDetailPagerFragment = new PhotoDetailPagerFragment();
         photoDetailPagerFragment.mPhotoAdapter = photoAdapter;
-        Bundle bundle = new Bundle();
+        final Bundle bundle = new Bundle();
         bundle.putInt("position", position);
         photoDetailPagerFragment.setArguments(bundle);
         return photoDetailPagerFragment;
@@ -54,7 +54,7 @@ public class PhotoDetailPagerFragment extends Fragment {
     }
 
     private void updateShareIntent(PhotoInfo photoInfo) {
-        Intent shareIntent = new Intent();
+        final Intent shareIntent = new Intent();
         shareIntent.setAction(Intent.ACTION_SEND);
         shareIntent.setType("text/plain");
         shareIntent.putExtra(Intent.EXTRA_SUBJECT, photoInfo.getShareSubject());
@@ -65,7 +65,7 @@ public class PhotoDetailPagerFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_photodetailpager, container, false);
+        final View view = inflater.inflate(R.layout.fragment_photodetailpager, container, false);
         if (view == null) {
             return null;
         }

@@ -8,8 +8,8 @@ public class ZoomOutPageTransformer implements ViewPager.PageTransformer {
     private static final float MIN_ALPHA = 0.5f;
 
     public void transformPage(View view, float position) {
-        int pageWidth = view.getWidth();
-        int pageHeight = view.getHeight();
+        final int pageWidth = view.getWidth();
+        final int pageHeight = view.getHeight();
 
         if (position < -1) { // [-Infinity,-1)
             // This page is way off-screen to the left.
@@ -17,9 +17,9 @@ public class ZoomOutPageTransformer implements ViewPager.PageTransformer {
 
         } else if (position <= 1) { // [-1,1]
             // Modify the default slide transition to shrink the page as well
-            float scaleFactor = Math.max(MIN_SCALE, 1 - Math.abs(position));
-            float verticalMargin = pageHeight * (1 - scaleFactor) / 2;
-            float horizontalMargin = pageWidth * (1 - scaleFactor) / 2;
+            final float scaleFactor = Math.max(MIN_SCALE, 1 - Math.abs(position));
+            final float verticalMargin = pageHeight * (1 - scaleFactor) / 2;
+            final float horizontalMargin = pageWidth * (1 - scaleFactor) / 2;
             if (position < 0) {
                 view.setTranslationX(horizontalMargin - verticalMargin / 2);
             } else {
