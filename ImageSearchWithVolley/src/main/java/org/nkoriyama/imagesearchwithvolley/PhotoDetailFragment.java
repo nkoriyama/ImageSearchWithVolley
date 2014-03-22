@@ -33,18 +33,30 @@ public class PhotoDetailFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        PhotoInfoParcelable photoInfo = getArguments().getParcelable("photoInfo");
+        final Bundle bundle;
+        if (savedInstanceState != null)
+        {
+            bundle = savedInstanceState;
+        } else
+        {
+            bundle = getArguments();
+        }
+        if (bundle == null) {
+            return null;
+        }
+
+        final PhotoInfoParcelable photoInfo = bundle.getParcelable("photoInfo");
         if (photoInfo == null) {
             return  null;
         }
-        int resource;
-        if (getArguments().getBoolean("zoomEnabled")) {
+        final int resource;
+        if (bundle.getBoolean("zoomEnabled")) {
             resource = R.layout.fragment_photodetailzoom;
         } else {
             resource = R.layout.fragment_photodetail;
         }
 
-        View view = inflater.inflate(resource, container, false);
+        final View view = inflater.inflate(resource, container, false);
         if (view == null) {
             return null;
         }
@@ -53,7 +65,7 @@ public class PhotoDetailFragment extends Fragment {
 
         mTitle.setText(photoInfo.getTitle());
         mTitle.requestFocus();
-        MainActivity activity = (MainActivity) getActivity();
+        final MainActivity activity = (MainActivity) getActivity();
         if (activity == null) {
             return null;
         }

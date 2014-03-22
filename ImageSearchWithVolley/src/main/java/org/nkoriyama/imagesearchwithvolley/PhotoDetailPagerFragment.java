@@ -70,7 +70,19 @@ public class PhotoDetailPagerFragment extends Fragment {
             return null;
         }
 
-        final int position = getArguments().getInt("position") ;
+        final Bundle bundle;
+        if (savedInstanceState != null)
+        {
+            bundle = savedInstanceState;
+        } else
+        {
+            bundle = getArguments();
+        }
+        if (bundle == null) {
+            return null;
+        }
+
+        final int position = bundle.getInt("position") ;
 
         ButterKnife.inject(this, view);
 

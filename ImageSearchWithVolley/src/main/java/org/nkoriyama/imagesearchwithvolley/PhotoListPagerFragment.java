@@ -33,7 +33,19 @@ public class PhotoListPagerFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        String query = getArguments().getString("query");
+        final Bundle bundle;
+        if (savedInstanceState != null)
+        {
+            bundle = savedInstanceState;
+        } else
+        {
+            bundle = getArguments();
+        }
+        if (bundle == null) {
+            return;
+        }
+
+        String query = bundle.getString("query");
         mPhotoListPagerAdapter = new PhotoListPagerAdapter(
                 getChildFragmentManager(),
                 new ArrayList<Class<? extends PhotoListFragment>>() {{
@@ -52,7 +64,19 @@ public class PhotoListPagerFragment extends Fragment {
             return null;
         }
 
-        String query = getArguments().getString("query");
+        final Bundle bundle;
+        if (savedInstanceState != null)
+        {
+            bundle = savedInstanceState;
+        } else
+        {
+            bundle = getArguments();
+        }
+        if (bundle == null) {
+            return null;
+        }
+
+        String query = bundle.getString("query");
 
         ButterKnife.inject(this, view);
 
