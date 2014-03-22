@@ -49,6 +49,7 @@ public class PhotoDetailFragment extends Fragment {
         if (photoInfo == null) {
             return  null;
         }
+
         final int resource;
         if (bundle.getBoolean("zoomEnabled")) {
             resource = R.layout.fragment_photodetailzoom;
@@ -65,6 +66,7 @@ public class PhotoDetailFragment extends Fragment {
 
         mTitle.setText(photoInfo.getTitle());
         mTitle.requestFocus();
+
         final MainActivity activity = (MainActivity) getActivity();
         if (activity == null) {
             return null;
