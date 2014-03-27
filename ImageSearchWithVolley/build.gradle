@@ -75,8 +75,4 @@ android {
 
     productFlavors {
     }
-
-    packagingOptions {
-        exclude 'AndroidManifest.xml'
-    }
 }
