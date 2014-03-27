@@ -23,6 +23,7 @@ dependencies {
     compile project(':volley')
     compile 'com.android.support:support-v13:19.+'
     compile 'com.android.support:support-v4:19.+'
+    compile 'com.google.guava:guava:16.+'
     compile 'com.google.code.gson:gson:2.+'
     compile 'com.squareup.okhttp:okhttp:1.+'
     compile ('org.simpleframework:simple-xml:2.+') {
