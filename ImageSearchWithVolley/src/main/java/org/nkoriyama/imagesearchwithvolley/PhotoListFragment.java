@@ -11,6 +11,7 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 
 import com.android.volley.RequestQueue;
+import com.google.common.base.Strings;
 
 import org.nkoriyama.imagesearchwithvolley.model.PhotoInfo;
 
@@ -83,6 +84,7 @@ public abstract class PhotoListFragment extends Fragment {
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
                 if (!mIsLoading &&
+                        !Strings.isNullOrEmpty(mQuery) &&
                         totalItemCount > 0 &&
                         totalItemCount <= (int) (0.2 * mPerPage) +
                                 (firstVisibleItem + visibleItemCount) &&
@@ -93,7 +95,7 @@ public abstract class PhotoListFragment extends Fragment {
         });
 
         mGridView.setAdapter(mPhotoAdapter);
-        if (mPhotoAdapter.getCount() == 0) {
+        if (mPhotoAdapter.getCount() == 0 && !Strings.isNullOrEmpty(mQuery)) {
             loadMoreItems();
         }
 
