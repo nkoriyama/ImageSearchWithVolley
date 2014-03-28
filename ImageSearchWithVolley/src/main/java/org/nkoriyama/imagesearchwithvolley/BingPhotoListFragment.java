@@ -1,6 +1,7 @@
 package org.nkoriyama.imagesearchwithvolley;
 
 
+import android.os.Bundle;
 import android.util.Base64;
 
 import com.android.volley.AuthFailureError;
@@ -16,6 +17,14 @@ import java.util.Map;
 
 public class BingPhotoListFragment extends PhotoListFragment {
     private final String BING_API_KEY = BuildConfig.BING_API_KEY;
+
+    public static PhotoListFragment newInstance(String query) {
+        PhotoListFragment photoListFragment = new BingPhotoListFragment();
+        Bundle bundle = new Bundle();
+        setBundle(bundle, query, 0, 50);
+        photoListFragment.setArguments(bundle);
+        return photoListFragment;
+    }
 
     @Override
     protected String getPhotoListUrl() {
@@ -69,13 +78,5 @@ public class BingPhotoListFragment extends PhotoListFragment {
                 return newHeaders;
             }
         });
-    }
-
-    @Override
-    public void init(String query) {
-        super.init(query);
-        mInitialPage = 0;
-        mPage = mInitialPage;
-        mPerPage = 50;
     }
 }

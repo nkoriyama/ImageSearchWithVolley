@@ -19,6 +19,14 @@ public class AmazonPhotoListFragment extends PhotoListFragment {
     private final String AWS_ASSOCIATE_TAG = BuildConfig.AWS_ASSOCIATE_TAG;
     private SignedRequestsHelper helper;
 
+    public static PhotoListFragment newInstance(String query) {
+        PhotoListFragment photoListFragment = new AmazonPhotoListFragment();
+        Bundle bundle = new Bundle();
+        setBundle(bundle, query, 1, 10);
+        photoListFragment.setArguments(bundle);
+        return photoListFragment;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,13 +81,5 @@ public class AmazonPhotoListFragment extends PhotoListFragment {
                     }
                 }
         ));
-    }
-
-    @Override
-    public void init(String query) {
-        super.init(query);
-        mInitialPage = 1;
-        mPage = mInitialPage;
-        mPerPage = 10;
     }
 }

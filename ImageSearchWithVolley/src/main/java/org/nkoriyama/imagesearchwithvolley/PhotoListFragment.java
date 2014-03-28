@@ -28,11 +28,11 @@ public abstract class PhotoListFragment extends Fragment {
     protected RequestQueue mRequestQueue;
     protected PhotoAdapter mPhotoAdapter;
     protected String mQuery;
-    protected boolean mIsLoading;
-    protected int mPage;
     protected int mInitialPage;
     protected int mPerPage;
+    protected int mPage;
     protected int mTotal;
+    protected boolean mIsLoading;
 
     protected abstract String getPhotoListUrl();
     protected abstract void loadMoreItems();
@@ -48,15 +48,6 @@ public abstract class PhotoListFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mPhotoAdapter = new PhotoAdapter(getActivity(), R.layout.list_item, new ArrayList<PhotoInfo>());
-
-        if (savedInstanceState != null) {
-            mQuery = savedInstanceState.getString("query");
-            mIsLoading = false;
-            mInitialPage = savedInstanceState.getInt("initialpage");
-            mPage = mInitialPage;
-            mPerPage = savedInstanceState.getInt("perpage");
-            mTotal = 0;
-        }
     }
 
     @Override
@@ -65,6 +56,22 @@ public abstract class PhotoListFragment extends Fragment {
         if (view == null) {
             return null;
         }
+
+        final Bundle bundle;
+        if (savedInstanceState != null) {
+            bundle = savedInstanceState;
+        } else if (getArguments() != null) {
+            bundle = getArguments();
+        } else {
+            return null;
+        }
+
+        mQuery = bundle.getString("query");
+        mInitialPage = bundle.getInt("initialPage");
+        mPerPage = bundle.getInt("perPage");
+        mPage = mInitialPage;
+        mTotal = 0;
+        mIsLoading = false;
 
         ButterKnife.inject(this, view);
 
@@ -108,25 +115,17 @@ public abstract class PhotoListFragment extends Fragment {
         ButterKnife.reset(this);
     }
 
+    protected static void setBundle(Bundle bundle, String query, int initialPage, int perPage)
+    {
+        bundle.putString("query", query);
+        bundle.putInt("initialPage", initialPage);
+        bundle.putInt("perPage", perPage);
+    }
+
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-
-        outState.putString("query", mQuery);
-        outState.putInt("initialpage", mInitialPage);
-        outState.putInt("perpage", mPerPage);
-    }
-
-    public void init(String query) {
-        if (mPhotoAdapter != null) {
-            mPhotoAdapter.clear();
-        }
-        mQuery = query;
-        mIsLoading = false;
-        mInitialPage = 0;
-        mPage = 0;
-        mPerPage = 0;
-        mTotal = 0;
+        setBundle(outState, mQuery, mInitialPage, mPerPage);
     }
 
     public static interface OnPhotoSelectedListener {

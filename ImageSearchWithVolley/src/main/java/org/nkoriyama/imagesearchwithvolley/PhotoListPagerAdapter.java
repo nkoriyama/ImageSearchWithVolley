@@ -21,14 +21,14 @@ public class PhotoListPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int i) {
-        try {
-            final PhotoListFragment photoListFragment = mFragmentClassList.get(i).newInstance();
-            photoListFragment.init(mQuery);
-            return photoListFragment;
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
+        if (mFragmentClassList.get(i) == FlickrPhotoListFragment.class) {
+            return FlickrPhotoListFragment.newInstance(mQuery);
+        }
+        if (mFragmentClassList.get(i) == BingPhotoListFragment.class) {
+            return BingPhotoListFragment.newInstance(mQuery);
+        }
+        if (mFragmentClassList.get(i) == AmazonPhotoListFragment.class) {
+            return AmazonPhotoListFragment.newInstance(mQuery);
         }
         return null;
     }

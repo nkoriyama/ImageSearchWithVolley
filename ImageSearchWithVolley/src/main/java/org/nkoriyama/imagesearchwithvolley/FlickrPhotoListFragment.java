@@ -1,5 +1,7 @@
 package org.nkoriyama.imagesearchwithvolley;
 
+import android.os.Bundle;
+
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 
@@ -10,6 +12,14 @@ import java.net.URLEncoder;
 
 public class FlickrPhotoListFragment extends PhotoListFragment {
     private final String FLICKR_API_KEY = BuildConfig.FLICKR_API_KEY;
+
+    public static PhotoListFragment newInstance(String query) {
+        PhotoListFragment photoListFragment = new FlickrPhotoListFragment();
+        Bundle bundle = new Bundle();
+        setBundle(bundle, query, 1, 50);
+        photoListFragment.setArguments(bundle);
+        return photoListFragment;
+    }
 
     @Override
     protected String getPhotoListUrl() {
@@ -52,13 +62,5 @@ public class FlickrPhotoListFragment extends PhotoListFragment {
                     }
                 }
         ));
-    }
-
-    @Override
-    public void init(String query) {
-        super.init(query);
-        mInitialPage = 1;
-        mPage = mInitialPage;
-        mPerPage = 50; // default 100
     }
 }
