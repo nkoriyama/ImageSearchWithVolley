@@ -5,9 +5,9 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.support.v13.app.FragmentPagerAdapter;
 
-import com.google.common.base.Preconditions;
-
 import java.util.List;
+
+import static com.google.common.base.Preconditions.*;
 
 public class PhotoListPagerAdapter extends FragmentPagerAdapter {
     private final List<Class<? extends PhotoListFragment>> mFragmentClassList;
@@ -23,7 +23,7 @@ public class PhotoListPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int i) {
-        Preconditions.checkElementIndex(i, mFragmentClassList.size());
+        checkElementIndex(i, mFragmentClassList.size());
         if (mFragmentClassList.get(i) == FlickrPhotoListFragment.class) {
             return FlickrPhotoListFragment.newInstance(mQuery);
         }
@@ -43,7 +43,7 @@ public class PhotoListPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public CharSequence getPageTitle(int position) {
-        Preconditions.checkElementIndex(position, mFragmentClassList.size());
+        checkElementIndex(position, mFragmentClassList.size());
         final String fragmentName = mFragmentClassList.get(position).getSimpleName();
         return fragmentName.substring(0, fragmentName.indexOf("PhotoListFragment"));
     }
