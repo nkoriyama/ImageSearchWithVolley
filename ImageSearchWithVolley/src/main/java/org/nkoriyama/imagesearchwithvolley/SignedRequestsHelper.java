@@ -143,10 +143,7 @@ public class SignedRequestsHelper {
         String sig = this.percentEncodeRfc3986(hmac);
 
         // construct the URL
-        String url =
-                "http://" + this.endpoint + REQUEST_URI + "?" + canonicalQS + "&Signature=" + sig;
-
-        return url;
+        return "http://" + this.endpoint + REQUEST_URI + "?" + canonicalQS + "&Signature=" + sig;
     }
 
     /**
@@ -170,7 +167,7 @@ public class SignedRequestsHelper {
      * @return              base64-encoded hmac value.
      */
     private String hmac(String stringToSign) {
-        String signature = null;
+        String signature;
         byte[] data;
         byte[] rawHmac;
         try {
@@ -189,7 +186,7 @@ public class SignedRequestsHelper {
      * @return  ISO-8601 format timestamp.
      */
     private String timestamp() {
-        String timestamp = null;
+        String timestamp;
         Calendar cal = Calendar.getInstance();
         DateFormat dfm = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
         dfm.setTimeZone(TimeZone.getTimeZone("GMT"));
@@ -208,7 +205,7 @@ public class SignedRequestsHelper {
             return "";
         }
 
-        StringBuffer buffer = new StringBuffer();
+        StringBuilder buffer = new StringBuilder();
         Iterator<Map.Entry<String, String>> iter = sortedParamMap.entrySet().iterator();
 
         while (iter.hasNext()) {
@@ -220,8 +217,7 @@ public class SignedRequestsHelper {
                 buffer.append("&");
             }
         }
-        String cannoical = buffer.toString();
-        return cannoical;
+        return buffer.toString();
     }
 
     /**
@@ -266,7 +262,7 @@ public class SignedRequestsHelper {
             {
                 try {
                     tokens[j] = URLDecoder.decode(tokens[j], UTF8_CHARSET);
-                } catch (UnsupportedEncodingException e) {
+                } catch (UnsupportedEncodingException ignored) {
                 }
             }
             switch (tokens.length) {
