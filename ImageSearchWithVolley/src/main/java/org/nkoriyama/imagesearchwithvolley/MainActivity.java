@@ -15,6 +15,7 @@ import android.widget.SearchView;
 import android.widget.ShareActionProvider;
 
 import com.crashlytics.android.Crashlytics;
+import com.google.common.base.Preconditions;
 
 import org.nkoriyama.imagesearchwithvolley.model.PhotoInfo;
 
@@ -89,23 +90,17 @@ public class MainActivity extends Activity implements
         getMenuInflater().inflate(R.menu.main, menu);
 
         mSearchItem = menu.findItem(R.id.action_search);
-        if (mSearchItem == null) {
-            return false;
-        }
+        assert mSearchItem != null;
 
         SearchView searchView = (SearchView) mSearchItem.getActionView();
-        if (searchView == null) {
-            return false;
-        }
+        assert searchView != null;
 
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         SearchableInfo searchableInfo = searchManager.getSearchableInfo(getComponentName());
         searchView.setSearchableInfo(searchableInfo);
 
         mShareItem = menu.findItem(R.id.action_share);
-        if (mShareItem == null) {
-            return false;
-        }
+        assert mShareItem != null;
 
         mShareActionProvider = (ShareActionProvider) mShareItem.getActionProvider();
         setShareIntent(null);
@@ -129,6 +124,7 @@ public class MainActivity extends Activity implements
 
     @Override
     public void onPhotoDetailLongPressed(PhotoInfo photoinfo) {
+        Preconditions.checkNotNull(photoinfo);
         getFragmentManager()
                 .beginTransaction()
                 .replace(R.id.fragment_container,
@@ -141,6 +137,8 @@ public class MainActivity extends Activity implements
 
     @Override
     public void onPhotoListSelected(PhotoAdapter adapter, int position) {
+        Preconditions.checkNotNull(adapter);
+        Preconditions.checkElementIndex(position, adapter.getCount());
         getFragmentManager()
                 .beginTransaction()
                 .replace(R.id.fragment_container,

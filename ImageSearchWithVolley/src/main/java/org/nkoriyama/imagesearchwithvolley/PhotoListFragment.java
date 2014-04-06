@@ -11,6 +11,7 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 
 import com.android.volley.RequestQueue;
+import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 
 import org.nkoriyama.imagesearchwithvolley.model.PhotoInfo;
@@ -53,18 +54,15 @@ public abstract class PhotoListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_photolist, container, false);
-        if (view == null) {
-            return null;
-        }
+        ButterKnife.inject(this, view);
 
         final Bundle bundle;
         if (savedInstanceState != null) {
             bundle = savedInstanceState;
-        } else if (getArguments() != null) {
-            bundle = getArguments();
         } else {
-            return null;
+            bundle = getArguments();
         }
+        assert bundle != null;
 
         mQuery = bundle.getString("query");
         mInitialPage = bundle.getInt("initialPage");
@@ -72,8 +70,6 @@ public abstract class PhotoListFragment extends Fragment {
         mPage = mInitialPage;
         mTotal = 0;
         mIsLoading = false;
-
-        ButterKnife.inject(this, view);
 
         mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -115,8 +111,9 @@ public abstract class PhotoListFragment extends Fragment {
         ButterKnife.reset(this);
     }
 
-    protected static void setBundle(Bundle bundle, String query, int initialPage, int perPage)
-    {
+    protected static void setBundle(Bundle bundle, String query, int initialPage, int perPage) {
+        Preconditions.checkNotNull(bundle);
+        Preconditions.checkArgument(!Strings.isNullOrEmpty(query));
         bundle.putString("query", query);
         bundle.putInt("initialPage", initialPage);
         bundle.putInt("perPage", perPage);

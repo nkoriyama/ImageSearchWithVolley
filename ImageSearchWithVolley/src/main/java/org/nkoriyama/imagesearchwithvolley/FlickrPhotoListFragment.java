@@ -4,6 +4,8 @@ import android.os.Bundle;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.google.common.base.Preconditions;
+import com.google.common.base.Strings;
 
 import org.nkoriyama.imagesearchwithvolley.model.FlickrPhotoResponse;
 
@@ -14,6 +16,7 @@ public class FlickrPhotoListFragment extends PhotoListFragment {
     private final String FLICKR_API_KEY = BuildConfig.FLICKR_API_KEY;
 
     public static PhotoListFragment newInstance(String query) {
+        Preconditions.checkArgument(!Strings.isNullOrEmpty(query));
         PhotoListFragment photoListFragment = new FlickrPhotoListFragment();
         Bundle bundle = new Bundle();
         setBundle(bundle, query, 1, 50);

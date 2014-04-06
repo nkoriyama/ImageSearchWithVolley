@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.android.volley.toolbox.NetworkImageView;
+import com.google.common.base.Preconditions;
 
 import org.nkoriyama.imagesearchwithvolley.model.PhotoInfo;
 import org.nkoriyama.imagesearchwithvolley.model.PhotoInfoParcelable;
@@ -21,12 +22,14 @@ public class PhotoDetailFragment extends Fragment {
     @InjectView(R.id.detail_image)
     NetworkImageView mImage;
 
-    public static PhotoDetailFragment newInstance(PhotoInfo photoinfo, boolean zoomEnabled)
-    {
+    private PhotoInfo mPhotoInfo;
+    private boolean mZoomEnabled;
+
+    public static PhotoDetailFragment newInstance(PhotoInfo photoInfo, boolean zoomEnabled) {
+        Preconditions.checkNotNull(photoInfo);
         PhotoDetailFragment photodetailfragment = new PhotoDetailFragment();
         final Bundle bundle = new Bundle();
-        bundle.putParcelable("photoInfo", new PhotoInfoParcelable(photoinfo));
-        bundle.putBoolean("zoomEnabled", zoomEnabled);
+        setBundle(bundle, photoInfo, zoomEnabled);
         photodetailfragment.setArguments(bundle);
         return photodetailfragment;
     }
@@ -34,46 +37,34 @@ public class PhotoDetailFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final Bundle bundle;
-        if (savedInstanceState != null)
-        {
+        if (savedInstanceState != null) {
             bundle = savedInstanceState;
-        } else
-        {
+        } else {
             bundle = getArguments();
         }
-        if (bundle == null) {
-            return null;
-        }
+        assert bundle != null;
 
-        final PhotoInfoParcelable photoInfo = bundle.getParcelable("photoInfo");
-        if (photoInfo == null) {
-            return  null;
-        }
+        mPhotoInfo = (PhotoInfo) bundle.getParcelable("photoInfo");
+        assert mPhotoInfo != null;
+        mZoomEnabled = bundle.getBoolean("zoomEnabled");
 
         final int resource;
-        if (bundle.getBoolean("zoomEnabled")) {
+        if (mZoomEnabled) {
             resource = R.layout.fragment_photodetailzoom;
         } else {
             resource = R.layout.fragment_photodetail;
         }
 
         final View view = inflater.inflate(resource, container, false);
-        if (view == null) {
-            return null;
-        }
-
         ButterKnife.inject(this, view);
 
-        mTitle.setText(photoInfo.getTitle());
+        mTitle.setText(mPhotoInfo.getTitle());
         mTitle.requestFocus();
 
         final MainActivity activity = (MainActivity) getActivity();
-        if (activity == null) {
-            return null;
-        }
-
+        assert activity != null;
         mImage.setImageUrl(
-                photoInfo.getImageUrl(),
+                mPhotoInfo.getImageUrl(),
                 ((ImageSearchWithVolley) activity.getApplication()).getImageLoader()
         );
 
@@ -84,5 +75,18 @@ public class PhotoDetailFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.reset(this);
+    }
+
+    private static void setBundle(Bundle bundle, PhotoInfo photoInfo, boolean zoomEnabled) {
+        Preconditions.checkNotNull(bundle);
+        Preconditions.checkNotNull(photoInfo);
+        bundle.putParcelable("photoInfo", new PhotoInfoParcelable(photoInfo));
+        bundle.putBoolean("zoomEnabled", zoomEnabled);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        setBundle(outState, mPhotoInfo, mZoomEnabled);
     }
 }

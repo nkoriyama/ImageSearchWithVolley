@@ -9,6 +9,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.common.base.Preconditions;
+import com.google.common.base.Strings;
+
 import java.util.ArrayList;
 
 import butterknife.ButterKnife;
@@ -21,6 +24,7 @@ public class PhotoListPagerFragment extends Fragment {
     private PhotoListPagerAdapter mPhotoListPagerAdapter;
 
     public static PhotoListPagerFragment newInstance(String query) {
+        Preconditions.checkArgument(!Strings.isNullOrEmpty(query));
         PhotoListPagerFragment photoListPagerFragment = new PhotoListPagerFragment();
 
         final Bundle bundle = new Bundle();
@@ -34,16 +38,12 @@ public class PhotoListPagerFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         final Bundle bundle;
-        if (savedInstanceState != null)
-        {
+        if (savedInstanceState != null) {
             bundle = savedInstanceState;
-        } else
-        {
+        } else {
             bundle = getArguments();
         }
-        if (bundle == null) {
-            return;
-        }
+        assert bundle != null;
 
         final String query = bundle.getString("query");
         mPhotoListPagerAdapter = new PhotoListPagerAdapter(
@@ -60,38 +60,26 @@ public class PhotoListPagerFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_photolistpager, container, false);
-        if (view == null) {
-            return null;
-        }
+        ButterKnife.inject(this, view);
 
         final Bundle bundle;
-        if (savedInstanceState != null)
-        {
+        if (savedInstanceState != null) {
             bundle = savedInstanceState;
-        } else
-        {
+        } else {
             bundle = getArguments();
         }
-        if (bundle == null) {
-            return null;
-        }
+        assert bundle != null;
 
         final String query = bundle.getString("query");
-
-        ButterKnife.inject(this, view);
 
         mPager.setAdapter(mPhotoListPagerAdapter);
         mPager.setPageTransformer(true, new ZoomOutPageTransformer());
 
         final MainActivity activity = (MainActivity) getActivity();
-        if (activity == null) {
-            return null;
-        }
+        assert activity != null;
 
         final ActionBar actionBar = activity.getActionBar();
-        if (actionBar == null) {
-            return null;
-        }
+        assert actionBar != null;
 
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
         actionBar.setHomeButtonEnabled(false);

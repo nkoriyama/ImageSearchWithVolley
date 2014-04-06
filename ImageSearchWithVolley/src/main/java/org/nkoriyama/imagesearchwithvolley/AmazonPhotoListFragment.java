@@ -5,6 +5,8 @@ import android.os.Bundle;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.google.common.base.Preconditions;
+import com.google.common.base.Strings;
 
 import org.nkoriyama.imagesearchwithvolley.model.AmazonPhotoResponse;
 
@@ -20,6 +22,7 @@ public class AmazonPhotoListFragment extends PhotoListFragment {
     private SignedRequestsHelper helper;
 
     public static PhotoListFragment newInstance(String query) {
+        Preconditions.checkArgument(!Strings.isNullOrEmpty(query));
         PhotoListFragment photoListFragment = new AmazonPhotoListFragment();
         Bundle bundle = new Bundle();
         setBundle(bundle, query, 1, 10);

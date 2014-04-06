@@ -12,6 +12,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.common.base.Preconditions;
+
 import org.nkoriyama.imagesearchwithvolley.model.PhotoInfo;
 
 import butterknife.ButterKnife;
@@ -30,6 +32,8 @@ public class PhotoDetailPagerFragment extends Fragment {
     }
 
     public static PhotoDetailPagerFragment newInstance(PhotoAdapter photoAdapter, int position) {
+        Preconditions.checkNotNull(photoAdapter);
+        Preconditions.checkElementIndex(position, photoAdapter.getCount());
         final PhotoDetailPagerFragment photoDetailPagerFragment = new PhotoDetailPagerFragment();
         photoDetailPagerFragment.mPhotoAdapter = photoAdapter;
         final Bundle bundle = new Bundle();
@@ -47,13 +51,12 @@ public class PhotoDetailPagerFragment extends Fragment {
 
     private void setShareIntent(Intent shareIntent) {
         final MainActivity activity = (MainActivity) getActivity();
-        if (activity == null) {
-            return;
-        }
+        assert activity != null;
         activity.setShareIntent(shareIntent);
     }
 
     private void updateShareIntent(PhotoInfo photoInfo) {
+        Preconditions.checkNotNull(photoInfo);
         final Intent shareIntent = new Intent();
         shareIntent.setAction(Intent.ACTION_SEND);
         shareIntent.setType("text/plain");
@@ -66,25 +69,17 @@ public class PhotoDetailPagerFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_photodetailpager, container, false);
-        if (view == null) {
-            return null;
-        }
+        ButterKnife.inject(this, view);
 
         final Bundle bundle;
-        if (savedInstanceState != null)
-        {
+        if (savedInstanceState != null) {
             bundle = savedInstanceState;
-        } else
-        {
+        } else {
             bundle = getArguments();
         }
-        if (bundle == null) {
-            return null;
-        }
+        assert bundle != null;
 
         final int position = bundle.getInt("position") ;
-
-        ButterKnife.inject(this, view);
 
         mViewPager.setAdapter(PhotoDetailPagerAdapter.newInstance(
                 getChildFragmentManager(),
@@ -94,14 +89,10 @@ public class PhotoDetailPagerFragment extends Fragment {
         mViewPager.setPageTransformer(true, new DepthPageTransformer());
 
         final MainActivity activity = (MainActivity) getActivity();
-        if (activity == null) {
-            return null;
-        }
+        assert activity != null;
 
         final ActionBar actionBar = activity.getActionBar();
-        if (actionBar == null) {
-            return null;
-        }
+        assert actionBar != null;
 
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
         actionBar.setHomeButtonEnabled(true);

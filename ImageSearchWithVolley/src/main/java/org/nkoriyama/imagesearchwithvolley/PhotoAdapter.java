@@ -46,9 +46,7 @@ public class PhotoAdapter extends ArrayAdapter<PhotoInfo> {
         final ViewHolder viewHolder;
         if (convertView == null) {
             convertView = mLayoutInflater.inflate(R.layout.list_item, parent, false);
-            if (convertView == null) {
-                return null;
-            }
+            assert convertView != null;
             viewHolder = new ViewHolder(convertView);
             convertView.setTag(viewHolder);
         } else {

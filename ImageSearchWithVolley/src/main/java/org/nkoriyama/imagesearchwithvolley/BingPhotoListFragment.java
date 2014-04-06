@@ -7,6 +7,8 @@ import android.util.Base64;
 import com.android.volley.AuthFailureError;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.google.common.base.Preconditions;
+import com.google.common.base.Strings;
 
 import org.nkoriyama.imagesearchwithvolley.model.BingPhotoResponse;
 
@@ -19,6 +21,7 @@ public class BingPhotoListFragment extends PhotoListFragment {
     private final String BING_API_KEY = BuildConfig.BING_API_KEY;
 
     public static PhotoListFragment newInstance(String query) {
+        Preconditions.checkArgument(!Strings.isNullOrEmpty(query));
         PhotoListFragment photoListFragment = new BingPhotoListFragment();
         Bundle bundle = new Bundle();
         setBundle(bundle, query, 0, 50);
