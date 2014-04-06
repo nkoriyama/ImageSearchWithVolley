@@ -3,6 +3,8 @@ package org.nkoriyama.imagesearchwithvolley.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.common.base.Preconditions;
+
 public class PhotoInfoParcelable implements PhotoInfo, Parcelable {
     private final String mImageUrl;
     private final String mThumbnailUrl;
@@ -11,6 +13,7 @@ public class PhotoInfoParcelable implements PhotoInfo, Parcelable {
     private final String mShareText;
 
     private PhotoInfoParcelable(Parcel source) {
+        Preconditions.checkNotNull(source);
         mTitle = source.readString();
         mImageUrl = source.readString();
         mThumbnailUrl = source.readString();
@@ -19,6 +22,7 @@ public class PhotoInfoParcelable implements PhotoInfo, Parcelable {
     }
 
     public PhotoInfoParcelable(PhotoInfo photoinfo) {
+        Preconditions.checkNotNull(photoinfo);
         mTitle = photoinfo.getTitle();
         mImageUrl = photoinfo.getImageUrl();
         mThumbnailUrl = photoinfo.getThumbnailUrl();
@@ -61,6 +65,8 @@ public class PhotoInfoParcelable implements PhotoInfo, Parcelable {
         destination.writeString(mTitle);
         destination.writeString(mImageUrl);
         destination.writeString(mThumbnailUrl);
+        destination.writeString(mShareSubject);
+        destination.writeString(mShareText);
     }
 
     public static final Parcelable.Creator<PhotoInfoParcelable> CREATOR =
