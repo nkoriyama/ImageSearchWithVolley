@@ -7,7 +7,7 @@ import org.simpleframework.xml.Root;
 
 import java.util.List;
 
-@Root(name = "ItemLookupResponse", strict = false)
+@Root(name = "ItemSearchResponse", strict = false)
 public class AmazonPhotoResponse {
     public boolean isOK() {
         return (items != null && items.request.isValid);
@@ -418,9 +418,9 @@ class Request {
 
 @Root(strict = false)
 class OperationRequest {
-    @ElementList(name = "Arguments")
+    @ElementList(name = "Arguments", required = false)
     List<Argument> arguments;
-    @ElementList(name = "HTTPHeaders")
+    @ElementList(name = "HTTPHeaders", required = false)
     List<Header> headers;
     @Element(name = "RequestId")
     String requestId;
