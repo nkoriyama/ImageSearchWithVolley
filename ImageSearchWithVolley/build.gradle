@@ -5,12 +5,12 @@ buildscript {
 
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:0.9.+'
+        classpath 'com.android.tools.build:gradle:0.12.+'
         classpath 'com.crashlytics.tools.gradle:crashlytics-gradle:1.+'
 
     }
 }
-apply plugin: 'android'
+apply plugin: 'com.android.application'
 apply plugin: 'crashlytics'
 
 repositories {
@@ -21,27 +21,27 @@ repositories {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
     compile project(':volley')
-    compile 'com.android.support:support-v13:19.+'
-    compile 'com.android.support:support-v4:19.+'
-    compile 'com.google.guava:guava:16.+'
+    compile 'com.android.support:support-v13:20.+'
+    compile 'com.android.support:support-v4:20.+'
+    compile 'com.google.guava:guava:17.+'
     compile 'com.google.code.gson:gson:2.+'
-    compile 'com.squareup.okhttp:okhttp:1.+'
+    compile 'com.squareup.okhttp:okhttp:2.+'
     compile ('org.simpleframework:simple-xml:2.+') {
         exclude module: 'stax'
         exclude module: 'stax-api'
         exclude module: 'xpp3'
     }
-    compile 'com.jakewharton:butterknife:4.+'
+    compile 'com.jakewharton:butterknife:5.+'
     compile 'com.crashlytics.android:crashlytics:1.+'
 }
 
 android {
-    compileSdkVersion 19
-    buildToolsVersion "19.0.3"
+    compileSdkVersion 20
+    buildToolsVersion "20"
 
     defaultConfig {
         minSdkVersion 17
-        targetSdkVersion 19
+        targetSdkVersion 20
 
         buildConfigField "String", "AWS_ENDPOINT", project.properties.AWS_ENDPOINT
         buildConfigField "String", "AWS_ACCESS_KEY_ID", project.properties.AWS_ACCESS_KEY_ID
@@ -68,7 +68,7 @@ android {
         release {
             runProguard true
             proguardFile file('proguard-project.txt')
-            proguardFile getDefaultProguardFile('proguard-android.txt')
+            proguardFile getDefaultProguardFile('proguard-android-optimize.txt')
             signingConfig signingConfigs.release
         }
     }
