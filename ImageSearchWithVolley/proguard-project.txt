@@ -12,6 +12,7 @@
 
 # Add any project specific keep options here:
 -dontwarn com.squareup.okhttp.**
+-dontwarn okio.**
 -dontnote
 
 -keepnames public class org.nkoriyama.imagesearchwithvolley.*PhotoListFragment
