@@ -11,8 +11,6 @@
 #   http://developer.android.com/guide/developing/tools/proguard.html
 
 # Add any project specific keep options here:
--dontwarn com.squareup.okhttp.**
--dontwarn okio.**
 -dontnote
 
 -keepnames public class org.nkoriyama.imagesearchwithvolley.*PhotoListFragment
@@ -25,7 +23,7 @@
 #}
 
 # The following line may be different
--libraryjars <java.home>/lib/rt.jar(java/**,javax/**)
+#-libraryjars <java.home>/lib/rt.jar(java/**,javax/**)
 
 -optimizationpasses 5
 -dontusemixedcaseclassnames
@@ -49,13 +47,21 @@
 # Guava
 -dontwarn com.google.common.**
 
+# OkHttp
+-dontwarn com.squareup.okhttp.**
+
+# Okio
+-dontwarn okio.**
+
 # Butter Knife
 -dontwarn butterknife.internal.**
+-keep class butterknife.internal.* { *; }
 -keep class **$$ViewInjector { *; }
 -keepnames class * { @butterknife.InjectView *;}
 
 # Simple XML
--keep public class org.simpleframework.**{ *; } 
+-dontwarn org.simpleframework.xml.stream.**
+-keep public class org.simpleframework.**{ *; }
 -keep class org.simpleframework.xml.**{ *; } 
 -keep class org.simpleframework.xml.core.**{ *; } 
 -keep class org.simpleframework.xml.util.**{ *; }
