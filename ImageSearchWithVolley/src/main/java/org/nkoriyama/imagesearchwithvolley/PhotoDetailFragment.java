@@ -34,6 +34,13 @@ public class PhotoDetailFragment extends Fragment {
         return photodetailfragment;
     }
 
+    private static void setBundle(Bundle bundle, PhotoInfo photoInfo, boolean zoomEnabled) {
+        Preconditions.checkNotNull(bundle);
+        Preconditions.checkNotNull(photoInfo);
+        bundle.putParcelable("photoInfo", new PhotoInfoParcelable(photoInfo));
+        bundle.putBoolean("zoomEnabled", zoomEnabled);
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final Bundle bundle;
@@ -75,13 +82,6 @@ public class PhotoDetailFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.reset(this);
-    }
-
-    private static void setBundle(Bundle bundle, PhotoInfo photoInfo, boolean zoomEnabled) {
-        Preconditions.checkNotNull(bundle);
-        Preconditions.checkNotNull(photoInfo);
-        bundle.putParcelable("photoInfo", new PhotoInfoParcelable(photoInfo));
-        bundle.putBoolean("zoomEnabled", zoomEnabled);
     }
 
     @Override

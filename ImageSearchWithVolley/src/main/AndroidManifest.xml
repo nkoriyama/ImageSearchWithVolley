@@ -1,41 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="org.nkoriyama.imagesearchwithvolley"
-          android:versionCode="1"
-          android:versionName="1.0" >
+<manifest
+    package="org.nkoriyama.imagesearchwithvolley"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:versionCode="1"
+    android:versionName="1.0">
 
-    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
-            android:icon="@drawable/ic_launcher"
-            android:label="@string/app_name"
-            android:theme="@style/AppTheme"
-            android:name=".ImageSearchWithVolley"
-            android:allowBackup="true"
-            android:largeHeap="true" >
+        android:name=".ImageSearchWithVolley"
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:largeHeap="true"
+        android:theme="@style/AppTheme">
         <activity
-                android:name=".MainActivity"
-                android:label="@string/app_name"
-                android:launchMode="singleTop"
-                android:configChanges="keyboardHidden|orientation|screenSize" >
+            android:name=".MainActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="@string/app_name"
+            android:launchMode="singleTop">
 
-        <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
             <intent-filter>
-                <action android:name="android.intent.action.SEARCH" />
+                <action android:name="android.intent.action.SEARCH"/>
             </intent-filter>
+
             <meta-data
-                    android:name="android.app.searchable"
-                    android:resource="@xml/searchable" />
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable"/>
             <meta-data
-                    android:name="android.app.default_searchable"
-                    android:value=".MainActivity" />
+                android:name="android.app.default_searchable"
+                android:value=".MainActivity"/>
         </activity>
-        <provider android:name=".MySuggestionProvider"
-                  android:exported="false"
-                  android:authorities="org.nkoriyama.imagesearchwithvolley.MySuggestionProvider" />
-        <meta-data android:name="com.crashlytics.ApiKey" android:value="YOUR_CRASHLYTICS_APIKEY"/>
+        <provider
+            android:name=".MySuggestionProvider"
+            android:authorities="org.nkoriyama.imagesearchwithvolley.MySuggestionProvider"
+            android:exported="false"/>
+        <meta-data
+            android:name="com.crashlytics.ApiKey"
+            android:value="YOUR_CRASHLYTICS_APIKEY"/>
     </application>
 </manifest>

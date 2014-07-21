@@ -42,7 +42,7 @@ public class PhotoListPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return  mFragmentClassList.size();
+        return mFragmentClassList.size();
     }
 
     @Override

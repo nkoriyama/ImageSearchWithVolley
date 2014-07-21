@@ -6,6 +6,18 @@ import android.os.Parcelable;
 import com.google.common.base.Preconditions;
 
 public class PhotoInfoParcelable implements PhotoInfo, Parcelable {
+    public static final Parcelable.Creator<PhotoInfoParcelable> CREATOR =
+            new Parcelable.Creator<PhotoInfoParcelable>() {
+                @Override
+                public PhotoInfoParcelable createFromParcel(Parcel source) {
+                    return new PhotoInfoParcelable(source);
+                }
+
+                @Override
+                public PhotoInfoParcelable[] newArray(int size) {
+                    return new PhotoInfoParcelable[size];
+                }
+            };
     private final String mImageUrl;
     private final String mThumbnailUrl;
     private final String mTitle;
@@ -68,17 +80,4 @@ public class PhotoInfoParcelable implements PhotoInfo, Parcelable {
         destination.writeString(mShareSubject);
         destination.writeString(mShareText);
     }
-
-    public static final Parcelable.Creator<PhotoInfoParcelable> CREATOR =
-            new Parcelable.Creator<PhotoInfoParcelable>() {
-                @Override
-                public PhotoInfoParcelable createFromParcel(Parcel source) {
-                    return new PhotoInfoParcelable(source);
-                }
-
-                @Override
-                public PhotoInfoParcelable[] newArray(int size) {
-                    return new PhotoInfoParcelable[size];
-                }
-            };
 }

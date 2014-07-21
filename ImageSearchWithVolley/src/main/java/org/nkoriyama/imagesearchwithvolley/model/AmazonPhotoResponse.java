@@ -9,17 +9,18 @@ import java.util.List;
 
 @Root(name = "ItemSearchResponse", strict = false)
 public class AmazonPhotoResponse {
-    public boolean isOK() {
-        return (items != null && items.request.isValid);
-    }
-    public List<Item> getPhotoInfoList() {
-        return items.items;
-    }
-
     @Element(name = "Items")
     Items items;
     @Element(name = "OperationRequest")
     OperationRequest operationRequest;
+
+    public boolean isOK() {
+        return (items != null && items.request.isValid);
+    }
+
+    public List<Item> getPhotoInfoList() {
+        return items.items;
+    }
 }
 
 @Root(strict = false)
@@ -38,6 +39,27 @@ class Items {
 
 @Root(strict = false)
 class Item implements PhotoInfo {
+
+    @Element(name = "ASIN")
+    String asin;
+    @Element(name = "DetailPageURL", required = false)
+    String detailPageURL;
+    @ElementList(name = "ImageSets", required = false)
+    List<ImageSet> imageSets;
+    @Element(name = "ItemAttributes", required = false)
+    ItemAttributes itemAttributes;
+    @ElementList(name = "ItemLinks", required = false)
+    List<ItemLink> itemLinks;
+    @Element(name = "LargeImage", required = false)
+    Image largeImage;
+    @Element(name = "MediumImage", required = false)
+    Image mediumImage;
+    @Element(name = "OfferSummary", required = false)
+    OfferSummary offerSummary;
+    @Element(name = "Offers", required = false)
+    Offers offers;
+    @Element(name = "SmallImage", required = false)
+    Image smallImage;
 
     @Override
     public String getImageUrl() {
@@ -63,7 +85,7 @@ class Item implements PhotoInfo {
             title = itemAttributes.title;
 
             if (itemAttributes.binding != null) {
-                title += " Binding:["  + itemAttributes.binding + "]";
+                title += " Binding:[" + itemAttributes.binding + "]";
             }
             if (itemAttributes.actors != null) {
                 title += " Actor:[";
@@ -133,12 +155,12 @@ class Item implements PhotoInfo {
                 price = itemAttributes.listPrice;
             }
             if (price != null) {
-                title += " Price:["  + price.formattedPrice + "]";
+                title += " Price:[" + price.formattedPrice + "]";
             }
 
-            title += " ASIN:["  + asin + "]";
+            title += " ASIN:[" + asin + "]";
             if (itemAttributes.ean != null) {
-                title += " JAN:["  + itemAttributes.ean + "]";
+                title += " JAN:[" + itemAttributes.ean + "]";
             }
         }
 
@@ -164,11 +186,11 @@ class Item implements PhotoInfo {
         if (itemAttributes != null) {
             shareText += System.getProperty("line.separator") + "Title:[" + itemAttributes.title + "]";
 
-            shareText += System.getProperty("line.separator") + "Image URL:["  + getImageUrl() + "]";
-            shareText += System.getProperty("line.separator") + "Product URL:["  + detailPageURL + "]";
+            shareText += System.getProperty("line.separator") + "Image URL:[" + getImageUrl() + "]";
+            shareText += System.getProperty("line.separator") + "Product URL:[" + detailPageURL + "]";
 
             if (itemAttributes.binding != null) {
-                shareText += System.getProperty("line.separator") + "Binding:["  + itemAttributes.binding + "]";
+                shareText += System.getProperty("line.separator") + "Binding:[" + itemAttributes.binding + "]";
             }
             if (itemAttributes.actors != null) {
                 shareText += System.getProperty("line.separator") + "Actor:[";
@@ -184,7 +206,7 @@ class Item implements PhotoInfo {
                 shareText += "]";
             }
             if (itemAttributes.artists != null) {
-                shareText += System.getProperty("line.separator") +  "Artist:[";
+                shareText += System.getProperty("line.separator") + "Artist:[";
                 boolean isFirst = true;
                 for (String artist : itemAttributes.artists) {
                     if (isFirst) {
@@ -238,38 +260,17 @@ class Item implements PhotoInfo {
                 price = itemAttributes.listPrice;
             }
             if (price != null) {
-                shareText += System.getProperty("line.separator") + "Price:["  + price.formattedPrice + "]";
+                shareText += System.getProperty("line.separator") + "Price:[" + price.formattedPrice + "]";
             }
 
-            shareText += System.getProperty("line.separator") + "ASIN:["  + asin + "]";
+            shareText += System.getProperty("line.separator") + "ASIN:[" + asin + "]";
             if (itemAttributes.ean != null) {
-                shareText += System.getProperty("line.separator") + "JAN:["  + itemAttributes.ean + "]";
+                shareText += System.getProperty("line.separator") + "JAN:[" + itemAttributes.ean + "]";
             }
         }
 
         return shareText;
     }
-
-    @Element(name = "ASIN")
-    String asin;
-    @Element(name = "DetailPageURL", required = false)
-    String detailPageURL;
-    @ElementList(name = "ImageSets", required = false)
-    List<ImageSet> imageSets;
-    @Element(name = "ItemAttributes", required = false)
-    ItemAttributes itemAttributes;
-    @ElementList(name = "ItemLinks", required = false)
-    List<ItemLink> itemLinks;
-    @Element(name = "LargeImage", required = false)
-    Image largeImage;
-    @Element(name = "MediumImage", required = false)
-    Image mediumImage;
-    @Element(name = "OfferSummary", required = false)
-    OfferSummary offerSummary;
-    @Element(name = "Offers", required = false)
-    Offers offers;
-    @Element(name = "SmallImage", required = false)
-    Image smallImage;
 }
 
 @Root(strict = false)

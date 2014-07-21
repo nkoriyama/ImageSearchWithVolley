@@ -44,12 +44,11 @@ public class SimpleXmlRequest<T> extends Request<T> {
     /**
      * Make HTTP request and return a parsed object from XML Response
      *
-     * @param url URL of the request to make
-     * @param clazz Relevant class object
-     * @param headers Map of request headers
-     * @param listener Listener
+     * @param url           URL of the request to make
+     * @param clazz         Relevant class object
+     * @param headers       Map of request headers
+     * @param listener      Listener
      * @param errorListener ErrorListener
-     *
      */
     public SimpleXmlRequest(int method, String url, Class<T> clazz, Map<String, String> headers,
                             Listener<T> listener, ErrorListener errorListener) {
@@ -73,18 +72,15 @@ public class SimpleXmlRequest<T> extends Request<T> {
 
 
     @Override
-    protected Response<T> parseNetworkResponse(NetworkResponse response)
-    {
+    protected Response<T> parseNetworkResponse(NetworkResponse response) {
         try {
 
             String data = new String(response.data, HttpHeaderParser.parseCharset(response.headers));
             return Response.success(serializer.read(clazz, data),
                     HttpHeaderParser.parseCacheHeaders(response));
-        }
-        catch (UnsupportedEncodingException e) {
+        } catch (UnsupportedEncodingException e) {
             return Response.error(new ParseError(e));
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             return Response.error(new VolleyError(e.getMessage()));
         }
     }

@@ -3,34 +3,55 @@ package org.nkoriyama.imagesearchwithvolley.model;
 import com.google.gson.annotations.SerializedName;
 
 public class FlickrPhotoResponse {
+    @SerializedName(value = "photos")
+    Photos photos;
+    @SerializedName(value = "stat")
+    String stat;
+
     public boolean isOK() {
         return (stat != null && stat.equals("ok"));
     }
+
     public Photos.Photo[] getPhotoInfoList() {
         return photos.photo;
     }
+
     public int getTotal() {
         return Integer.parseInt(photos.total);
     }
 
-    @SerializedName(value="photos")
-    Photos photos;
-    @SerializedName(value="stat")
-    String stat;
-
     class Photos {
-        @SerializedName(value="page")
+        @SerializedName(value = "page")
         String page;
-        @SerializedName(value="pages")
+        @SerializedName(value = "pages")
         String pages;
-        @SerializedName(value="perpage")
+        @SerializedName(value = "perpage")
         String perpage;
-        @SerializedName(value="photo")
+        @SerializedName(value = "photo")
         Photo photo[];
-        @SerializedName(value="total")
+        @SerializedName(value = "total")
         String total;
 
         class Photo implements PhotoInfo {
+            @SerializedName(value = "farm")
+            String farm;
+            @SerializedName(value = "id")
+            String id;
+            @SerializedName(value = "isfamily")
+            String isfamily;
+            @SerializedName(value = "isfriend")
+            String isfriend;
+            @SerializedName(value = "ispublic")
+            String ispublic;
+            @SerializedName(value = "owner")
+            String owner;
+            @SerializedName(value = "secret")
+            String secret;
+            @SerializedName(value = "server")
+            String server;
+            @SerializedName(value = "title")
+            String title;
+
             @Override
             public String getImageUrl() {
                 return "http://farm" + farm + ".staticflickr.com/" +
@@ -68,25 +89,6 @@ public class FlickrPhotoResponse {
                 shareText += System.getProperty("line.separator") + "Page URL:[" + getPhotoPageUrl() + "]";
                 return shareText;
             }
-
-            @SerializedName(value="farm")
-            String farm;
-            @SerializedName(value="id")
-            String id;
-            @SerializedName(value="isfamily")
-            String isfamily;
-            @SerializedName(value="isfriend")
-            String isfriend;
-            @SerializedName(value="ispublic")
-            String ispublic;
-            @SerializedName(value="owner")
-            String owner;
-            @SerializedName(value="secret")
-            String secret;
-            @SerializedName(value="server")
-            String server;
-            @SerializedName(value="title")
-            String title;
 
         }
     }

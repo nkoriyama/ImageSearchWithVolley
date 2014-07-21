@@ -64,7 +64,7 @@ public class SignedRequestsHelper {
 
     /**
      * The sample uses HTTP GET to fetch the response. If you changed the sample
-     * to use HTTP POST instead, change the value below to POST. 
+     * to use HTTP POST instead, change the value below to POST.
      */
     private static final String REQUEST_METHOD = "GET";
 
@@ -76,24 +76,32 @@ public class SignedRequestsHelper {
     private Mac mac = null;
 
     /**
+     * The construct is private since we'd rather use getInstance()
+     */
+    private SignedRequestsHelper() {
+    }
+
+    /**
      * You must provide the three values below to initialize the helper.
      *
-     * @param endpoint          Destination for the requests.
-     * @param awsAccessKeyId    Your AWS Access Key ID
-     * @param awsSecretKey      Your AWS Secret Key
+     * @param endpoint       Destination for the requests.
+     * @param awsAccessKeyId Your AWS Access Key ID
+     * @param awsSecretKey   Your AWS Secret Key
      */
     public static SignedRequestsHelper getInstance(
             String endpoint,
             String awsAccessKeyId,
             String awsSecretKey
-    ) throws IllegalArgumentException, UnsupportedEncodingException, NoSuchAlgorithmException, InvalidKeyException
-    {
-        if (null == endpoint || endpoint.length() == 0)
-        { throw new IllegalArgumentException("endpoint is null or empty"); }
-        if (null == awsAccessKeyId || awsAccessKeyId.length() == 0)
-        { throw new IllegalArgumentException("awsAccessKeyId is null or empty"); }
-        if (null == awsSecretKey || awsSecretKey.length() == 0)
-        { throw new IllegalArgumentException("awsSecretKey is null or empty"); }
+    ) throws IllegalArgumentException, UnsupportedEncodingException, NoSuchAlgorithmException, InvalidKeyException {
+        if (null == endpoint || endpoint.length() == 0) {
+            throw new IllegalArgumentException("endpoint is null or empty");
+        }
+        if (null == awsAccessKeyId || awsAccessKeyId.length() == 0) {
+            throw new IllegalArgumentException("awsAccessKeyId is null or empty");
+        }
+        if (null == awsSecretKey || awsSecretKey.length() == 0) {
+            throw new IllegalArgumentException("awsSecretKey is null or empty");
+        }
 
         SignedRequestsHelper instance = new SignedRequestsHelper();
         instance.endpoint = endpoint.toLowerCase();
@@ -107,11 +115,6 @@ public class SignedRequestsHelper {
 
         return instance;
     }
-
-    /**
-     * The construct is private since we'd rather use getInstance()
-     */
-    private SignedRequestsHelper() {}
 
     /**
      * This method signs requests in hashmap form. It returns a URL that should
@@ -163,8 +166,8 @@ public class SignedRequestsHelper {
     /**
      * Compute the HMAC.
      *
-     * @param stringToSign  String to compute the HMAC over.
-     * @return              base64-encoded hmac value.
+     * @param stringToSign String to compute the HMAC over.
+     * @return base64-encoded hmac value.
      */
     private String hmac(String stringToSign) {
         String signature;
@@ -183,7 +186,7 @@ public class SignedRequestsHelper {
     /**
      * Generate a ISO-8601 format timestamp as required by Amazon.
      *
-     * @return  ISO-8601 format timestamp.
+     * @return ISO-8601 format timestamp.
      */
     private String timestamp() {
         String timestamp;
@@ -197,8 +200,8 @@ public class SignedRequestsHelper {
     /**
      * Canonicalize the query string as required by Amazon.
      *
-     * @param sortedParamMap    Parameter name-value pairs in lexicographical order.
-     * @return                  Canonical form of query string.
+     * @param sortedParamMap Parameter name-value pairs in lexicographical order.
+     * @return Canonical form of query string.
      */
     private String canonicalize(SortedMap<String, String> sortedParamMap) {
         if (sortedParamMap.isEmpty()) {
@@ -226,7 +229,7 @@ public class SignedRequestsHelper {
      * extra replacements.
      *
      * @param s decoded string
-     * @return  encoded string per RFC 3986
+     * @return encoded string per RFC 3986
      */
     private String percentEncodeRfc3986(String s) {
         String out;
@@ -252,14 +255,13 @@ public class SignedRequestsHelper {
         Map<String, String> map = new HashMap<String, String>();
         String[] pairs = queryString.split("&");
 
-        for (String pair: pairs) {
+        for (String pair : pairs) {
             if (pair.length() < 1) {
                 continue;
             }
 
-            String[] tokens = pair.split("=",2);
-            for(int j=0; j<tokens.length; j++)
-            {
+            String[] tokens = pair.split("=", 2);
+            for (int j = 0; j < tokens.length; j++) {
                 try {
                     tokens[j] = URLDecoder.decode(tokens[j], UTF8_CHARSET);
                 } catch (UnsupportedEncodingException ignored) {

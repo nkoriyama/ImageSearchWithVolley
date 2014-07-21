@@ -29,7 +29,7 @@ public class FlickrPhotoListFragment extends PhotoListFragment {
         String url = "";
         try {
             url = "https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=" +
-                    FLICKR_API_KEY +  "&text=" + URLEncoder.encode(mQuery, "utf-8") +
+                    FLICKR_API_KEY + "&text=" + URLEncoder.encode(mQuery, "utf-8") +
                     "&tags=" + URLEncoder.encode(mQuery, "utf-8") + "&per_page=" + mPerPage +
                     "&page=" + mPage++ + "&format=json&nojsoncallback=1";
         } catch (UnsupportedEncodingException e) {

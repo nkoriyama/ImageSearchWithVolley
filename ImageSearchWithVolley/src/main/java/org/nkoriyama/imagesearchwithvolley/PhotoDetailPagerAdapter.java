@@ -19,7 +19,7 @@ public class PhotoDetailPagerAdapter extends FragmentStatePagerAdapter {
         Preconditions.checkNotNull(photoadapter);
         final PhotoDetailPagerAdapter photoDetailPagerAdapter = new PhotoDetailPagerAdapter(fm);
         photoDetailPagerAdapter.mPhotoAdapter = photoadapter;
-        return  photoDetailPagerAdapter;
+        return photoDetailPagerAdapter;
     }
 
     @Override

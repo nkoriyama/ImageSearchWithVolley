@@ -38,7 +38,8 @@ public class PinchZoomNetworkImageView extends NetworkImageView {
                         baseMatrix.set(imageMatrix);
                         return super.onScaleBegin(detector);
                     }
-                });
+                }
+        );
         mGestureDetector = new GestureDetector(context,
                 new GestureDetector.SimpleOnGestureListener() {
                     @Override
@@ -60,7 +61,8 @@ public class PinchZoomNetworkImageView extends NetworkImageView {
                         setImageMatrix(imageMatrix);
                         return super.onDoubleTap(e);
                     }
-                });
+                }
+        );
     }
 
     @Override

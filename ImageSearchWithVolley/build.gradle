@@ -27,7 +27,7 @@ dependencies {
     compile 'com.google.code.gson:gson:2.+'
     compile 'com.squareup.okhttp:okhttp:2.+'
     compile 'com.squareup.okhttp:okhttp-urlconnection:2.+'
-    compile ('org.simpleframework:simple-xml:2.+') {
+    compile('org.simpleframework:simple-xml:2.+') {
         exclude module: 'stax'
         exclude module: 'stax-api'
         exclude module: 'xpp3'

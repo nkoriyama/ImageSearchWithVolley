@@ -22,10 +22,6 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 public abstract class PhotoListFragment extends Fragment {
-    @InjectView(R.id.list)
-    GridView mGridView;
-
-    private OnPhotoSelectedListener mOnPhotoSelectedListener;
     protected RequestQueue mRequestQueue;
     protected PhotoAdapter mPhotoAdapter;
     protected String mQuery;
@@ -34,14 +30,26 @@ public abstract class PhotoListFragment extends Fragment {
     protected int mPage;
     protected int mTotal;
     protected boolean mIsLoading;
+    @InjectView(R.id.list)
+    GridView mGridView;
+    private OnPhotoSelectedListener mOnPhotoSelectedListener;
+
+    protected static void setBundle(Bundle bundle, String query, int initialPage, int perPage) {
+        Preconditions.checkNotNull(bundle);
+        Preconditions.checkArgument(!Strings.isNullOrEmpty(query));
+        bundle.putString("query", query);
+        bundle.putInt("initialPage", initialPage);
+        bundle.putInt("perPage", perPage);
+    }
 
     protected abstract String getPhotoListUrl();
+
     protected abstract void loadMoreItems();
 
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        mOnPhotoSelectedListener = (OnPhotoSelectedListener)activity;
+        mOnPhotoSelectedListener = (OnPhotoSelectedListener) activity;
         mRequestQueue = ((ImageSearchWithVolley) activity.getApplication()).getRequestQueue();
     }
 
@@ -109,14 +117,6 @@ public abstract class PhotoListFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.reset(this);
-    }
-
-    protected static void setBundle(Bundle bundle, String query, int initialPage, int perPage) {
-        Preconditions.checkNotNull(bundle);
-        Preconditions.checkArgument(!Strings.isNullOrEmpty(query));
-        bundle.putString("query", query);
-        bundle.putInt("initialPage", initialPage);
-        bundle.putInt("perPage", perPage);
     }
 
     @Override

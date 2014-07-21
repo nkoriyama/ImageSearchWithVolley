@@ -24,21 +24,10 @@ public class PhotoAdapter extends ArrayAdapter<PhotoInfo> {
     public PhotoAdapter(Context context, int resource, List<PhotoInfo> objects) {
         super(context, resource, objects);
 
-        mImageLoader = ((ImageSearchWithVolley)((MainActivity)context)
+        mImageLoader = ((ImageSearchWithVolley) ((MainActivity) context)
                 .getApplication()).getImageLoader();
 
         mLayoutInflater = LayoutInflater.from(context);
-    }
-
-    static class ViewHolder {
-        @InjectView(R.id.list_item_title)
-        TextView title;
-        @InjectView(R.id.list_item_image)
-        NetworkImageView image;
-
-        public ViewHolder(View view) {
-            ButterKnife.inject(this, view);
-        }
     }
 
     @Override
@@ -58,5 +47,16 @@ public class PhotoAdapter extends ArrayAdapter<PhotoInfo> {
         viewHolder.image.setImageUrl(photoInfo.getThumbnailUrl(), mImageLoader);
 
         return convertView;
+    }
+
+    static class ViewHolder {
+        @InjectView(R.id.list_item_title)
+        TextView title;
+        @InjectView(R.id.list_item_image)
+        NetworkImageView image;
+
+        public ViewHolder(View view) {
+            ButterKnife.inject(this, view);
+        }
     }
 }

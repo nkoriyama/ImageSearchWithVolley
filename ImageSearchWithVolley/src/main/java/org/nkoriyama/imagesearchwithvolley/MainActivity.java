@@ -21,7 +21,7 @@ import org.nkoriyama.imagesearchwithvolley.model.PhotoInfo;
 
 public class MainActivity extends Activity implements
         PhotoListFragment.OnPhotoSelectedListener,
-        PhotoDetailPagerFragment.OnPhotoDetailLongPressedListener  {
+        PhotoDetailPagerFragment.OnPhotoDetailLongPressedListener {
     private MenuItem mSearchItem;
     private MenuItem mShareItem;
     private ShareActionProvider mShareActionProvider;

@@ -55,7 +55,8 @@ public class AmazonPhotoListFragment extends PhotoListFragment {
                         "&SearchIndex=Blended" +
                         "&ResponseGroup=ItemAttributes,Images,Offers" +
                         "&Keywords=" + mQuery +
-                        "&ItemPage=" + mPage++);
+                        "&ItemPage=" + mPage++
+        );
     }
 
     @Override

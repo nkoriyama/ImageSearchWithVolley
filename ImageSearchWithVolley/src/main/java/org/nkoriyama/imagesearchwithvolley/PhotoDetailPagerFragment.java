@@ -26,11 +26,6 @@ public class PhotoDetailPagerFragment extends Fragment {
     private OnPhotoDetailLongPressedListener mOnPhotoDetailLongPressedListener;
     private PhotoAdapter mPhotoAdapter;
 
-    public static interface OnPhotoDetailLongPressedListener
-    {
-        public abstract void onPhotoDetailLongPressed(PhotoInfo photoinfo);
-    }
-
     public static PhotoDetailPagerFragment newInstance(PhotoAdapter photoAdapter, int position) {
         Preconditions.checkNotNull(photoAdapter);
         Preconditions.checkElementIndex(position, photoAdapter.getCount());
@@ -79,7 +74,7 @@ public class PhotoDetailPagerFragment extends Fragment {
         }
         assert bundle != null;
 
-        final int position = bundle.getInt("position") ;
+        final int position = bundle.getInt("position");
 
         mViewPager.setAdapter(PhotoDetailPagerAdapter.newInstance(
                 getChildFragmentManager(),
@@ -126,7 +121,8 @@ public class PhotoDetailPagerFragment extends Fragment {
                     public boolean onDown(MotionEvent e) {
                         return true;
                     }
-                });
+                }
+        );
 
         mViewPager.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -143,5 +139,9 @@ public class PhotoDetailPagerFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.reset(this);
+    }
+
+    public static interface OnPhotoDetailLongPressedListener {
+        public abstract void onPhotoDetailLongPressed(PhotoInfo photoinfo);
     }
 }

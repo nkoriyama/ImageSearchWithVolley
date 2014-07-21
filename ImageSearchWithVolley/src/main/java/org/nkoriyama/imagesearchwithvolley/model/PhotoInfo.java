@@ -1,7 +1,6 @@
 package org.nkoriyama.imagesearchwithvolley.model;
 
-public interface PhotoInfo
-{
+public interface PhotoInfo {
     public abstract String getImageUrl();
 
     public abstract String getThumbnailUrl();

@@ -3,26 +3,49 @@ package org.nkoriyama.imagesearchwithvolley.model;
 import com.google.gson.annotations.SerializedName;
 
 public class BingPhotoResponse {
+    @SerializedName(value = "d")
+    SearchResponse d;
+
     public boolean isOK() {
         return (d != null && d.results != null);
     }
+
     public SearchResponse.Result[] getPhotoInfoList() {
         return d.results;
     }
+
     public boolean hasNext() {
         return (d.next != null);
     }
 
-    @SerializedName(value="d")
-    SearchResponse d;
-
     class SearchResponse {
-        @SerializedName(value="__next")
+        @SerializedName(value = "__next")
         String next;
-        @SerializedName(value="results")
+        @SerializedName(value = "results")
         Result results[];
 
         class Result implements PhotoInfo {
+            @SerializedName(value = "ContentType")
+            String contentType;
+            @SerializedName(value = "DisplayUrl")
+            String displayUrl;
+            @SerializedName(value = "FileSize")
+            int fileSize;
+            @SerializedName(value = "Height")
+            int height;
+            @SerializedName(value = "ID")
+            String id;
+            @SerializedName(value = "MediaUrl")
+            String mediaUrl;
+            @SerializedName(value = "SourceUrl")
+            String sourceUrl;
+            @SerializedName(value = "Thumbnail")
+            Thumbnail thumbnail;
+            @SerializedName(value = "Title")
+            String title;
+            @SerializedName(value = "Width")
+            int width;
+
             @Override
             public String getImageUrl() {
                 return mediaUrl;
@@ -42,7 +65,7 @@ public class BingPhotoResponse {
             public String getShareSubject() {
                 String shareSubject;
                 shareSubject = "[ImageSearchWithVolley] " +
-                            ((title.length() > 60) ? title.substring(0, 60) : title);
+                        ((title.length() > 60) ? title.substring(0, 60) : title);
                 return shareSubject;
             }
 
@@ -55,37 +78,16 @@ public class BingPhotoResponse {
                 return shareText;
             }
 
-            @SerializedName(value="ContentType")
-            String contentType;
-            @SerializedName(value="DisplayUrl")
-            String displayUrl;
-            @SerializedName(value="FileSize")
-            int fileSize;
-            @SerializedName(value="Height")
-            int height;
-            @SerializedName(value="ID")
-            String id;
-            @SerializedName(value="MediaUrl")
-            String mediaUrl;
-            @SerializedName(value="SourceUrl")
-            String sourceUrl;
-            @SerializedName(value="Thumbnail")
-            Thumbnail thumbnail;
-            @SerializedName(value="Title")
-            String title;
-            @SerializedName(value="Width")
-            int width;
-
             class Thumbnail {
-                @SerializedName(value="ContentType")
+                @SerializedName(value = "ContentType")
                 String contentType;
-                @SerializedName(value="FileSize")
+                @SerializedName(value = "FileSize")
                 int fileSize;
-                @SerializedName(value="Height")
+                @SerializedName(value = "Height")
                 int height;
-                @SerializedName(value="MediaUrl")
+                @SerializedName(value = "MediaUrl")
                 String mediaUrl;
-                @SerializedName(value="Width")
+                @SerializedName(value = "Width")
                 int width;
             }
         }

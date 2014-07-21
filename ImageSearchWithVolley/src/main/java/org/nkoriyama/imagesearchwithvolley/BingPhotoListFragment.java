@@ -71,7 +71,7 @@ public class BingPhotoListFragment extends PhotoListFragment {
                         volleyError.printStackTrace();
                     }
                 }
-        ){
+        ) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> headers = super.getHeaders();

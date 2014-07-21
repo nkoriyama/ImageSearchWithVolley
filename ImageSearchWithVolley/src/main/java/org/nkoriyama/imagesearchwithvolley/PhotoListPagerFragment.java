@@ -114,8 +114,8 @@ public class PhotoListPagerFragment extends Fragment {
         actionBar.removeAllTabs();
         for (int i = 0; i < mPhotoListPagerAdapter.getCount(); i++) {
             actionBar.addTab(actionBar.newTab()
-                    .setText(mPhotoListPagerAdapter.getPageTitle(i))
-                    .setTabListener(tabListener)
+                            .setText(mPhotoListPagerAdapter.getPageTitle(i))
+                            .setTabListener(tabListener)
             );
         }
 
