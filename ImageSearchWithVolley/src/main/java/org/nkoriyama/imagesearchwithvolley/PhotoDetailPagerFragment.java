@@ -24,6 +24,7 @@ public class PhotoDetailPagerFragment extends Fragment {
     ViewPager mViewPager;
 
     private OnPhotoDetailLongPressedListener mOnPhotoDetailLongPressedListener;
+    private OnPhotoDetailDoubleTappedListener mOnPhotoDetailDoubleTappedListener;
     private PhotoAdapter mPhotoAdapter;
 
     public static PhotoDetailPagerFragment newInstance(PhotoAdapter photoAdapter, int position) {
@@ -42,6 +43,7 @@ public class PhotoDetailPagerFragment extends Fragment {
         super.onAttach(activity);
 
         mOnPhotoDetailLongPressedListener = (OnPhotoDetailLongPressedListener) activity;
+        mOnPhotoDetailDoubleTappedListener = (OnPhotoDetailDoubleTappedListener) activity;
     }
 
     private void setShareIntent(Intent shareIntent) {
@@ -121,6 +123,14 @@ public class PhotoDetailPagerFragment extends Fragment {
                     public boolean onDown(MotionEvent e) {
                         return true;
                     }
+
+                    @Override
+                    public boolean onDoubleTap(MotionEvent e) {
+                        mOnPhotoDetailDoubleTappedListener.onPhotoDetailDoubleTapped(
+                                mPhotoAdapter.getItem(mViewPager.getCurrentItem())
+                        );
+                        return super.onDoubleTap(e);
+                    }
                 }
         );
 
@@ -143,5 +153,9 @@ public class PhotoDetailPagerFragment extends Fragment {
 
     public static interface OnPhotoDetailLongPressedListener {
         public abstract void onPhotoDetailLongPressed(PhotoInfo photoinfo);
+    }
+
+    public static interface OnPhotoDetailDoubleTappedListener {
+        public abstract void onPhotoDetailDoubleTapped(PhotoInfo photoinfo);
     }
 }

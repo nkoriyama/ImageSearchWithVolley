@@ -21,7 +21,8 @@ import org.nkoriyama.imagesearchwithvolley.model.PhotoInfo;
 
 public class MainActivity extends Activity implements
         PhotoListFragment.OnPhotoSelectedListener,
-        PhotoDetailPagerFragment.OnPhotoDetailLongPressedListener {
+        PhotoDetailPagerFragment.OnPhotoDetailLongPressedListener,
+        PhotoDetailPagerFragment.OnPhotoDetailDoubleTappedListener {
     private MenuItem mSearchItem;
     private MenuItem mShareItem;
     private ShareActionProvider mShareActionProvider;
@@ -124,6 +125,19 @@ public class MainActivity extends Activity implements
 
     @Override
     public void onPhotoDetailLongPressed(PhotoInfo photoinfo) {
+        Preconditions.checkNotNull(photoinfo);
+        getFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment_container,
+                        PhotoDetailFragment.newInstance(photoinfo, true),
+                        "PHOTO_DETAIL_ZOOM")
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                .addToBackStack(null)
+                .commit();
+    }
+
+    @Override
+    public void onPhotoDetailDoubleTapped(PhotoInfo photoinfo) {
         Preconditions.checkNotNull(photoinfo);
         getFragmentManager()
                 .beginTransaction()
