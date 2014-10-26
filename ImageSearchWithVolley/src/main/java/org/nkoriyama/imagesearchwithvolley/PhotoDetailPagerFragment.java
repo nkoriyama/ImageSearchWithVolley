@@ -91,7 +91,6 @@ public class PhotoDetailPagerFragment extends Fragment {
         final ActionBar actionBar = activity.getActionBar();
         assert actionBar != null;
 
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
         actionBar.setHomeButtonEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
 
