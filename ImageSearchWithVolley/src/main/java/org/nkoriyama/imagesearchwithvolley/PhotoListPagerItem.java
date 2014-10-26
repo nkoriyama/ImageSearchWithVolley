@@ -2,6 +2,9 @@ package org.nkoriyama.imagesearchwithvolley;
 
 import android.app.Fragment;
 
+import com.google.common.base.Preconditions;
+import com.google.common.base.Strings;
+
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
@@ -19,6 +22,7 @@ public class PhotoListPagerItem {
     }
 
     Fragment createFragment(String query) {
+        Preconditions.checkArgument(!Strings.isNullOrEmpty(query));
         try {
             Method method = mPhotoListFragmentClass.getMethod("newInstance", String.class);
             return (PhotoListFragment)method.invoke(null, query);
