@@ -11,44 +11,34 @@ import com.google.common.base.Strings;
 import java.util.List;
 
 public class PhotoListPagerAdapter extends FragmentPagerAdapter {
-    private final List<Class<? extends PhotoListFragment>> mFragmentClassList;
+    private final List<PhotoListPagerItem> mPhotoListPagerItems;
     private final String mQuery;
 
     public PhotoListPagerAdapter(FragmentManager fm,
-                                 List<Class<? extends PhotoListFragment>> fragmentClassList,
+                                 List<PhotoListPagerItem> photoListPagerItems,
                                  String query) {
         super(fm);
-        Preconditions.checkNotNull(fragmentClassList);
+        Preconditions.checkNotNull(photoListPagerItems);
         Preconditions.checkArgument(!Strings.isNullOrEmpty(query));
 
-        mFragmentClassList = fragmentClassList;
+        mPhotoListPagerItems = photoListPagerItems;
         mQuery = query;
     }
 
     @Override
     public Fragment getItem(int i) {
-        Preconditions.checkElementIndex(i, mFragmentClassList.size());
-        if (mFragmentClassList.get(i) == FlickrPhotoListFragment.class) {
-            return FlickrPhotoListFragment.newInstance(mQuery);
-        }
-        if (mFragmentClassList.get(i) == BingPhotoListFragment.class) {
-            return BingPhotoListFragment.newInstance(mQuery);
-        }
-        if (mFragmentClassList.get(i) == AmazonPhotoListFragment.class) {
-            return AmazonPhotoListFragment.newInstance(mQuery);
-        }
-        return null;
+        Preconditions.checkElementIndex(i, mPhotoListPagerItems.size());
+        return mPhotoListPagerItems.get(i).createFragment(mQuery);
     }
 
     @Override
     public int getCount() {
-        return mFragmentClassList.size();
+        return mPhotoListPagerItems.size();
     }
 
     @Override
     public CharSequence getPageTitle(int position) {
-        Preconditions.checkElementIndex(position, mFragmentClassList.size());
-        final String fragmentName = mFragmentClassList.get(position).getSimpleName();
-        return fragmentName.substring(0, fragmentName.indexOf("PhotoListFragment"));
+        Preconditions.checkElementIndex(position, mPhotoListPagerItems.size());
+        return mPhotoListPagerItems.get(position).getTitle();
     }
 }

@@ -2,17 +2,19 @@ package org.nkoriyama.imagesearchwithvolley;
 
 import android.app.ActionBar;
 import android.app.Fragment;
-import android.app.FragmentTransaction;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.android.common.view.SlidingTabLayout;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -20,8 +22,10 @@ import butterknife.InjectView;
 public class PhotoListPagerFragment extends Fragment {
     @InjectView(R.id.list_pager)
     ViewPager mPager;
+    @InjectView(R.id.sliding_tabs)
+    SlidingTabLayout mSlidingTabLayout;
 
-    private PhotoListPagerAdapter mPhotoListPagerAdapter;
+    private List<PhotoListPagerItem> mPhotoListPagerItems;
 
     public static PhotoListPagerFragment newInstance(String query) {
         Preconditions.checkArgument(!Strings.isNullOrEmpty(query));
@@ -37,24 +41,12 @@ public class PhotoListPagerFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        final Bundle bundle;
-        if (savedInstanceState != null) {
-            bundle = savedInstanceState;
-        } else {
-            bundle = getArguments();
-        }
-        assert bundle != null;
-
-        final String query = bundle.getString("query");
-        mPhotoListPagerAdapter = new PhotoListPagerAdapter(
-                getChildFragmentManager(),
-                new ArrayList<Class<? extends PhotoListFragment>>() {{
-                    add(FlickrPhotoListFragment.class);
-                    add(BingPhotoListFragment.class);
-                    add(AmazonPhotoListFragment.class);
-                }},
-                query
-        );
+        mPhotoListPagerItems =
+                new ArrayList<PhotoListPagerItem>() {{
+                    add(new PhotoListPagerItem(FlickrPhotoListFragment.class, Color.BLUE, Color.GRAY));
+                    add(new PhotoListPagerItem(BingPhotoListFragment.class, Color.RED, Color.GRAY));
+                    add(new PhotoListPagerItem(AmazonPhotoListFragment.class, Color.YELLOW, Color.GRAY));
+                }};
     }
 
     @Override
@@ -72,8 +64,23 @@ public class PhotoListPagerFragment extends Fragment {
 
         final String query = bundle.getString("query");
 
-        mPager.setAdapter(mPhotoListPagerAdapter);
+        mPager.setAdapter(new PhotoListPagerAdapter(getChildFragmentManager(), mPhotoListPagerItems, query));
         mPager.setPageTransformer(true, new ZoomOutPageTransformer());
+        mSlidingTabLayout.setViewPager(mPager);
+
+        mSlidingTabLayout.setCustomTabColorizer(new SlidingTabLayout.TabColorizer() {
+            @Override
+            public int getIndicatorColor(int position) {
+                Preconditions.checkElementIndex(position, mPhotoListPagerItems.size());
+                return mPhotoListPagerItems.get(position).getIndicatorColor();
+            }
+
+            @Override
+            public int getDividerColor(int position) {
+                Preconditions.checkElementIndex(position, mPhotoListPagerItems.size());
+                return mPhotoListPagerItems.get(position).getDividerColor();
+            }
+        });
 
         final MainActivity activity = (MainActivity) getActivity();
         assert activity != null;
@@ -81,43 +88,9 @@ public class PhotoListPagerFragment extends Fragment {
         final ActionBar actionBar = activity.getActionBar();
         assert actionBar != null;
 
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
         actionBar.setHomeButtonEnabled(false);
         actionBar.setDisplayHomeAsUpEnabled(false);
         actionBar.setTitle(query);
-
-        mPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
-            @Override
-            public void onPageSelected(int position) {
-                super.onPageSelected(position);
-                actionBar.setSelectedNavigationItem(position);
-            }
-        });
-
-        ActionBar.TabListener tabListener = new ActionBar.TabListener() {
-            @Override
-            public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft) {
-                mPager.setCurrentItem(tab.getPosition());
-            }
-
-            @Override
-            public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction ft) {
-
-            }
-
-            @Override
-            public void onTabReselected(ActionBar.Tab tab, FragmentTransaction ft) {
-
-            }
-        };
-
-        actionBar.removeAllTabs();
-        for (int i = 0; i < mPhotoListPagerAdapter.getCount(); i++) {
-            actionBar.addTab(actionBar.newTab()
-                            .setText(mPhotoListPagerAdapter.getPageTitle(i))
-                            .setTabListener(tabListener)
-            );
-        }
 
         return view;
     }
