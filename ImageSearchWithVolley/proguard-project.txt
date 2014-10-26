@@ -13,7 +13,11 @@
 # Add any project specific keep options here:
 -dontnote
 
--keepnames public class org.nkoriyama.imagesearchwithvolley.*PhotoListFragment
+-keep public class * extends org.nkoriyama.imagesearchwithvolley.PhotoListFragment
+-keepclassmembers class * extends org.nkoriyama.imagesearchwithvolley.PhotoListFragment {
+  public static org.nkoriyama.imagesearchwithvolley.PhotoListFragment newInstance(java.lang.String);
+}
+
 
 # If your project uses WebView with JS, uncomment the following
 # and specify the fully qualified class name to the JavaScript interface
