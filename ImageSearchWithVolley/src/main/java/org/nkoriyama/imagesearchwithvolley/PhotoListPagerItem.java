@@ -2,9 +2,9 @@ package org.nkoriyama.imagesearchwithvolley;
 
 import android.app.Fragment;
 
-/**
- * Created by nkoriyama on 14/10/26.
- */
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
 public class PhotoListPagerItem {
     private final Class<? extends PhotoListFragment> mFragmentClass;
     private final int mIndicatorColor;
@@ -19,15 +19,17 @@ public class PhotoListPagerItem {
     }
 
     Fragment createFragment(String query) {
-        if (mFragmentClass == FlickrPhotoListFragment.class) {
-            return FlickrPhotoListFragment.newInstance(query);
+        try {
+            Method method = mFragmentClass.getMethod("newInstance", String.class);
+            return (Fragment)method.invoke(null, query);
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
         }
-        if (mFragmentClass == BingPhotoListFragment.class) {
-            return BingPhotoListFragment.newInstance(query);
-        }
-        if (mFragmentClass == AmazonPhotoListFragment.class) {
-            return AmazonPhotoListFragment.newInstance(query);
-        }
+
         return null;
     }
 
