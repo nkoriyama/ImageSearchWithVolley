@@ -29,8 +29,7 @@ public class BingPhotoListFragment extends PhotoListFragment {
         return photoListFragment;
     }
 
-    @Override
-    protected String getPhotoListUrl() {
+    private String getPhotoListUrl() {
         String url = "";
         try {
             url = "https://api.datamarket.azure.com/Bing/Search/Image?Query=" +

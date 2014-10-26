@@ -45,8 +45,7 @@ public class AmazonPhotoListFragment extends PhotoListFragment {
         }
     }
 
-    @Override
-    protected String getPhotoListUrl() {
+    private String getPhotoListUrl() {
         return helper.sign(
                 "Service=AWSECommerceService" +
                         "&Version=2011-08-01" +

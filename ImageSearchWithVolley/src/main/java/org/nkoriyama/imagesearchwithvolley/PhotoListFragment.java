@@ -42,8 +42,6 @@ public abstract class PhotoListFragment extends Fragment {
         bundle.putInt("perPage", perPage);
     }
 
-    protected abstract String getPhotoListUrl();
-
     protected abstract void loadMoreItems();
 
     @Override
