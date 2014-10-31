@@ -1,10 +1,12 @@
 package org.nkoriyama.imagesearchwithvolley;
 
 import android.app.Fragment;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -64,9 +66,30 @@ public class PhotoListPagerFragment extends Fragment {
 
         final String query = bundle.getString("query");
 
+        final MainActivity activity = (MainActivity) getActivity();
+        assert activity != null;
+
+        final ActionBar actionBar = activity.getSupportActionBar();
+        assert actionBar != null;
+
+        actionBar.setHomeButtonEnabled(false);
+        actionBar.setDisplayHomeAsUpEnabled(false);
+        actionBar.setTitle(query);
+
         mPager.setAdapter(new PhotoListPagerAdapter(getChildFragmentManager(), mPhotoListPagerItems, query));
         mPager.setPageTransformer(true, new ZoomOutPageTransformer());
+
         mSlidingTabLayout.setViewPager(mPager);
+
+        final Resources.Theme theme = actionBar.getThemedContext().getTheme();
+        TypedValue typedValue = new TypedValue();
+        theme.resolveAttribute(R.attr.colorPrimary, typedValue, true);
+        final int primaryColor = typedValue.data;
+        //theme.resolveAttribute(R.attr.colorAccent, typedValue, true);
+        //final int accentColor = typedValue.data;
+        //theme.resolveAttribute(R.attr.actionMenuTextColor, typedValue, true);
+        //final int textColor = typedValue.data;
+        mSlidingTabLayout.setBackgroundColor(primaryColor);
 
         mSlidingTabLayout.setCustomTabColorizer(new SlidingTabLayout.TabColorizer() {
             @Override
@@ -81,16 +104,6 @@ public class PhotoListPagerFragment extends Fragment {
                 return mPhotoListPagerItems.get(position).getDividerColor();
             }
         });
-
-        final MainActivity activity = (MainActivity) getActivity();
-        assert activity != null;
-
-        final ActionBar actionBar = activity.getSupportActionBar();
-        assert actionBar != null;
-
-        actionBar.setHomeButtonEnabled(false);
-        actionBar.setDisplayHomeAsUpEnabled(false);
-        actionBar.setTitle(query);
 
         return view;
     }

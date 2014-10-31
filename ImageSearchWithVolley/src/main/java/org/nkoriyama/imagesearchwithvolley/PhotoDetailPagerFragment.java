@@ -78,13 +78,6 @@ public class PhotoDetailPagerFragment extends Fragment {
 
         final int position = bundle.getInt("position");
 
-        mViewPager.setAdapter(PhotoDetailPagerAdapter.newInstance(
-                getChildFragmentManager(),
-                mPhotoAdapter
-        ));
-        mViewPager.setCurrentItem(position);
-        mViewPager.setPageTransformer(true, new DepthPageTransformer());
-
         final MainActivity activity = (MainActivity) getActivity();
         assert activity != null;
 
@@ -93,6 +86,13 @@ public class PhotoDetailPagerFragment extends Fragment {
 
         actionBar.setHomeButtonEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
+
+        mViewPager.setAdapter(PhotoDetailPagerAdapter.newInstance(
+                getChildFragmentManager(),
+                mPhotoAdapter
+        ));
+        mViewPager.setCurrentItem(position);
+        mViewPager.setPageTransformer(true, new DepthPageTransformer());
 
         final PhotoInfo photoInfo = mPhotoAdapter.getItem(position);
         actionBar.setTitle(photoInfo.getTitle());
