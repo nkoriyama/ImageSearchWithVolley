@@ -1,6 +1,5 @@
 package org.nkoriyama.imagesearchwithvolley;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -11,23 +10,31 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.SearchRecentSuggestions;
+import android.support.v4.view.MenuItemCompat;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.SearchView;
+import android.support.v7.widget.ShareActionProvider;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.SearchView;
-import android.widget.ShareActionProvider;
 
 import com.crashlytics.android.Crashlytics;
 import com.google.common.base.Preconditions;
 
 import org.nkoriyama.imagesearchwithvolley.model.PhotoInfo;
 
-public class MainActivity extends Activity implements
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+
+public class MainActivity extends ActionBarActivity implements
         PhotoListFragment.OnPhotoSelectedListener,
         PhotoDetailPagerFragment.OnPhotoDetailLongPressedListener,
         PhotoDetailPagerFragment.OnPhotoDetailDoubleTappedListener {
     private MenuItem mSearchItem;
     private MenuItem mShareItem;
     private ShareActionProvider mShareActionProvider;
+    @InjectView(R.id.toolbar)
+    Toolbar mToolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +42,9 @@ public class MainActivity extends Activity implements
         Crashlytics.start(this);
 
         setContentView(R.layout.activity_main);
+
+        ButterKnife.inject(this);
+        setSupportActionBar(mToolbar);
 
         handleIntent(getIntent());
     }
@@ -55,7 +65,7 @@ public class MainActivity extends Activity implements
             String query = intent.getStringExtra(SearchManager.QUERY);
 
             setTitle(query);
-            mSearchItem.collapseActionView();
+            MenuItemCompat.collapseActionView(mSearchItem);
 
             SearchRecentSuggestions suggestions = new SearchRecentSuggestions(this,
                     MySuggestionProvider.AUTHORITY, MySuggestionProvider.MODE);
@@ -117,7 +127,7 @@ public class MainActivity extends Activity implements
         mSearchItem = menu.findItem(R.id.action_search);
         assert mSearchItem != null;
 
-        SearchView searchView = (SearchView) mSearchItem.getActionView();
+        SearchView searchView = (SearchView) MenuItemCompat.getActionView(mSearchItem);
         assert searchView != null;
 
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
@@ -127,10 +137,19 @@ public class MainActivity extends Activity implements
         mShareItem = menu.findItem(R.id.action_share);
         assert mShareItem != null;
 
-        mShareActionProvider = (ShareActionProvider) mShareItem.getActionProvider();
+        mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(mShareItem);
         setShareIntent(null);
 
         return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (getFragmentManager().getBackStackEntryCount() > 0) {
+            getFragmentManager().popBackStack();
+        } else {
+            super.onBackPressed();
+        }
     }
 
     @Override

@@ -21,6 +21,7 @@ repositories {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
     compile project(':volley')
+    compile "com.android.support:appcompat-v7:21.0.+"
     compile 'com.android.support:support-v13:21.+'
     compile 'com.android.support:support-v4:21.+'
     compile 'com.google.guava:guava:18.+'
@@ -38,7 +39,7 @@ dependencies {
 
 android {
     compileSdkVersion 21
-    buildToolsVersion "21"
+    buildToolsVersion "21.0.2"
 
     defaultConfig {
         minSdkVersion 17

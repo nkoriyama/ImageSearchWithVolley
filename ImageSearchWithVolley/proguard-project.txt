@@ -13,6 +13,9 @@
 # Add any project specific keep options here:
 -dontnote
 
+-keep class android.support.** { *; }
+-keep interface android.support.** { *; }
+
 -keep public class * extends org.nkoriyama.imagesearchwithvolley.PhotoListFragment
 -keepclassmembers class * extends org.nkoriyama.imagesearchwithvolley.PhotoListFragment {
   public static org.nkoriyama.imagesearchwithvolley.PhotoListFragment newInstance(java.lang.String);

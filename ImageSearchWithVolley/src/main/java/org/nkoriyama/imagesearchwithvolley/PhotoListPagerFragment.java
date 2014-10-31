@@ -1,10 +1,10 @@
 package org.nkoriyama.imagesearchwithvolley;
 
-import android.app.ActionBar;
 import android.app.Fragment;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -85,7 +85,7 @@ public class PhotoListPagerFragment extends Fragment {
         final MainActivity activity = (MainActivity) getActivity();
         assert activity != null;
 
-        final ActionBar actionBar = activity.getActionBar();
+        final ActionBar actionBar = activity.getSupportActionBar();
         assert actionBar != null;
 
         actionBar.setHomeButtonEnabled(false);
