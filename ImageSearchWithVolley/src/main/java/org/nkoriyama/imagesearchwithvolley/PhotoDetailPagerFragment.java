@@ -29,7 +29,7 @@ public class PhotoDetailPagerFragment extends Fragment {
 
     public static PhotoDetailPagerFragment newInstance(PhotoAdapter photoAdapter, int position) {
         Preconditions.checkNotNull(photoAdapter);
-        Preconditions.checkElementIndex(position, photoAdapter.getCount());
+        Preconditions.checkElementIndex(position, photoAdapter.getItemCount());
         final PhotoDetailPagerFragment photoDetailPagerFragment = new PhotoDetailPagerFragment();
         photoDetailPagerFragment.mPhotoAdapter = photoAdapter;
         final Bundle bundle = new Bundle();

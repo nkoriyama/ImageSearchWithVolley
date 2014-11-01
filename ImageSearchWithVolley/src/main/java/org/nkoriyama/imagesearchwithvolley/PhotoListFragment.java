@@ -3,12 +3,11 @@ package org.nkoriyama.imagesearchwithvolley;
 import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
-import android.widget.AdapterView;
-import android.widget.GridView;
 
 import com.android.volley.RequestQueue;
 import com.google.common.base.Preconditions;
@@ -31,7 +30,8 @@ public abstract class PhotoListFragment extends Fragment {
     protected int mTotal;
     protected boolean mIsLoading;
     @InjectView(R.id.list)
-    GridView mGridView;
+    android.support.v7.widget.RecyclerView mRecyclerView;
+    private LinearLayoutManager mLayoutManager;
     private OnPhotoSelectedListener mOnPhotoSelectedListener;
 
     protected static void setBundle(Bundle bundle, String query, int initialPage, int perPage) {
@@ -77,36 +77,41 @@ public abstract class PhotoListFragment extends Fragment {
         mTotal = 0;
         mIsLoading = false;
 
-        mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        mRecyclerView.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                mOnPhotoSelectedListener.onPhotoListSelected(mPhotoAdapter, position);
+            public void onClick(View v) {
+                mOnPhotoSelectedListener.onPhotoListSelected(mPhotoAdapter, mRecyclerView.getChildPosition(v));
             }
         });
 
-        mGridView.setOnScrollListener(new AbsListView.OnScrollListener() {
+        mRecyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
-            public void onScrollStateChanged(AbsListView view, int scrollState) {
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
 
-            }
+                int firstVisibleItem = mLayoutManager.findFirstVisibleItemPosition();
+                int visibleItemCount = mLayoutManager.getChildCount();
+                int totalItemCount = mLayoutManager.getItemCount();
 
-            @Override
-            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
                 if (!mIsLoading &&
                         !Strings.isNullOrEmpty(mQuery) &&
                         totalItemCount > 0 &&
                         totalItemCount <= (int) (0.2 * mPerPage) +
                                 (firstVisibleItem + visibleItemCount) &&
                         totalItemCount < mTotal &&
-                        totalItemCount == mPhotoAdapter.getCount())
+                        totalItemCount == mPhotoAdapter.getItemCount())
                     loadMoreItems();
             }
         });
 
-        mGridView.setAdapter(mPhotoAdapter);
-        if (mPhotoAdapter.getCount() == 0 && !Strings.isNullOrEmpty(mQuery)) {
+        mRecyclerView.setAdapter(mPhotoAdapter);
+        if (mPhotoAdapter.getItemCount() == 0 && !Strings.isNullOrEmpty(mQuery)) {
             loadMoreItems();
         }
+
+        mLayoutManager = new LinearLayoutManager(getActivity());
+        mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        mRecyclerView.setLayoutManager(mLayoutManager);
 
         return view;
     }

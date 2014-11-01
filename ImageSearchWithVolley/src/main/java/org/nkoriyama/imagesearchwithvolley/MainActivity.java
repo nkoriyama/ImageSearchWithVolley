@@ -195,7 +195,7 @@ public class MainActivity extends ActionBarActivity implements
     @Override
     public void onPhotoListSelected(PhotoAdapter adapter, int position) {
         Preconditions.checkNotNull(adapter);
-        Preconditions.checkElementIndex(position, adapter.getCount());
+        Preconditions.checkElementIndex(position, adapter.getItemCount());
         getFragmentManager()
                 .beginTransaction()
                 .replace(R.id.fragment_container,

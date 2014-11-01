@@ -11,6 +11,7 @@ import org.nkoriyama.imagesearchwithvolley.model.FlickrPhotoResponse;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.Arrays;
 
 public class FlickrPhotoListFragment extends PhotoListFragment {
     private final String FLICKR_API_KEY = BuildConfig.FLICKR_API_KEY;
@@ -49,7 +50,7 @@ public class FlickrPhotoListFragment extends PhotoListFragment {
                     @Override
                     public void onResponse(FlickrPhotoResponse flickrPhotoResponse) {
                         if (flickrPhotoResponse != null && flickrPhotoResponse.isOK()) {
-                            mPhotoAdapter.addAll(flickrPhotoResponse.getPhotoInfoList());
+                            mPhotoAdapter.addAll(Arrays.asList(flickrPhotoResponse.getPhotoInfoList()));
                             mTotal = flickrPhotoResponse.getTotal();
                         }
                         mIsLoading = false;

@@ -24,12 +24,12 @@ public class PhotoDetailPagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public Fragment getItem(int i) {
-        Preconditions.checkElementIndex(i, mPhotoAdapter.getCount());
+        Preconditions.checkElementIndex(i, mPhotoAdapter.getItemCount());
         return PhotoDetailFragment.newInstance(mPhotoAdapter.getItem(i), false);
     }
 
     @Override
     public int getCount() {
-        return mPhotoAdapter.getCount();
+        return mPhotoAdapter.getItemCount();
     }
 }

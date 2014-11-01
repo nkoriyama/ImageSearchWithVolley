@@ -14,6 +14,7 @@ import org.nkoriyama.imagesearchwithvolley.model.BingPhotoResponse;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -53,11 +54,11 @@ public class BingPhotoListFragment extends PhotoListFragment {
                     @Override
                     public void onResponse(BingPhotoResponse bingPhotoResponse) {
                         if (bingPhotoResponse != null && bingPhotoResponse.isOK()) {
-                            mPhotoAdapter.addAll(bingPhotoResponse.getPhotoInfoList());
-                            mTotal = mPhotoAdapter.getCount() +
+                            mPhotoAdapter.addAll(Arrays.asList(bingPhotoResponse.getPhotoInfoList()));
+                            mTotal = mPhotoAdapter.getItemCount() +
                                     (bingPhotoResponse.hasNext() ? mPerPage : 0);
                         } else {
-                            mTotal = mPhotoAdapter.getCount();
+                            mTotal = mPhotoAdapter.getItemCount();
                         }
                         mIsLoading = false;
                     }
