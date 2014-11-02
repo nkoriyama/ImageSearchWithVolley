@@ -42,7 +42,7 @@ public class FlickrPhotoListFragment extends PhotoListFragment {
     @Override
     protected void loadMoreItems() {
         mIsLoading = true;
-        mRequestQueue.add(new GsonRequest<FlickrPhotoResponse>(
+        ImageSearchWithVolley.getRequestQueue().add(new GsonRequest<FlickrPhotoResponse>(
                 getPhotoListUrl(),
                 FlickrPhotoResponse.class,
                 null,

@@ -72,7 +72,7 @@ public class PhotoDetailFragment extends Fragment {
         assert activity != null;
         mImage.setImageUrl(
                 mPhotoInfo.getImageUrl(),
-                ((ImageSearchWithVolley) activity.getApplication()).getImageLoader()
+                ImageSearchWithVolley.getImageLoader()
         );
 
         return view;

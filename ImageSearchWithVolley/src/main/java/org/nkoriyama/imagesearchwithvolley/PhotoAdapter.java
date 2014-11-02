@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 
 import org.nkoriyama.imagesearchwithvolley.model.PhotoInfo;
@@ -21,12 +20,9 @@ import butterknife.InjectView;
 public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder> {
     private List<PhotoInfo> mPhotoInfoList;
     private final int mResource;
-    private final ImageLoader mImageLoader;
     private OnPhotoSelectedListener mOnPhotoSelectedListener;
 
     public PhotoAdapter(Context context, int resource, List<PhotoInfo> photoInfoList) {
-        mImageLoader = ((ImageSearchWithVolley) ((MainActivity) context)
-                .getApplication()).getImageLoader();
         mResource = resource;
         mPhotoInfoList = photoInfoList;
         mOnPhotoSelectedListener = (OnPhotoSelectedListener) context;
@@ -44,7 +40,7 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder> 
         final PhotoAdapter adapter = this;
         final int position = i;
         viewHolder.title.setText(photoInfo.getTitle());
-        viewHolder.image.setImageUrl(photoInfo.getThumbnailUrl(), mImageLoader);
+        viewHolder.image.setImageUrl(photoInfo.getThumbnailUrl(), ImageSearchWithVolley.getImageLoader());
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

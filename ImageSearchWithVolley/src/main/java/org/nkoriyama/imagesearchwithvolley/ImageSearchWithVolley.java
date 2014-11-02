@@ -1,29 +1,34 @@
 package org.nkoriyama.imagesearchwithvolley;
 
 import android.app.Application;
+import android.content.Context;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
 
 public class ImageSearchWithVolley extends Application {
-    private ImageLoader mImageLoader;
-    private RequestQueue mRequestQueue;
+    private static ImageLoader sImageLoader;
+    private static RequestQueue sRequestQueue;
+    private static Context sContext;
 
-    public ImageSearchWithVolley() {
+    public static ImageLoader getImageLoader() {
+        if (sImageLoader == null) {
+            sImageLoader = new ImageLoader(getRequestQueue(), new BitmapLruCache());
+        }
+        return sImageLoader;
     }
 
-    public ImageLoader getImageLoader() {
-        return mImageLoader;
-    }
-
-    public RequestQueue getRequestQueue() {
-        return mRequestQueue;
+    public static RequestQueue getRequestQueue() {
+        if (sRequestQueue == null) {
+            sRequestQueue = Volley.newRequestQueue(sContext, new OkHttpStack());
+        }
+        return sRequestQueue;
     }
 
     public void onCreate() {
         super.onCreate();
-        mRequestQueue = Volley.newRequestQueue(getApplicationContext(), new OkHttpStack());
-        mImageLoader = new ImageLoader(mRequestQueue, new BitmapLruCache());
+
+        sContext = getApplicationContext();
     }
 }

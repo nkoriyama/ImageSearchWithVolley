@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.android.volley.RequestQueue;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 
@@ -21,7 +20,6 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 public abstract class PhotoListFragment extends Fragment {
-    protected RequestQueue mRequestQueue;
     protected PhotoAdapter mPhotoAdapter;
     protected String mQuery;
     protected int mInitialPage;
@@ -46,7 +44,6 @@ public abstract class PhotoListFragment extends Fragment {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        mRequestQueue = ((ImageSearchWithVolley) activity.getApplication()).getRequestQueue();
     }
 
     @Override

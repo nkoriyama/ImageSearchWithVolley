@@ -61,7 +61,7 @@ public class AmazonPhotoListFragment extends PhotoListFragment {
     @Override
     protected void loadMoreItems() {
         mIsLoading = true;
-        mRequestQueue.add(new SimpleXmlRequest<AmazonPhotoResponse>(
+        ImageSearchWithVolley.getRequestQueue().add(new SimpleXmlRequest<AmazonPhotoResponse>(
                 Request.Method.GET,
                 getPhotoListUrl(),
                 AmazonPhotoResponse.class,
