@@ -27,7 +27,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 public class MainActivity extends ActionBarActivity implements
-        PhotoListFragment.OnPhotoSelectedListener,
+        PhotoAdapter.OnPhotoSelectedListener,
         PhotoDetailPagerFragment.OnPhotoDetailLongPressedListener,
         PhotoDetailPagerFragment.OnPhotoDetailDoubleTappedListener {
     private MenuItem mSearchItem;

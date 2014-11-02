@@ -20,14 +20,16 @@ import butterknife.InjectView;
 
 public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder> {
     private List<PhotoInfo> mPhotoInfoList;
-    private int mResource;
+    private final int mResource;
     private final ImageLoader mImageLoader;
+    private OnPhotoSelectedListener mOnPhotoSelectedListener;
 
     public PhotoAdapter(Context context, int resource, List<PhotoInfo> photoInfoList) {
         mImageLoader = ((ImageSearchWithVolley) ((MainActivity) context)
                 .getApplication()).getImageLoader();
         mResource = resource;
         mPhotoInfoList = photoInfoList;
+        mOnPhotoSelectedListener = (OnPhotoSelectedListener) context;
     }
 
     @Override
@@ -39,8 +41,16 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder> 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
         final PhotoInfo photoInfo = mPhotoInfoList.get(i);
+        final PhotoAdapter adapter = this;
+        final int position = i;
         viewHolder.title.setText(photoInfo.getTitle());
         viewHolder.image.setImageUrl(photoInfo.getThumbnailUrl(), mImageLoader);
+        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mOnPhotoSelectedListener.onPhotoListSelected(adapter, position);
+            }
+        });
     }
 
     @Override
@@ -53,14 +63,18 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder> 
         return mPhotoInfoList.get(position);
     }
 
-    public void addAll(Collection<? extends PhotoInfo> photoInfoList) {
+    public boolean addAll(Collection<? extends PhotoInfo> photoInfoList) {
         final int positionStart = mPhotoInfoList.size();
         final int itemCount = photoInfoList.size();
+        if (itemCount == 0) {
+            return false;
+        }
         mPhotoInfoList.addAll(photoInfoList);
         notifyItemRangeInserted(positionStart, itemCount);
+        return true;
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         @InjectView(R.id.list_item_title)
         TextView title;
         @InjectView(R.id.list_item_image)
@@ -70,5 +84,9 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder> 
             super(itemView);
             ButterKnife.inject(this, itemView);
         }
+    }
+
+    public static interface OnPhotoSelectedListener {
+        public abstract void onPhotoListSelected(PhotoAdapter adapter, int position);
     }
 }
