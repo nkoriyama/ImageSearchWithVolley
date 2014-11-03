@@ -45,7 +45,7 @@ public class BingPhotoListFragment extends PhotoListFragment {
 
     @Override
     protected void loadMoreItems() {
-        mIsLoading = true;
+        mPhotoAdapter.mIsLoading = true;
         ImageSearchWithVolley.getRequestQueue().add(new GsonRequest<BingPhotoResponse>(
                 getPhotoListUrl(),
                 BingPhotoResponse.class,
@@ -60,13 +60,13 @@ public class BingPhotoListFragment extends PhotoListFragment {
                         } else {
                             mHasMoreItems = false;
                         }
-                        mIsLoading = false;
+                        mPhotoAdapter.mIsLoading = false;
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError volleyError) {
-                        mIsLoading = false;
+                        mPhotoAdapter.mIsLoading = false;
                         volleyError.printStackTrace();
                     }
                 }

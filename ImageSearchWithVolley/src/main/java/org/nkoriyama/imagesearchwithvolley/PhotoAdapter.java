@@ -21,11 +21,13 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder> 
     private List<PhotoInfo> mPhotoInfoList;
     private final int mResource;
     private OnPhotoSelectedListener mOnPhotoSelectedListener;
+    public boolean mIsLoading;
 
     public PhotoAdapter(Context context, int resource, List<PhotoInfo> photoInfoList) {
         mResource = resource;
         mPhotoInfoList = photoInfoList;
         mOnPhotoSelectedListener = (OnPhotoSelectedListener) context;
+        mIsLoading = false;
     }
 
     @Override
@@ -44,7 +46,10 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder> 
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mOnPhotoSelectedListener.onPhotoListSelected(adapter, position);
+                if (!mIsLoading)
+                {
+                    mOnPhotoSelectedListener.onPhotoListSelected(adapter, position);
+                }
             }
         });
     }
