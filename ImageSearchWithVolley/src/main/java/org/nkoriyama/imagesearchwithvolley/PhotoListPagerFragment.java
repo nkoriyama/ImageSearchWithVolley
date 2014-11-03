@@ -45,9 +45,9 @@ public class PhotoListPagerFragment extends Fragment {
 
         mPhotoListPagerItems =
                 new ArrayList<PhotoListPagerItem>() {{
-                    add(new PhotoListPagerItem(FlickrPhotoListFragment.class, Color.BLUE, Color.GRAY));
-                    add(new PhotoListPagerItem(BingPhotoListFragment.class, Color.RED, Color.GRAY));
-                    add(new PhotoListPagerItem(AmazonPhotoListFragment.class, Color.YELLOW, Color.GRAY));
+                    add(new PhotoListPagerItem(FlickrPhotoListFragment.class, Color.argb(222, 0, 0, 0), Color.argb(0, 0, 0, 0)));
+                    add(new PhotoListPagerItem(BingPhotoListFragment.class, Color.argb(222, 0, 0, 0), Color.argb(0, 0, 0, 0)));
+                    add(new PhotoListPagerItem(AmazonPhotoListFragment.class, Color.argb(222, 0, 0, 0), Color.argb(0, 0, 0, 0)));
                 }};
     }
 

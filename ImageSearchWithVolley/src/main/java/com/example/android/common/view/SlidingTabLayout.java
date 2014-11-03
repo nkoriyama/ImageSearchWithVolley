@@ -29,6 +29,8 @@ import android.view.View;
 import android.widget.HorizontalScrollView;
 import android.widget.TextView;
 
+import org.nkoriyama.imagesearchwithvolley.R;
+
 /**
  * To be used with ViewPager to provide a tab indicator component which give constant feedback as to
  * the user's scroll progress.
@@ -198,6 +200,9 @@ public class SlidingTabLayout extends HorizontalScrollView {
         final PagerAdapter adapter = mViewPager.getAdapter();
         final View.OnClickListener tabClickListener = new TabClickListener();
 
+        removeOldSelection(); // add those two lines
+        oldSelection = null;
+
         for (int i = 0; i < adapter.getCount(); i++) {
             View tabView = null;
             TextView tabTitleView = null;
@@ -218,6 +223,7 @@ public class SlidingTabLayout extends HorizontalScrollView {
             }
 
             tabTitleView.setText(adapter.getPageTitle(i));
+            tabTitleView.setTextColor(getResources().getColorStateList(R.color.text_tab));
             tabView.setOnClickListener(tabClickListener);
 
             mTabStrip.addView(tabView);
@@ -233,6 +239,15 @@ public class SlidingTabLayout extends HorizontalScrollView {
         }
     }
 
+    View oldSelection = null; // new field indicating old selected item
+
+    // method to remove `selected` state from old one
+    private void removeOldSelection() {
+        if(oldSelection != null) {
+            oldSelection.setSelected(false);
+        }
+    }
+
     private void scrollToTab(int tabIndex, int positionOffset) {
         final int tabStripChildCount = mTabStrip.getChildCount();
         if (tabStripChildCount == 0 || tabIndex < 0 || tabIndex >= tabStripChildCount) {
@@ -241,6 +256,13 @@ public class SlidingTabLayout extends HorizontalScrollView {
 
         View selectedChild = mTabStrip.getChildAt(tabIndex);
         if (selectedChild != null) {
+
+            if(selectedChild != oldSelection) { // added part
+                selectedChild.setSelected(true);
+                removeOldSelection();
+                oldSelection = selectedChild;
+            }
+
             int targetScrollX = selectedChild.getLeft() + positionOffset;
 
             if (tabIndex > 0 || positionOffset > 0) {
