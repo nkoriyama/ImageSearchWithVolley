@@ -54,7 +54,7 @@ public class AmazonPhotoListFragment extends PhotoListFragment {
                         "&SearchIndex=Blended" +
                         "&ResponseGroup=ItemAttributes,Images,Offers" +
                         "&Keywords=" + mQuery +
-                        "&ItemPage=" + mPage++
+                        "&ItemPage=" + mPage
         );
     }
 
@@ -70,7 +70,10 @@ public class AmazonPhotoListFragment extends PhotoListFragment {
                     public void onResponse(AmazonPhotoResponse amazonPhotoResponse) {
                         if (amazonPhotoResponse != null && amazonPhotoResponse.isOK()) {
                             mPhotoAdapter.addAll(amazonPhotoResponse.getPhotoInfoList());
-                            mTotal = 10 * mPerPage; // 最大10ページまで
+                            mHasMoreItems = (mPage < 10); // 最大10ページまで
+                            mPage++;
+                        } else {
+                            mHasMoreItems = false;
                         }
                         mIsLoading = false;
                     }
@@ -78,7 +81,6 @@ public class AmazonPhotoListFragment extends PhotoListFragment {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError volleyError) {
-                        --mPage;
                         mIsLoading = false;
                         volleyError.printStackTrace();
                     }

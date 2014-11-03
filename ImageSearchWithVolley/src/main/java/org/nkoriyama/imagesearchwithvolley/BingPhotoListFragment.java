@@ -34,8 +34,8 @@ public class BingPhotoListFragment extends PhotoListFragment {
         String url = "";
         try {
             url = "https://api.datamarket.azure.com/Bing/Search/Image?Query=" +
-                    "'" + URLEncoder.encode(mQuery, "utf-8") + "'" +
-                    "&$format=json" + "&$skip=" + (mPage++ * mPerPage) + "&$top=" + mPerPage;
+                    URLEncoder.encode("'" + mQuery + "'", "utf-8") +
+                    "&$format=json" + "&$skip=" + (mPage * mPerPage) + "&$top=" + mPerPage;
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
@@ -55,10 +55,10 @@ public class BingPhotoListFragment extends PhotoListFragment {
                     public void onResponse(BingPhotoResponse bingPhotoResponse) {
                         if (bingPhotoResponse != null && bingPhotoResponse.isOK()) {
                             mPhotoAdapter.addAll(Arrays.asList(bingPhotoResponse.getPhotoInfoList()));
-                            mTotal = mPhotoAdapter.getItemCount() +
-                                    (bingPhotoResponse.hasNext() ? mPerPage : 0);
+                            mHasMoreItems = bingPhotoResponse.hasNext();
+                            mPage++;
                         } else {
-                            mTotal = mPhotoAdapter.getItemCount();
+                            mHasMoreItems = false;
                         }
                         mIsLoading = false;
                     }
@@ -66,7 +66,6 @@ public class BingPhotoListFragment extends PhotoListFragment {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError volleyError) {
-                        --mPage;
                         mIsLoading = false;
                         volleyError.printStackTrace();
                     }

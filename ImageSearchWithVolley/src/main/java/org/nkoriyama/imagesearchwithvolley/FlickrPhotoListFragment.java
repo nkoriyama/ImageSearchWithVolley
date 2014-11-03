@@ -31,7 +31,7 @@ public class FlickrPhotoListFragment extends PhotoListFragment {
             url = "https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=" +
                     FLICKR_API_KEY + "&text=" + URLEncoder.encode(mQuery, "utf-8") +
                     "&tags=" + URLEncoder.encode(mQuery, "utf-8") + "&per_page=" + mPerPage +
-                    "&page=" + mPage++ + "&format=json&nojsoncallback=1";
+                    "&page=" + mPage + "&format=json&nojsoncallback=1";
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
@@ -51,7 +51,10 @@ public class FlickrPhotoListFragment extends PhotoListFragment {
                     public void onResponse(FlickrPhotoResponse flickrPhotoResponse) {
                         if (flickrPhotoResponse != null && flickrPhotoResponse.isOK()) {
                             mPhotoAdapter.addAll(Arrays.asList(flickrPhotoResponse.getPhotoInfoList()));
-                            mTotal = flickrPhotoResponse.getTotal();
+                            mHasMoreItems = (mPage * mPerPage) < flickrPhotoResponse.getTotal();
+                            mPage++;
+                        } else {
+                            mHasMoreItems = false;
                         }
                         mIsLoading = false;
                     }
@@ -59,7 +62,6 @@ public class FlickrPhotoListFragment extends PhotoListFragment {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError volleyError) {
-                        --mPage;
                         mIsLoading = false;
                         volleyError.printStackTrace();
                     }

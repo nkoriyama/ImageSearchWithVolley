@@ -25,7 +25,7 @@ public abstract class PhotoListFragment extends Fragment {
     protected int mInitialPage;
     protected int mPerPage;
     protected int mPage;
-    protected int mTotal;
+    protected boolean mHasMoreItems;
     protected boolean mIsLoading;
     @InjectView(R.id.list)
     RecyclerView mRecyclerView;
@@ -69,7 +69,7 @@ public abstract class PhotoListFragment extends Fragment {
         mInitialPage = bundle.getInt("initialPage");
         mPerPage = bundle.getInt("perPage");
         mPage = mInitialPage;
-        mTotal = 0;
+        mHasMoreItems = true;
         mIsLoading = false;
 
         mRecyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -81,13 +81,10 @@ public abstract class PhotoListFragment extends Fragment {
                 int visibleItemCount = mLayoutManager.getChildCount();
                 int totalItemCount = mLayoutManager.getItemCount();
 
-                if (!mIsLoading &&
+                if (!mIsLoading && mHasMoreItems &&
                         !Strings.isNullOrEmpty(mQuery) &&
                         totalItemCount > 0 &&
-                        totalItemCount <= (int) (0.2 * mPerPage) +
-                                (firstVisibleItem + visibleItemCount) &&
-                        totalItemCount < mTotal &&
-                        totalItemCount == mPhotoAdapter.getItemCount())
+                        totalItemCount <= 10 + (firstVisibleItem + visibleItemCount))
                     loadMoreItems();
             }
         });
