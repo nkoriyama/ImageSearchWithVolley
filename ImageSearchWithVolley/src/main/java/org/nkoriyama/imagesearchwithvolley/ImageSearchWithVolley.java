@@ -12,14 +12,14 @@ public class ImageSearchWithVolley extends Application {
     private static RequestQueue sRequestQueue;
     private static Context sContext;
 
-    public static ImageLoader getImageLoader() {
+    public static synchronized ImageLoader getImageLoader() {
         if (sImageLoader == null) {
             sImageLoader = new ImageLoader(getRequestQueue(), new BitmapLruCache());
         }
         return sImageLoader;
     }
 
-    public static RequestQueue getRequestQueue() {
+    public static synchronized RequestQueue getRequestQueue() {
         if (sRequestQueue == null) {
             sRequestQueue = Volley.newRequestQueue(sContext, new OkHttpStack());
         }
