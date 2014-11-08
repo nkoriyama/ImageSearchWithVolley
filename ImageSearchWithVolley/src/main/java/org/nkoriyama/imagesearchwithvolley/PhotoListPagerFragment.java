@@ -118,4 +118,10 @@ public class PhotoListPagerFragment extends Fragment {
         }
         activity.setShareIntent(null);
     }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.reset(this);
+    }
 }
