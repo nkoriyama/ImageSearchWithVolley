@@ -27,6 +27,8 @@ public class PhotoListPagerFragment extends Fragment {
     @InjectView(R.id.sliding_tabs)
     SlidingTabLayout mSlidingTabLayout;
 
+    private String mQuery;
+
     private List<PhotoListPagerItem> mPhotoListPagerItems;
 
     public static PhotoListPagerFragment newInstance(String query) {
@@ -34,9 +36,15 @@ public class PhotoListPagerFragment extends Fragment {
         PhotoListPagerFragment photoListPagerFragment = new PhotoListPagerFragment();
 
         final Bundle bundle = new Bundle();
-        bundle.putString("query", query);
+        setBundle(bundle, query);
         photoListPagerFragment.setArguments(bundle);
         return photoListPagerFragment;
+    }
+
+    private static void setBundle(Bundle bundle, String query) {
+        Preconditions.checkNotNull(bundle);
+        Preconditions.checkArgument(!Strings.isNullOrEmpty(query));
+        bundle.putString("query", query);
     }
 
     @Override
@@ -64,7 +72,7 @@ public class PhotoListPagerFragment extends Fragment {
         }
         assert bundle != null;
 
-        final String query = bundle.getString("query");
+        mQuery = bundle.getString("query");
 
         final MainActivity activity = (MainActivity) getActivity();
         assert activity != null;
@@ -74,9 +82,9 @@ public class PhotoListPagerFragment extends Fragment {
 
         actionBar.setHomeButtonEnabled(false);
         actionBar.setDisplayHomeAsUpEnabled(false);
-        actionBar.setTitle(query);
+        actionBar.setTitle(mQuery);
 
-        mPager.setAdapter(new PhotoListPagerAdapter(getChildFragmentManager(), mPhotoListPagerItems, query));
+        mPager.setAdapter(new PhotoListPagerAdapter(getChildFragmentManager(), mPhotoListPagerItems, mQuery));
         mPager.setPageTransformer(true, new ZoomOutPageTransformer());
 
         mSlidingTabLayout.setViewPager(mPager);
@@ -123,5 +131,11 @@ public class PhotoListPagerFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.reset(this);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        setBundle(outState, mQuery);
     }
 }

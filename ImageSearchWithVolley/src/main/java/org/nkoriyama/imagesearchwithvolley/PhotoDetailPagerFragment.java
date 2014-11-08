@@ -23,6 +23,8 @@ public class PhotoDetailPagerFragment extends Fragment {
     @InjectView(R.id.detail_pager)
     ViewPager mViewPager;
 
+    private int mPosition;
+
     private OnPhotoDetailLongPressedListener mOnPhotoDetailLongPressedListener;
     private OnPhotoDetailDoubleTappedListener mOnPhotoDetailDoubleTappedListener;
     private PhotoAdapter mPhotoAdapter;
@@ -33,9 +35,14 @@ public class PhotoDetailPagerFragment extends Fragment {
         final PhotoDetailPagerFragment photoDetailPagerFragment = new PhotoDetailPagerFragment();
         photoDetailPagerFragment.mPhotoAdapter = photoAdapter;
         final Bundle bundle = new Bundle();
-        bundle.putInt("position", position);
+        setBundle(bundle, position);
         photoDetailPagerFragment.setArguments(bundle);
         return photoDetailPagerFragment;
+    }
+
+    private static void setBundle(Bundle bundle, int position) {
+        Preconditions.checkNotNull(bundle);
+        bundle.putInt("position", position);
     }
 
     @Override
@@ -76,7 +83,7 @@ public class PhotoDetailPagerFragment extends Fragment {
         }
         assert bundle != null;
 
-        final int position = bundle.getInt("position");
+        mPosition = bundle.getInt("position");
 
         final MainActivity activity = (MainActivity) getActivity();
         assert activity != null;
@@ -91,10 +98,10 @@ public class PhotoDetailPagerFragment extends Fragment {
                 getChildFragmentManager(),
                 mPhotoAdapter
         ));
-        mViewPager.setCurrentItem(position);
+        mViewPager.setCurrentItem(mPosition);
         mViewPager.setPageTransformer(true, new DepthPageTransformer());
 
-        final PhotoInfo photoInfo = mPhotoAdapter.getItem(position);
+        final PhotoInfo photoInfo = mPhotoAdapter.getItem(mPosition);
         actionBar.setTitle(photoInfo.getTitle());
         updateShareIntent(photoInfo);
 
@@ -148,6 +155,12 @@ public class PhotoDetailPagerFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.reset(this);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        setBundle(outState, mPosition);
     }
 
     public static interface OnPhotoDetailLongPressedListener {
