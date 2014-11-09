@@ -64,6 +64,7 @@ public abstract class PhotoListFragment extends Fragment {
         mPage = mInitialPage;
         mHasMoreItems = true;
 
+        mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setAdapter(mPhotoAdapter);
 
         final GridLayoutManager layoutManager =  new GridLayoutManager(getActivity(), getSpanCount());
