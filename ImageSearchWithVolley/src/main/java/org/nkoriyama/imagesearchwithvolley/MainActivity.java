@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.provider.SearchRecentSuggestions;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.ShareActionProvider;
@@ -130,6 +131,24 @@ public class MainActivity extends ActionBarActivity implements
         if (mShareActionProvider != null) {
             mShareActionProvider.setShareIntent(shareIntent);
         }
+    }
+
+    public void updateActionBar(PhotoInfo photoInfo) {
+        Preconditions.checkNotNull(photoInfo);
+
+        final ActionBar actionBar = getSupportActionBar();
+        assert actionBar != null;
+
+        actionBar.setHomeButtonEnabled(true);
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setTitle(photoInfo.getTitle());
+
+        final Intent shareIntent = new Intent();
+        shareIntent.setAction(Intent.ACTION_SEND);
+        shareIntent.setType("text/plain");
+        shareIntent.putExtra(Intent.EXTRA_SUBJECT, photoInfo.getShareSubject());
+        shareIntent.putExtra(Intent.EXTRA_TEXT, photoInfo.getShareText());
+        setShareIntent(shareIntent);
     }
 
     @Override

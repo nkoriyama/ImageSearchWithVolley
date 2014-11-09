@@ -73,6 +73,13 @@ public class PhotoDetailFragment extends Fragment {
                 ImageSearchWithVolley.getImageLoader()
         );
 
+        final MainActivity activity = (MainActivity) getActivity();
+        assert activity != null;
+
+        if (mZoomEnabled) {
+            activity.updateActionBar(mPhotoInfo);
+        }
+
         return view;
     }
 
