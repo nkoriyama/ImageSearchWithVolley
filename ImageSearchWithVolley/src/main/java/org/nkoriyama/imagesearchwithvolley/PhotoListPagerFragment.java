@@ -122,9 +122,8 @@ public class PhotoListPagerFragment extends Fragment {
         super.onResume();
 
         final MainActivity activity = (MainActivity) getActivity();
-        if (activity == null) {
-            return;
-        }
+        assert activity != null;
+
         activity.setShareIntent(null);
     }
 
