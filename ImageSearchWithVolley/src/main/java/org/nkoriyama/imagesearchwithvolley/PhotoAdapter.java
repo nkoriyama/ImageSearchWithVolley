@@ -1,6 +1,5 @@
 package org.nkoriyama.imagesearchwithvolley;
 
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,13 +19,11 @@ import butterknife.InjectView;
 public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder> {
     private List<PhotoInfo> mPhotoInfoList;
     private final int mResource;
-    private OnPhotoSelectedListener mOnPhotoSelectedListener;
     public boolean mIsLoading;
 
-    public PhotoAdapter(Context context, int resource, List<PhotoInfo> photoInfoList) {
+    public PhotoAdapter(int resource, List<PhotoInfo> photoInfoList) {
         mResource = resource;
         mPhotoInfoList = photoInfoList;
-        mOnPhotoSelectedListener = (OnPhotoSelectedListener) context;
         mIsLoading = false;
     }
 
@@ -48,7 +45,7 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder> 
             public void onClick(View v) {
                 if (!mIsLoading)
                 {
-                    mOnPhotoSelectedListener.onPhotoListSelected(adapter, position);
+                    ((OnPhotoSelectedListener)MainActivity.getContext()).onPhotoListSelected(adapter, position);
                 }
             }
         });

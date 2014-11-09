@@ -20,6 +20,7 @@ import android.view.MenuItem;
 
 import com.crashlytics.android.Crashlytics;
 import com.google.common.base.Preconditions;
+import com.google.common.base.Strings;
 
 import org.nkoriyama.imagesearchwithvolley.model.PhotoInfo;
 
@@ -36,10 +37,19 @@ public class MainActivity extends ActionBarActivity implements
     @InjectView(R.id.toolbar)
     Toolbar mToolbar;
 
+    private static Context sContext;
+
+    public static Context getContext() {
+        return sContext;
+    }
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Crashlytics.start(this);
+
+        sContext = this;
 
         setContentView(R.layout.activity_main);
 
@@ -63,6 +73,9 @@ public class MainActivity extends ActionBarActivity implements
             }
 
             String query = intent.getStringExtra(SearchManager.QUERY);
+            if (Strings.isNullOrEmpty(query)) {
+                return;
+            }
 
             setTitle(query);
             MenuItemCompat.collapseActionView(mSearchItem);

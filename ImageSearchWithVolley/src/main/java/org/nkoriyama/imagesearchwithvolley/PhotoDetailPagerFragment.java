@@ -25,8 +25,6 @@ public class PhotoDetailPagerFragment extends Fragment {
 
     private int mPosition;
 
-    private OnPhotoDetailLongPressedListener mOnPhotoDetailLongPressedListener;
-    private OnPhotoDetailDoubleTappedListener mOnPhotoDetailDoubleTappedListener;
     private PhotoAdapter mPhotoAdapter;
 
     public static PhotoDetailPagerFragment newInstance(PhotoAdapter photoAdapter, int position) {
@@ -48,9 +46,6 @@ public class PhotoDetailPagerFragment extends Fragment {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-
-        mOnPhotoDetailLongPressedListener = (OnPhotoDetailLongPressedListener) activity;
-        mOnPhotoDetailDoubleTappedListener = (OnPhotoDetailDoubleTappedListener) activity;
     }
 
     private void setShareIntent(Intent shareIntent) {
@@ -68,6 +63,12 @@ public class PhotoDetailPagerFragment extends Fragment {
         shareIntent.putExtra(Intent.EXTRA_TEXT, photoInfo.getShareText());
 
         setShareIntent(shareIntent);
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setRetainInstance(true);
     }
 
     @Override
@@ -119,7 +120,7 @@ public class PhotoDetailPagerFragment extends Fragment {
                 new GestureDetector.SimpleOnGestureListener() {
                     @Override
                     public void onLongPress(MotionEvent e) {
-                        mOnPhotoDetailLongPressedListener.onPhotoDetailLongPressed(
+                        ((OnPhotoDetailLongPressedListener) MainActivity.getContext()).onPhotoDetailLongPressed(
                                 mPhotoAdapter.getItem(mViewPager.getCurrentItem())
                         );
                         super.onLongPress(e);
@@ -132,7 +133,7 @@ public class PhotoDetailPagerFragment extends Fragment {
 
                     @Override
                     public boolean onDoubleTap(MotionEvent e) {
-                        mOnPhotoDetailDoubleTappedListener.onPhotoDetailDoubleTapped(
+                        ((OnPhotoDetailDoubleTappedListener) MainActivity.getContext()).onPhotoDetailDoubleTapped(
                                 mPhotoAdapter.getItem(mViewPager.getCurrentItem())
                         );
                         return super.onDoubleTap(e);

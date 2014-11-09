@@ -5,6 +5,7 @@ import android.app.Fragment;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,7 +29,6 @@ public abstract class PhotoListFragment extends Fragment {
     protected boolean mHasMoreItems;
     @InjectView(R.id.list)
     RecyclerView mRecyclerView;
-    private GridLayoutManager mLayoutManager;
 
     protected static void setBundle(Bundle bundle, String query, int initialPage, int perPage) {
         Preconditions.checkNotNull(bundle);
@@ -43,12 +43,12 @@ public abstract class PhotoListFragment extends Fragment {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
+        mPhotoAdapter = new PhotoAdapter(R.layout.list_item, new ArrayList<PhotoInfo>());
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mPhotoAdapter = new PhotoAdapter(getActivity(), R.layout.list_item, new ArrayList<PhotoInfo>());
     }
 
     @Override
@@ -70,14 +70,30 @@ public abstract class PhotoListFragment extends Fragment {
         mPage = mInitialPage;
         mHasMoreItems = true;
 
+        mRecyclerView.setAdapter(mPhotoAdapter);
+
+        final GridLayoutManager layoutManager =  new GridLayoutManager(getActivity(), getSpanCount());
+        layoutManager.setOrientation(GridLayoutManager.VERTICAL);
+        mRecyclerView.setLayoutManager(layoutManager);
+
+        /*
+        mRecyclerView.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+            @Override
+            public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+                layoutManager.setSpanCount(getSpanCount());
+                layoutManager.requestLayout();
+            }
+        });
+        */
+
         mRecyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
 
-                int firstVisibleItem = mLayoutManager.findFirstVisibleItemPosition();
-                int visibleItemCount = mLayoutManager.getChildCount();
-                int totalItemCount = mLayoutManager.getItemCount();
+                int firstVisibleItem = layoutManager.findFirstVisibleItemPosition();
+                int visibleItemCount = layoutManager.getChildCount();
+                int totalItemCount = layoutManager.getItemCount();
 
                 if (!mPhotoAdapter.mIsLoading && mHasMoreItems &&
                         !Strings.isNullOrEmpty(mQuery) &&
@@ -86,20 +102,6 @@ public abstract class PhotoListFragment extends Fragment {
                     loadMoreItems();
             }
         });
-        mRecyclerView.setAdapter(mPhotoAdapter);
-
-        mLayoutManager = new GridLayoutManager(getActivity(), 2);
-        mLayoutManager.setOrientation(GridLayoutManager.VERTICAL);
-        mRecyclerView.setLayoutManager(mLayoutManager);
-
-        /*
-        mRecyclerView.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
-            @Override
-            public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
-                mLayoutManager.setSpanCount(getSpanCount(mRecyclerView));
-            }
-        });
-        */
 
         if (mPhotoAdapter.getItemCount() == 0 && !Strings.isNullOrEmpty(mQuery)) {
             loadMoreItems();
@@ -108,16 +110,13 @@ public abstract class PhotoListFragment extends Fragment {
         return view;
     }
 
-    /*
-    private int getSpanCount(View view) {
+    private int getSpanCount() {
         DisplayMetrics dm = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);
         // TODO: don't use "160" as item width
         // item width 160dip
-        // view.getWidth()
-        return view.getWidth() / Math.round(160 * dm.density);
+        return dm.widthPixels / Math.round(160 * dm.density);
     }
-    */
 
     @Override
     public void onDestroyView() {
