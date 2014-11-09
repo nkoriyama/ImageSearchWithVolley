@@ -1,6 +1,5 @@
 package org.nkoriyama.imagesearchwithvolley;
 
-import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -41,14 +40,9 @@ public abstract class PhotoListFragment extends Fragment {
     protected abstract void loadMoreItems();
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        mPhotoAdapter = new PhotoAdapter(R.layout.list_item, new ArrayList<PhotoInfo>());
-    }
-
-    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mPhotoAdapter = new PhotoAdapter(R.layout.list_item, new ArrayList<PhotoInfo>());
     }
 
     @Override

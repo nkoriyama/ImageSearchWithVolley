@@ -68,8 +68,6 @@ public class PhotoDetailFragment extends Fragment {
         mTitle.setText(mPhotoInfo.getTitle());
         mTitle.requestFocus();
 
-        final MainActivity activity = (MainActivity) getActivity();
-        assert activity != null;
         mImage.setImageUrl(
                 mPhotoInfo.getImageUrl(),
                 ImageSearchWithVolley.getImageLoader()

@@ -1,6 +1,5 @@
 package org.nkoriyama.imagesearchwithvolley;
 
-import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
@@ -41,11 +40,6 @@ public class PhotoDetailPagerFragment extends Fragment {
     private static void setBundle(Bundle bundle, int position) {
         Preconditions.checkNotNull(bundle);
         bundle.putInt("position", position);
-    }
-
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
     }
 
     private void setShareIntent(Intent shareIntent) {
