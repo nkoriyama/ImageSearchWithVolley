@@ -6,6 +6,7 @@ import android.content.Context;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
+import com.crashlytics.android.Crashlytics;
 
 public class ImageSearchWithVolley extends Application {
     private static ImageLoader sImageLoader;
@@ -30,5 +31,9 @@ public class ImageSearchWithVolley extends Application {
         super.onCreate();
 
         sContext = getApplicationContext();
+
+        if (BuildConfig.USE_CRASHLYTICS) {
+            Crashlytics.start(this);
+        }
     }
 }

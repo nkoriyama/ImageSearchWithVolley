@@ -70,11 +70,20 @@ android {
     }
 
     buildTypes {
+        debug {
+            runProguard false
+
+            buildConfigField "boolean", "USE_CRASHLYTICS", "false"
+            ext.enableCrashlytics = false
+        }
         release {
             runProguard true
             proguardFile file('proguard-project.txt')
             proguardFile getDefaultProguardFile('proguard-android-optimize.txt')
             signingConfig signingConfigs.release
+
+            buildConfigField "boolean", "USE_CRASHLYTICS", "true"
+            ext.enableCrashlytics = true
         }
     }
 
