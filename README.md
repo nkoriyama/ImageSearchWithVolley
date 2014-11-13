@@ -4,7 +4,7 @@ ImageSearchWithVolley
 Android用のVolleyという通信ライブラリを使った画像検索アプリです。
 
 このアプリを動かすためには、
-ImageSearchWithVolleyディレクトリの下にgradle.propertiesというファイルを作って、
+appディレクトリの下にgradle.propertiesというファイルを作って、
 ```
 AWS_ENDPOINT="ecs.amazonaws.jp"
 AWS_ACCESS_KEY_ID="XXX"
@@ -32,7 +32,7 @@ keyPassword=*****
 ```
 Crashlyticsを使わない人はここの行は削除した方がいいかも。
 その他のCrashlytics関連で削るべき所は、
-* ImageSearchWithVolley/build.gradle
+* app/build.gradle
 ```
 maven { url 'http://download.crashlytics.com/maven' }
 ```
@@ -42,8 +42,18 @@ classpath 'com.crashlytics.tools.gradle:crashlytics-gradle:1.+'
 ```
 compile 'com.crashlytics.android:crashlytics:1.+'
 ```
-* ImageSearchWithVolley/src/main/java/org/nkoriyama/imagesearchwithvolley/MainActivity.java
+```
+buildConfigField "boolean", "USE_CRASHLYTICS", "false"
+ext.enableCrashlytics = false
+```
+```
+buildConfigField "boolean", "USE_CRASHLYTICS", "true"
+ext.enableCrashlytics = true
+```
+* app/src/main/java/org/nkoriyama/imagesearchwithvolley/ImageSearchWithVolley.java
 ```java
-Crashlytics.start(this);
+if (BuildConfig.USE_CRASHLYTICS) {
+  Crashlytics.start(this);
+}
 ```
 といったところでしょうか。
