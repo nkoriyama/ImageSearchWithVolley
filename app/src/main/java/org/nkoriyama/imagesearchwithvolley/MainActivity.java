@@ -28,7 +28,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 public class MainActivity extends ActionBarActivity implements
-        PhotoListFragment.OnPhotoListItemSelectedListener,
+        PhotoAdapter.OnPhotoListItemSelectedListener,
         PhotoDetailPagerFragment.OnPhotoDetailLongPressedListener,
         PhotoDetailPagerFragment.OnPhotoDetailDoubleTappedListener {
     private MenuItem mSearchItem;
@@ -37,9 +37,17 @@ public class MainActivity extends ActionBarActivity implements
     @InjectView(R.id.toolbar)
     Toolbar mToolbar;
 
+    private static Context sContext;
+
+    public static Context getContext() {
+        return sContext;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        sContext = this;
 
         setContentView(R.layout.activity_main);
 

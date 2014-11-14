@@ -44,13 +44,8 @@ public abstract class PhotoListFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mPhotoAdapter = new PhotoAdapter(this);
-    }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        final View view = inflater.inflate(R.layout.fragment_photolist, container, false);
-        ButterKnife.inject(this, view);
+        mPhotoAdapter = new PhotoAdapter();
 
         final Bundle bundle;
         if (savedInstanceState != null) {
@@ -66,6 +61,12 @@ public abstract class PhotoListFragment extends Fragment {
         mPage = mInitialPage;
         mHasMoreItems = true;
         mIsLoading = false;
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        final View view = inflater.inflate(R.layout.fragment_photolist, container, false);
+        ButterKnife.inject(this, view);
 
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setAdapter(mPhotoAdapter);
@@ -89,7 +90,9 @@ public abstract class PhotoListFragment extends Fragment {
             }
         });
 
-        loadItems();
+        if (mPhotoAdapter.getItemCount() == 0) {
+            loadItems();
+        }
 
         return view;
     }
@@ -112,15 +115,5 @@ public abstract class PhotoListFragment extends Fragment {
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         setBundle(outState, mQuery, mInitialPage, mPerPage);
-    }
-
-    public void selectItem(int position) {
-        if (!mIsLoading) {
-            ((OnPhotoListItemSelectedListener) getActivity()).onPhotoListItemSelected(mPhotoAdapter, position);
-        }
-    }
-
-    public static interface OnPhotoListItemSelectedListener {
-        public abstract void onPhotoListItemSelected(PhotoAdapter adapter, int position);
     }
 }

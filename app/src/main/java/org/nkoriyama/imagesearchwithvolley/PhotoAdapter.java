@@ -19,11 +19,9 @@ import butterknife.InjectView;
 
 public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder> {
     private List<PhotoInfo> mPhotoInfoList;
-    private PhotoListFragment mPhotoListFragment;
 
-    public PhotoAdapter(PhotoListFragment photoListFragment) {
+    public PhotoAdapter() {
         mPhotoInfoList = new ArrayList<PhotoInfo>();
-        mPhotoListFragment = photoListFragment;
     }
 
     @Override
@@ -35,15 +33,20 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder> 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
         final PhotoInfo photoInfo = mPhotoInfoList.get(i);
+        final PhotoAdapter adapter = this;
         final int position = i;
         viewHolder.title.setText(photoInfo.getTitle());
         viewHolder.image.setImageUrl(photoInfo.getThumbnailUrl(), ImageSearchWithVolley.getImageLoader());
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               mPhotoListFragment.selectItem(position);
+                ((OnPhotoListItemSelectedListener) MainActivity.getContext()).onPhotoListItemSelected(adapter, position);
             }
         });
+    }
+
+    public static interface OnPhotoListItemSelectedListener {
+        public abstract void onPhotoListItemSelected(PhotoAdapter adapter, int position);
     }
 
     @Override
