@@ -60,7 +60,7 @@ public class AmazonPhotoListFragment extends PhotoListFragment {
 
     @Override
     protected void loadMoreItems() {
-        mIsLoading = true;
+        mPhotoAdapter.mIsInUse = true;
         ImageSearchWithVolley.getRequestQueue().add(new SimpleXmlRequest<AmazonPhotoResponse>(
                 Request.Method.GET,
                 getPhotoListUrl(),
@@ -75,13 +75,13 @@ public class AmazonPhotoListFragment extends PhotoListFragment {
                         } else {
                             mHasMoreItems = false;
                         }
-                        mIsLoading = false;
+                        mPhotoAdapter.mIsInUse = false;
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError volleyError) {
-                        mIsLoading = false;
+                        mPhotoAdapter.mIsInUse = false;
                         volleyError.printStackTrace();
                     }
                 }

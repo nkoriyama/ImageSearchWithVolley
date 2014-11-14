@@ -19,9 +19,11 @@ import butterknife.InjectView;
 
 public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder> {
     private List<PhotoInfo> mPhotoInfoList;
+    public boolean mIsInUse;
 
     public PhotoAdapter() {
         mPhotoInfoList = new ArrayList<PhotoInfo>();
+        mIsInUse = false;
     }
 
     @Override
@@ -40,7 +42,9 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder> 
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((OnPhotoListItemSelectedListener) MainActivity.getContext()).onPhotoListItemSelected(adapter, position);
+                if (!mIsInUse) {
+                    ((OnPhotoListItemSelectedListener) MainActivity.getContext()).onPhotoListItemSelected(adapter, position);
+                }
             }
         });
     }

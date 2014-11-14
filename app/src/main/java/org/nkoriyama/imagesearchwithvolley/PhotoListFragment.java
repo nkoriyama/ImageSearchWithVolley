@@ -22,7 +22,6 @@ public abstract class PhotoListFragment extends Fragment {
     protected int mPerPage;
     protected int mPage;
     protected boolean mHasMoreItems;
-    protected boolean mIsLoading;
     @InjectView(R.id.list)
     RecyclerView mRecyclerView;
 
@@ -36,7 +35,7 @@ public abstract class PhotoListFragment extends Fragment {
 
     protected abstract void loadMoreItems();
     protected synchronized void loadItems() {
-        if (!Strings.isNullOrEmpty(mQuery) && mHasMoreItems && !mIsLoading) {
+        if (!Strings.isNullOrEmpty(mQuery) && mHasMoreItems && !mPhotoAdapter.mIsInUse) {
             loadMoreItems();
         }
     }
@@ -60,7 +59,6 @@ public abstract class PhotoListFragment extends Fragment {
         mPerPage = bundle.getInt("perPage");
         mPage = mInitialPage;
         mHasMoreItems = true;
-        mIsLoading = false;
     }
 
     @Override
