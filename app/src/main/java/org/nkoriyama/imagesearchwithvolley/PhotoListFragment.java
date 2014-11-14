@@ -65,6 +65,7 @@ public abstract class PhotoListFragment extends Fragment {
         mPerPage = bundle.getInt("perPage");
         mPage = mInitialPage;
         mHasMoreItems = true;
+        mIsLoading = false;
 
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setAdapter(mPhotoAdapter);
