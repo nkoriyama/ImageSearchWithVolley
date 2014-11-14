@@ -12,10 +12,6 @@ import android.view.ViewGroup;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 
-import org.nkoriyama.imagesearchwithvolley.model.PhotoInfo;
-
-import java.util.ArrayList;
-
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
@@ -26,6 +22,7 @@ public abstract class PhotoListFragment extends Fragment {
     protected int mPerPage;
     protected int mPage;
     protected boolean mHasMoreItems;
+    protected boolean mIsLoading;
     @InjectView(R.id.list)
     RecyclerView mRecyclerView;
 
@@ -38,11 +35,16 @@ public abstract class PhotoListFragment extends Fragment {
     }
 
     protected abstract void loadMoreItems();
+    protected synchronized void loadItems() {
+        if (!Strings.isNullOrEmpty(mQuery) && mHasMoreItems && !mIsLoading) {
+            loadMoreItems();
+        }
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mPhotoAdapter = new PhotoAdapter(R.layout.list_item, new ArrayList<PhotoInfo>());
+        mPhotoAdapter = new PhotoAdapter(this);
     }
 
     @Override
@@ -80,17 +82,13 @@ public abstract class PhotoListFragment extends Fragment {
                 int visibleItemCount = layoutManager.getChildCount();
                 int totalItemCount = layoutManager.getItemCount();
 
-                if (!mPhotoAdapter.mIsLoading && mHasMoreItems &&
-                        !Strings.isNullOrEmpty(mQuery) &&
-                        totalItemCount > 0 &&
-                        totalItemCount <= 10 + (firstVisibleItem + visibleItemCount))
-                    loadMoreItems();
+                if (totalItemCount > 0 && totalItemCount <= 10 + (firstVisibleItem + visibleItemCount)) {
+                    loadItems();
+                }
             }
         });
 
-        if (mPhotoAdapter.getItemCount() == 0 && !Strings.isNullOrEmpty(mQuery)) {
-            loadMoreItems();
-        }
+        loadItems();
 
         return view;
     }
@@ -113,5 +111,15 @@ public abstract class PhotoListFragment extends Fragment {
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         setBundle(outState, mQuery, mInitialPage, mPerPage);
+    }
+
+    public void selectItem(int position) {
+        if (!mIsLoading) {
+            ((OnPhotoListItemSelectedListener) getActivity()).onPhotoListItemSelected(mPhotoAdapter, position);
+        }
+    }
+
+    public static interface OnPhotoListItemSelectedListener {
+        public abstract void onPhotoListItemSelected(PhotoAdapter adapter, int position);
     }
 }

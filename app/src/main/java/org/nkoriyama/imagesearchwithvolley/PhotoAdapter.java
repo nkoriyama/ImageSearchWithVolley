@@ -10,6 +10,7 @@ import com.android.volley.toolbox.NetworkImageView;
 
 import org.nkoriyama.imagesearchwithvolley.model.PhotoInfo;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -18,35 +19,29 @@ import butterknife.InjectView;
 
 public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder> {
     private List<PhotoInfo> mPhotoInfoList;
-    private final int mResource;
-    public boolean mIsLoading;
+    private PhotoListFragment mPhotoListFragment;
 
-    public PhotoAdapter(int resource, List<PhotoInfo> photoInfoList) {
-        mResource = resource;
-        mPhotoInfoList = photoInfoList;
-        mIsLoading = false;
+    public PhotoAdapter(PhotoListFragment photoListFragment) {
+        mPhotoInfoList = new ArrayList<PhotoInfo>();
+        mPhotoListFragment = photoListFragment;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        final View view = LayoutInflater.from(viewGroup.getContext()).inflate(mResource, viewGroup, false);
+        final View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.list_item, viewGroup, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
         final PhotoInfo photoInfo = mPhotoInfoList.get(i);
-        final PhotoAdapter adapter = this;
         final int position = i;
         viewHolder.title.setText(photoInfo.getTitle());
         viewHolder.image.setImageUrl(photoInfo.getThumbnailUrl(), ImageSearchWithVolley.getImageLoader());
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!mIsLoading)
-                {
-                    ((OnPhotoSelectedListener)MainActivity.getContext()).onPhotoListSelected(adapter, position);
-                }
+               mPhotoListFragment.selectItem(position);
             }
         });
     }
@@ -82,9 +77,5 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder> 
             super(itemView);
             ButterKnife.inject(this, itemView);
         }
-    }
-
-    public static interface OnPhotoSelectedListener {
-        public abstract void onPhotoListSelected(PhotoAdapter adapter, int position);
     }
 }

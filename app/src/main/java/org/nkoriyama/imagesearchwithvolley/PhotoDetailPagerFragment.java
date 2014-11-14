@@ -85,7 +85,7 @@ public class PhotoDetailPagerFragment extends Fragment {
                 new GestureDetector.SimpleOnGestureListener() {
                     @Override
                     public void onLongPress(MotionEvent e) {
-                        ((OnPhotoDetailLongPressedListener) MainActivity.getContext()).onPhotoDetailLongPressed(
+                        ((OnPhotoDetailLongPressedListener) getActivity()).onPhotoDetailLongPressed(
                                 mPhotoAdapter.getItem(mViewPager.getCurrentItem())
                         );
                         super.onLongPress(e);
@@ -98,7 +98,7 @@ public class PhotoDetailPagerFragment extends Fragment {
 
                     @Override
                     public boolean onDoubleTap(MotionEvent e) {
-                        ((OnPhotoDetailDoubleTappedListener) MainActivity.getContext()).onPhotoDetailDoubleTapped(
+                        ((OnPhotoDetailDoubleTappedListener) getActivity()).onPhotoDetailDoubleTapped(
                                 mPhotoAdapter.getItem(mViewPager.getCurrentItem())
                         );
                         return super.onDoubleTap(e);

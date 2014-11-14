@@ -41,7 +41,7 @@ public class FlickrPhotoListFragment extends PhotoListFragment {
 
     @Override
     protected void loadMoreItems() {
-        mPhotoAdapter.mIsLoading = true;
+        mIsLoading = true;
         ImageSearchWithVolley.getRequestQueue().add(new GsonRequest<FlickrPhotoResponse>(
                 getPhotoListUrl(),
                 FlickrPhotoResponse.class,
@@ -56,13 +56,13 @@ public class FlickrPhotoListFragment extends PhotoListFragment {
                         } else {
                             mHasMoreItems = false;
                         }
-                        mPhotoAdapter.mIsLoading = false;
+                        mIsLoading = false;
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError volleyError) {
-                        mPhotoAdapter.mIsLoading = false;
+                        mIsLoading = false;
                         volleyError.printStackTrace();
                     }
                 }
