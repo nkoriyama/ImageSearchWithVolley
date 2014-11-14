@@ -42,7 +42,9 @@ public class PhotoDetailFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
         final Bundle bundle;
         if (savedInstanceState != null) {
             bundle = savedInstanceState;
@@ -54,7 +56,10 @@ public class PhotoDetailFragment extends Fragment {
         mPhotoInfo = (PhotoInfo) bundle.getParcelable("photoInfo");
         assert mPhotoInfo != null;
         mZoomEnabled = bundle.getBoolean("zoomEnabled");
+    }
 
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final int resource;
         if (mZoomEnabled) {
             resource = R.layout.fragment_photodetailzoom;
@@ -64,6 +69,12 @@ public class PhotoDetailFragment extends Fragment {
 
         final View view = inflater.inflate(resource, container, false);
         ButterKnife.inject(this, view);
+        return view;
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
 
         mTitle.setText(mPhotoInfo.getTitle());
         mTitle.requestFocus();
@@ -79,8 +90,6 @@ public class PhotoDetailFragment extends Fragment {
         if (mZoomEnabled) {
             activity.updateActionBar(mPhotoInfo);
         }
-
-        return view;
     }
 
     @Override

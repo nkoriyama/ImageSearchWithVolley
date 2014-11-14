@@ -67,6 +67,12 @@ public abstract class PhotoListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_photolist, container, false);
         ButterKnife.inject(this, view);
+        return view;
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
 
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setAdapter(mPhotoAdapter);
@@ -93,8 +99,6 @@ public abstract class PhotoListFragment extends Fragment {
         if (mPhotoAdapter.getItemCount() == 0) {
             loadItems();
         }
-
-        return view;
     }
 
     private int getSpanCount() {

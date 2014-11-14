@@ -58,12 +58,6 @@ public class PhotoListPagerFragment extends Fragment {
                     add(new PhotoListPagerItem(BingPhotoListFragment.class, Color.argb(222, 0, 0, 0), Color.argb(0, 0, 0, 0)));
                     add(new PhotoListPagerItem(AmazonPhotoListFragment.class, Color.argb(222, 0, 0, 0), Color.argb(0, 0, 0, 0)));
                 }};
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        final View view = inflater.inflate(R.layout.fragment_photolistpager, container, false);
-        ButterKnife.inject(this, view);
 
         final Bundle bundle;
         if (savedInstanceState != null) {
@@ -74,6 +68,18 @@ public class PhotoListPagerFragment extends Fragment {
         assert bundle != null;
 
         mQuery = bundle.getString("query");
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        final View view = inflater.inflate(R.layout.fragment_photolistpager, container, false);
+        ButterKnife.inject(this, view);
+        return view;
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
 
         final MainActivity activity = (MainActivity) getActivity();
         assert activity != null;
@@ -113,8 +119,6 @@ public class PhotoListPagerFragment extends Fragment {
                 return mPhotoListPagerItems.get(position).getDividerColor();
             }
         });
-
-        return view;
     }
 
     @Override

@@ -44,12 +44,6 @@ public class PhotoDetailPagerFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        final View view = inflater.inflate(R.layout.fragment_photodetailpager, container, false);
-        ButterKnife.inject(this, view);
 
         final Bundle bundle;
         if (savedInstanceState != null) {
@@ -60,6 +54,18 @@ public class PhotoDetailPagerFragment extends Fragment {
         assert bundle != null;
 
         mPosition = bundle.getInt("position");
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        final View view = inflater.inflate(R.layout.fragment_photodetailpager, container, false);
+        ButterKnife.inject(this, view);
+        return view;
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
 
         mViewPager.setAdapter(PhotoDetailPagerAdapter.newInstance(
                 getChildFragmentManager(),
@@ -114,7 +120,6 @@ public class PhotoDetailPagerFragment extends Fragment {
             }
         });
 
-        return view;
     }
 
     @Override
