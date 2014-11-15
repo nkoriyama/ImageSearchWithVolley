@@ -31,33 +31,22 @@ public class PhotoListPagerFragment extends Fragment {
 
     private List<PhotoListPagerItem> mPhotoListPagerItems;
 
+    private PhotoListPagerAdapter mPhotoListPagerAdapter;
+
     public static PhotoListPagerFragment newInstance(String query) {
         Preconditions.checkArgument(!Strings.isNullOrEmpty(query));
         PhotoListPagerFragment photoListPagerFragment = new PhotoListPagerFragment();
 
         final Bundle bundle = new Bundle();
-        setBundle(bundle, query);
+        bundle.putString("query", query);
         photoListPagerFragment.setArguments(bundle);
         return photoListPagerFragment;
-    }
-
-    private static void setBundle(Bundle bundle, String query) {
-        Preconditions.checkNotNull(bundle);
-        Preconditions.checkArgument(!Strings.isNullOrEmpty(query));
-        bundle.putString("query", query);
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
-
-        mPhotoListPagerItems =
-                new ArrayList<PhotoListPagerItem>() {{
-                    add(new PhotoListPagerItem(FlickrPhotoListFragment.class, Color.argb(222, 0, 0, 0), Color.argb(0, 0, 0, 0)));
-                    add(new PhotoListPagerItem(BingPhotoListFragment.class, Color.argb(222, 0, 0, 0), Color.argb(0, 0, 0, 0)));
-                    add(new PhotoListPagerItem(AmazonPhotoListFragment.class, Color.argb(222, 0, 0, 0), Color.argb(0, 0, 0, 0)));
-                }};
 
         final Bundle bundle;
         if (savedInstanceState != null) {
@@ -68,6 +57,14 @@ public class PhotoListPagerFragment extends Fragment {
         assert bundle != null;
 
         mQuery = bundle.getString("query");
+
+        mPhotoListPagerItems =
+                new ArrayList<PhotoListPagerItem>() {{
+                    add(new PhotoListPagerItem(FlickrPhotoListFragment.class, Color.argb(222, 0, 0, 0), Color.argb(0, 0, 0, 0)));
+                    add(new PhotoListPagerItem(BingPhotoListFragment.class, Color.argb(222, 0, 0, 0), Color.argb(0, 0, 0, 0)));
+                    add(new PhotoListPagerItem(AmazonPhotoListFragment.class, Color.argb(222, 0, 0, 0), Color.argb(0, 0, 0, 0)));
+                }};
+        mPhotoListPagerAdapter = new PhotoListPagerAdapter(getChildFragmentManager(), mPhotoListPagerItems, mQuery);
     }
 
     @Override
@@ -91,7 +88,7 @@ public class PhotoListPagerFragment extends Fragment {
         actionBar.setDisplayHomeAsUpEnabled(false);
         actionBar.setTitle(mQuery);
 
-        mPager.setAdapter(new PhotoListPagerAdapter(getChildFragmentManager(), mPhotoListPagerItems, mQuery));
+        mPager.setAdapter(mPhotoListPagerAdapter);
         mPager.setPageTransformer(true, new ZoomOutPageTransformer());
 
         mSlidingTabLayout.setViewPager(mPager);
@@ -135,11 +132,5 @@ public class PhotoListPagerFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.reset(this);
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        setBundle(outState, mQuery);
     }
 }

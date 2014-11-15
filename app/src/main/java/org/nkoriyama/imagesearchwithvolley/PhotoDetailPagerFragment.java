@@ -23,6 +23,7 @@ public class PhotoDetailPagerFragment extends Fragment {
     private int mPosition;
 
     private PhotoAdapter mPhotoAdapter;
+    private PhotoDetailPagerAdapter mPhotoDetailPagerAdapter;
 
     public static PhotoDetailPagerFragment newInstance(PhotoAdapter photoAdapter, int position) {
         Preconditions.checkNotNull(photoAdapter);
@@ -30,14 +31,9 @@ public class PhotoDetailPagerFragment extends Fragment {
         final PhotoDetailPagerFragment photoDetailPagerFragment = new PhotoDetailPagerFragment();
         photoDetailPagerFragment.mPhotoAdapter = photoAdapter;
         final Bundle bundle = new Bundle();
-        setBundle(bundle, position);
+        bundle.putInt("position", position);
         photoDetailPagerFragment.setArguments(bundle);
         return photoDetailPagerFragment;
-    }
-
-    private static void setBundle(Bundle bundle, int position) {
-        Preconditions.checkNotNull(bundle);
-        bundle.putInt("position", position);
     }
 
     @Override
@@ -45,12 +41,9 @@ public class PhotoDetailPagerFragment extends Fragment {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
 
-        final Bundle bundle;
-        if (savedInstanceState != null) {
-            bundle = savedInstanceState;
-        } else {
-            bundle = getArguments();
-        }
+        mPhotoDetailPagerAdapter = PhotoDetailPagerAdapter.newInstance(getChildFragmentManager(), mPhotoAdapter);
+
+        final Bundle bundle = getArguments();
         assert bundle != null;
 
         mPosition = bundle.getInt("position");
@@ -67,10 +60,7 @@ public class PhotoDetailPagerFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        mViewPager.setAdapter(PhotoDetailPagerAdapter.newInstance(
-                getChildFragmentManager(),
-                mPhotoAdapter
-        ));
+        mViewPager.setAdapter(mPhotoDetailPagerAdapter);
         mViewPager.setCurrentItem(mPosition);
         mViewPager.setPageTransformer(true, new DepthPageTransformer());
 
@@ -83,6 +73,7 @@ public class PhotoDetailPagerFragment extends Fragment {
             @Override
             public void onPageSelected(int position) {
                 super.onPageSelected(position);
+                mPosition = position;
                 activity.updateActionBar(mPhotoAdapter.getItem(position));
             }
         });
@@ -126,12 +117,6 @@ public class PhotoDetailPagerFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.reset(this);
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        setBundle(outState, mPosition);
     }
 
     public static interface OnPhotoDetailLongPressedListener {
