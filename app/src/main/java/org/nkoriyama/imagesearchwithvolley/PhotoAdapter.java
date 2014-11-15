@@ -18,8 +18,8 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder> {
-    public boolean mIsInUse;
     private final List<PhotoInfo> mPhotoInfoList;
+    public boolean mIsInUse;
 
     public PhotoAdapter() {
         mPhotoInfoList = new ArrayList<PhotoInfo>();
