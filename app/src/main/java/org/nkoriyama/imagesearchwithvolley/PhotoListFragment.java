@@ -34,6 +34,7 @@ public abstract class PhotoListFragment extends Fragment {
     }
 
     protected abstract void loadMoreItems();
+
     protected synchronized void loadItems() {
         if (!Strings.isNullOrEmpty(mQuery) && mHasMoreItems && !mPhotoAdapter.mIsInUse) {
             loadMoreItems();
@@ -75,7 +76,7 @@ public abstract class PhotoListFragment extends Fragment {
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setAdapter(mPhotoAdapter);
 
-        final GridLayoutManager layoutManager =  new GridLayoutManager(getActivity(), getSpanCount());
+        final GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), getSpanCount());
         layoutManager.setOrientation(GridLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(layoutManager);
 

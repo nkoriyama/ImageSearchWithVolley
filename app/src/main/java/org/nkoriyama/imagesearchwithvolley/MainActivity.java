@@ -31,13 +31,12 @@ public class MainActivity extends ActionBarActivity implements
         PhotoAdapter.OnPhotoListItemSelectedListener,
         PhotoDetailPagerFragment.OnPhotoDetailLongPressedListener,
         PhotoDetailPagerFragment.OnPhotoDetailDoubleTappedListener {
+    private static Context sContext;
+    @InjectView(R.id.toolbar)
+    Toolbar mToolbar;
     private MenuItem mSearchItem;
     private MenuItem mShareItem;
     private ShareActionProvider mShareActionProvider;
-    @InjectView(R.id.toolbar)
-    Toolbar mToolbar;
-
-    private static Context sContext;
 
     public static Context getContext() {
         return sContext;
@@ -103,7 +102,7 @@ public class MainActivity extends ActionBarActivity implements
         DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                switch (which){
+                switch (which) {
                     case DialogInterface.BUTTON_POSITIVE:
                         //Yes button clicked
                         clearSearchSuggestions();

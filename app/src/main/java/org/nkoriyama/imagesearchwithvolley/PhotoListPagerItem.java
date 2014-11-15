@@ -25,7 +25,7 @@ public class PhotoListPagerItem {
         Preconditions.checkArgument(!Strings.isNullOrEmpty(query));
         try {
             Method method = mPhotoListFragmentClass.getMethod("newInstance", String.class);
-            return (PhotoListFragment)method.invoke(null, query);
+            return (PhotoListFragment) method.invoke(null, query);
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
         } catch (InvocationTargetException e) {
@@ -37,7 +37,7 @@ public class PhotoListPagerItem {
     }
 
     CharSequence getTitle() {
-        final String fragmentName =  mPhotoListFragmentClass.getSimpleName();
+        final String fragmentName = mPhotoListFragmentClass.getSimpleName();
         return fragmentName.substring(0, fragmentName.indexOf("PhotoListFragment"));
     }
 

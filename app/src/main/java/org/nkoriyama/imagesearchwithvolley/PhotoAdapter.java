@@ -18,8 +18,8 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder> {
-    private List<PhotoInfo> mPhotoInfoList;
     public boolean mIsInUse;
+    private List<PhotoInfo> mPhotoInfoList;
 
     public PhotoAdapter() {
         mPhotoInfoList = new ArrayList<PhotoInfo>();
@@ -49,15 +49,10 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder> 
         });
     }
 
-    public static interface OnPhotoListItemSelectedListener {
-        public abstract void onPhotoListItemSelected(PhotoAdapter adapter, int position);
-    }
-
     @Override
     public int getItemCount() {
         return mPhotoInfoList.size();
     }
-
 
     public PhotoInfo getItem(int position) {
         return mPhotoInfoList.get(position);
@@ -72,6 +67,10 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder> 
         mPhotoInfoList.addAll(photoInfoList);
         notifyItemRangeInserted(positionStart, itemCount);
         return true;
+    }
+
+    public static interface OnPhotoListItemSelectedListener {
+        public abstract void onPhotoListItemSelected(PhotoAdapter adapter, int position);
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
