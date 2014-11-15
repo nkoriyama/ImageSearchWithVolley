@@ -48,12 +48,7 @@ public class PhotoListPagerFragment extends Fragment {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
 
-        final Bundle bundle;
-        if (savedInstanceState != null) {
-            bundle = savedInstanceState;
-        } else {
-            bundle = getArguments();
-        }
+        final Bundle bundle = getArguments();
         assert bundle != null;
 
         mQuery = bundle.getString("query");
