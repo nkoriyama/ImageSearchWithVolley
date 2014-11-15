@@ -46,7 +46,7 @@ public class BingPhotoListFragment extends PhotoListFragment {
     @Override
     protected void loadMoreItems() {
         mPhotoAdapter.mIsInUse = true;
-        ImageSearchWithVolley.getRequestQueue().add(new GsonRequest<BingPhotoResponse>(
+        RequestQueueHelper.getRequestQueue().add(new GsonRequest<BingPhotoResponse>(
                 getPhotoListUrl(),
                 BingPhotoResponse.class,
                 null,

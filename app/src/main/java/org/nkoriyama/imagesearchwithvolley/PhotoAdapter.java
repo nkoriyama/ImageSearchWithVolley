@@ -38,7 +38,7 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder> 
         final PhotoAdapter adapter = this;
         final int position = i;
         viewHolder.title.setText(photoInfo.getTitle());
-        viewHolder.image.setImageUrl(photoInfo.getThumbnailUrl(), ImageSearchWithVolley.getImageLoader());
+        viewHolder.image.setImageUrl(photoInfo.getThumbnailUrl(), ImageLoaderHelper.getImageLoader());
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
