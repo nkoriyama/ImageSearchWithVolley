@@ -32,7 +32,7 @@ public class InstagramPhotoListFragment extends PhotoListFragment {
         if (Strings.isNullOrEmpty(mPhotoListUrl)) {
             try {
                 url = "https://api.instagram.com/v1/tags/" +
-                        URLEncoder.encode(mQuery, "utf-8") +
+                        URLEncoder.encode(mQuery.replaceAll("\\s+", ""), "utf-8") +
                         "/media/recent?client_id=" + INSTAGRAM_CLIENT_ID;
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
