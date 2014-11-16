@@ -57,6 +57,7 @@ public class PhotoListPagerFragment extends Fragment {
                 new ArrayList<PhotoListPagerItem>() {{
                     add(new PhotoListPagerItem(FlickrPhotoListFragment.class, Color.argb(222, 0, 0, 0), Color.argb(0, 0, 0, 0)));
                     add(new PhotoListPagerItem(BingPhotoListFragment.class, Color.argb(222, 0, 0, 0), Color.argb(0, 0, 0, 0)));
+                    add(new PhotoListPagerItem(YahooPhotoListFragment.class, Color.argb(222, 0, 0, 0), Color.argb(0, 0, 0, 0)));
                     add(new PhotoListPagerItem(AmazonPhotoListFragment.class, Color.argb(222, 0, 0, 0), Color.argb(0, 0, 0, 0)));
                     add(new PhotoListPagerItem(InstagramPhotoListFragment.class, Color.argb(222, 0, 0, 0), Color.argb(0, 0, 0, 0)));
                 }};
