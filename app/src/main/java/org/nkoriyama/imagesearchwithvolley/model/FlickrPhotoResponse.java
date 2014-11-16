@@ -22,7 +22,7 @@ public class FlickrPhotoResponse {
         return Integer.parseInt(photos.total);
     }
 
-    class Photos {
+    static class Photos {
         @SerializedName(value = "page")
         String page;
         @SerializedName(value = "pages")
@@ -34,7 +34,7 @@ public class FlickrPhotoResponse {
         @SerializedName(value = "total")
         String total;
 
-        class Photo implements PhotoInfo {
+        static class Photo implements PhotoInfo {
             @SerializedName(value = "farm")
             String farm;
             @SerializedName(value = "id")

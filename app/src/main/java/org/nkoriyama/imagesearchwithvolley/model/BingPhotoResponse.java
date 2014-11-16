@@ -20,13 +20,13 @@ public class BingPhotoResponse {
         return (d.next != null);
     }
 
-    class SearchResponse {
+    static class SearchResponse {
         @SerializedName(value = "__next")
         String next;
         @SerializedName(value = "results")
         List<Result> results;
 
-        class Result implements PhotoInfo {
+        static class Result implements PhotoInfo {
             @SerializedName(value = "ContentType")
             String contentType;
             @SerializedName(value = "DisplayUrl")
@@ -80,7 +80,7 @@ public class BingPhotoResponse {
                 return shareText;
             }
 
-            class Thumbnail {
+            static class Thumbnail {
                 @SerializedName(value = "ContentType")
                 String contentType;
                 @SerializedName(value = "FileSize")
