@@ -2,6 +2,8 @@ package org.nkoriyama.imagesearchwithvolley.model;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 public class FlickrPhotoResponse {
     @SerializedName(value = "photos")
     Photos photos;
@@ -12,7 +14,7 @@ public class FlickrPhotoResponse {
         return (stat != null && stat.equals("ok"));
     }
 
-    public Photos.Photo[] getPhotoInfoList() {
+    public List<Photos.Photo> getPhotoInfoList() {
         return photos.photo;
     }
 
@@ -28,7 +30,7 @@ public class FlickrPhotoResponse {
         @SerializedName(value = "perpage")
         String perpage;
         @SerializedName(value = "photo")
-        Photo photo[];
+        List<Photo> photo;
         @SerializedName(value = "total")
         String total;
 

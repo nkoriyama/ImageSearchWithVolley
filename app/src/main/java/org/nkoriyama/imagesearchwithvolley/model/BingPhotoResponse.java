@@ -2,6 +2,8 @@ package org.nkoriyama.imagesearchwithvolley.model;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 public class BingPhotoResponse {
     @SerializedName(value = "d")
     SearchResponse d;
@@ -10,7 +12,7 @@ public class BingPhotoResponse {
         return (d != null && d.results != null);
     }
 
-    public SearchResponse.Result[] getPhotoInfoList() {
+    public List<SearchResponse.Result> getPhotoInfoList() {
         return d.results;
     }
 
@@ -22,7 +24,7 @@ public class BingPhotoResponse {
         @SerializedName(value = "__next")
         String next;
         @SerializedName(value = "results")
-        Result results[];
+        List<Result> results;
 
         class Result implements PhotoInfo {
             @SerializedName(value = "ContentType")
