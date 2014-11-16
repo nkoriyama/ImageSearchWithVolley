@@ -72,6 +72,10 @@
 -keep class org.simpleframework.xml.**{ *; } 
 -keep class org.simpleframework.xml.core.**{ *; } 
 -keep class org.simpleframework.xml.util.**{ *; }
+
+#
+-keep class org.apache.commons.codec.binary.** { *; }
+
 # Annotations and signatures
 -keepattributes *Annotation*
 -keepattributes Signature

@@ -28,6 +28,7 @@ dependencies {
     compile 'com.google.code.gson:gson:2.+'
     compile 'com.squareup.okhttp:okhttp:2.+'
     compile 'com.squareup.okhttp:okhttp-urlconnection:2.+'
+    compile 'oauth.signpost:signpost-core:1.2+'
     compile('org.simpleframework:simple-xml:2.+') {
         exclude module: 'stax'
         exclude module: 'stax-api'
@@ -55,6 +56,8 @@ android {
         buildConfigField "String", "BING_API_KEY", project.properties.BING_API_KEY
         buildConfigField "String", "FLICKR_API_KEY", project.properties.FLICKR_API_KEY
         buildConfigField "String", "INSTAGRAM_CLIENT_ID", project.properties.INSTAGRAM_CLIENT_ID
+        buildConfigField "String", "YAHOO_API_CONSUMER_KEY", project.properties.YAHOO_API_CONSUMER_KEY
+        buildConfigField "String", "YAHOO_API_CONSUMER_SECRET", project.properties.YAHOO_API_CONSUMER_SECRET
     }
 
     lintOptions {
