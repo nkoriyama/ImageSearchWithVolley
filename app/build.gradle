@@ -54,6 +54,7 @@ android {
         buildConfigField "String", "AWS_ASSOCIATE_TAG", project.properties.AWS_ASSOCIATE_TAG
         buildConfigField "String", "BING_API_KEY", project.properties.BING_API_KEY
         buildConfigField "String", "FLICKR_API_KEY", project.properties.FLICKR_API_KEY
+        buildConfigField "String", "INSTAGRAM_CLIENT_ID", project.properties.INSTAGRAM_CLIENT_ID
     }
 
     lintOptions {
