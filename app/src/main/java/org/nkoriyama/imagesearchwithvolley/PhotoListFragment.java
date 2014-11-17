@@ -103,9 +103,7 @@ public abstract class PhotoListFragment extends Fragment {
     private int getSpanCount() {
         DisplayMetrics dm = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);
-        // TODO: don't use "160" as item width
-        // item width 160dip
-        return dm.widthPixels / Math.round(160 * dm.density);
+        return dm.widthPixels / getResources().getDimensionPixelSize(R.dimen.list_item_width);
     }
 
     @Override
