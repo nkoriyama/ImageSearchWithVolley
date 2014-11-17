@@ -9,11 +9,10 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
+import com.google.common.net.UrlEscapers;
 
 import org.nkoriyama.imagesearchwithvolley.model.BingPhotoResponse;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,16 +29,11 @@ public class BingPhotoListFragment extends PhotoListFragment {
     }
 
     private String getPhotoListUrl() {
-        String url = "";
-        try {
-            url = "https://api.datamarket.azure.com/Bing/Search/Image?Query=" +
-                    URLEncoder.encode("'" + mQuery + "'", "utf-8") +
-                    "&$format=json" + "&$skip=" + (mPage * mPerPage) + "&$top=" + mPerPage;
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-
-        return url;
+        return "https://api.datamarket.azure.com/Bing/Search/Image" +
+                "?Query=" + UrlEscapers.urlPathSegmentEscaper().escape("'" + mQuery + "'") +
+                "&$format=json" +
+                "&$skip=" + (mPage * mPerPage) +
+                "&$top=" + mPerPage;
     }
 
     @Override

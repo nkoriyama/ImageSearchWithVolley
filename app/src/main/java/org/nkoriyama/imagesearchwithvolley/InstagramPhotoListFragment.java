@@ -6,11 +6,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
+import com.google.common.net.UrlEscapers;
 
 import org.nkoriyama.imagesearchwithvolley.model.InstagramPhotoResponse;
-
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 
 public class InstagramPhotoListFragment extends PhotoListFragment {
     private final String INSTAGRAM_CLIENT_ID = BuildConfig.INSTAGRAM_CLIENT_ID;
@@ -27,16 +25,13 @@ public class InstagramPhotoListFragment extends PhotoListFragment {
     }
 
     private String getPhotoListUrl() {
-        String url = "";
+        String url;
 
         if (Strings.isNullOrEmpty(mPhotoListUrl)) {
-            try {
-                url = "https://api.instagram.com/v1/tags/" +
-                        URLEncoder.encode(mQuery.replaceAll("\\s+", ""), "utf-8") +
-                        "/media/recent?client_id=" + INSTAGRAM_CLIENT_ID;
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            }
+            url = "https://api.instagram.com/v1/tags/" +
+                    UrlEscapers.urlPathSegmentEscaper().escape(mQuery.replaceAll("\\s+", "")) +
+                    "/media/recent" +
+                    "?client_id=" + INSTAGRAM_CLIENT_ID;
         } else {
             url = mPhotoListUrl;
         }

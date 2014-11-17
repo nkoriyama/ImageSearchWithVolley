@@ -6,11 +6,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
+import com.google.common.net.UrlEscapers;
 
 import org.nkoriyama.imagesearchwithvolley.model.YahooPhotoResponse;
-
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 
 import oauth.signpost.OAuthConsumer;
 import oauth.signpost.basic.DefaultOAuthConsumer;
@@ -34,18 +32,11 @@ public class YahooPhotoListFragment extends PhotoListFragment {
     }
 
     private String getPhotoListUrl() {
-        String url = "";
-        try {
-            url = "https://yboss.yahooapis.com/ysearch/images" +
-                    "?q=" + URLEncoder.encode(mQuery, "utf-8") +
-                    "&format=json" +
-                    "&start=" + mPage * mPerPage +
-                    "&count=" + mPerPage;
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-
-        return url;
+        return "https://yboss.yahooapis.com/ysearch/images" +
+                "?q=" + UrlEscapers.urlPathSegmentEscaper().escape("\"" + mQuery + "\"") +
+                "&format=json" +
+                "&start=" + mPage * mPerPage +
+                "&count=" + mPerPage;
     }
 
     @Override

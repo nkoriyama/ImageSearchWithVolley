@@ -6,11 +6,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
+import com.google.common.net.UrlEscapers;
 
 import org.nkoriyama.imagesearchwithvolley.model.FlickrPhotoResponse;
-
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 
 public class FlickrPhotoListFragment extends PhotoListFragment {
     private final String FLICKR_API_KEY = BuildConfig.FLICKR_API_KEY;
@@ -25,17 +23,15 @@ public class FlickrPhotoListFragment extends PhotoListFragment {
     }
 
     private String getPhotoListUrl() {
-        String url = "";
-        try {
-            url = "https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=" +
-                    FLICKR_API_KEY + "&text=" + URLEncoder.encode(mQuery, "utf-8") +
-                    "&tags=" + URLEncoder.encode(mQuery, "utf-8") + "&per_page=" + mPerPage +
-                    "&page=" + mPage + "&format=json&nojsoncallback=1";
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-
-        return url;
+        return "https://api.flickr.com/services/rest/" +
+                "?method=flickr.photos.search" +
+                "&api_key=" + FLICKR_API_KEY +
+                "&text=" + UrlEscapers.urlPathSegmentEscaper().escape(mQuery) +
+                "&tags=" + UrlEscapers.urlPathSegmentEscaper().escape(mQuery) +
+                "&per_page=" + mPerPage +
+                "&page=" + mPage +
+                "&format=json" +
+                "&nojsoncallback=1";
     }
 
     @Override
