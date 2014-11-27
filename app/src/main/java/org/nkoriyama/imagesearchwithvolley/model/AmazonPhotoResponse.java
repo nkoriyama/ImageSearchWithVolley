@@ -1,5 +1,7 @@
 package org.nkoriyama.imagesearchwithvolley.model;
 
+import com.google.common.base.Strings;
+
 import org.simpleframework.xml.Attribute;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementList;
@@ -170,7 +172,7 @@ public class AmazonPhotoResponse {
             String shareSubject = "";
             if (itemAttributes != null) {
                 shareSubject = "[ImageSearchWithVolley] " +
-                        ((itemAttributes.title.length() > 60) ?
+                        ((!Strings.isNullOrEmpty(itemAttributes.title) && itemAttributes.title.length() > 60) ?
                                 itemAttributes.title.substring(0, 60) :
                                 itemAttributes.title);
             }

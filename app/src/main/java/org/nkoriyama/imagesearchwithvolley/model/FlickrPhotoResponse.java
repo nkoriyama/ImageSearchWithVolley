@@ -1,5 +1,6 @@
 package org.nkoriyama.imagesearchwithvolley.model;
 
+import com.google.common.base.Strings;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
@@ -75,7 +76,7 @@ public class FlickrPhotoResponse {
             public String getShareSubject() {
                 String shareSubject;
                 shareSubject = "[ImageSearchWithVolley] " +
-                        ((title.length() > 60) ? title.substring(0, 60) : title);
+                        ((!Strings.isNullOrEmpty(title) && title.length() > 60) ? title.substring(0, 60) : title);
                 return shareSubject;
             }
 

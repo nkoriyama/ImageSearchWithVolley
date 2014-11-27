@@ -83,7 +83,7 @@ public class YahooPhotoResponse {
                 public String getShareSubject() {
                     String shareSubject;
                     shareSubject = "[ImageSearchWithVolley] " +
-                            ((getTitle().length() > 60) ? getTitle().substring(0, 60) : getTitle());
+                            ((!Strings.isNullOrEmpty(getTitle()) && getTitle().length() > 60) ? getTitle().substring(0, 60) : getTitle());
                     return shareSubject;
                 }
 
