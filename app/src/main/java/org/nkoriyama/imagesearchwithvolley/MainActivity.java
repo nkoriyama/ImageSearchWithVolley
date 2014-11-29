@@ -164,7 +164,8 @@ public class MainActivity extends ActionBarActivity implements
 
         actionBar.setHomeButtonEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setTitle(photoInfo.getTitle());
+        //actionBar.setTitle(photoInfo.getTitle());
+        actionBar.setTitle("");
 
         final Intent shareIntent = new Intent();
         shareIntent.setAction(Intent.ACTION_SEND);
