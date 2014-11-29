@@ -2,19 +2,24 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
       xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
+        android:id="@+id/media_route_menu_item"
+        android:title="@string/media_route_menu_title"
+        app:actionProviderClass="android.support.v7.app.MediaRouteActionProvider"
+        app:showAsAction="always"/>
+    <item
         android:id="@+id/action_share"
+        android:title="@string/action_share"
         app:actionProviderClass="android.support.v7.widget.ShareActionProvider"
-        app:showAsAction="ifRoom"
-        android:title="@string/action_share"/>
+        app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/action_search"
-        app:actionViewClass="android.support.v7.widget.SearchView"
         android:icon="@android:drawable/ic_menu_search"
-        app:showAsAction="ifRoom|collapseActionView"
-        android:title="@string/action_search"/>
+        android:title="@string/action_search"
+        app:actionViewClass="android.support.v7.widget.SearchView"
+        app:showAsAction="ifRoom|collapseActionView"/>
     <item
         android:id="@+id/action_clear_history"
         android:orderInCategory="100"
-        app:showAsAction="never"
-        android:title="@string/action_clear_history"/>
+        android:title="@string/action_clear_history"
+        app:showAsAction="never"/>
 </menu>

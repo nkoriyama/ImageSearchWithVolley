@@ -13,12 +13,15 @@ import android.provider.SearchRecentSuggestions;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.MediaRouteActionProvider;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.ShareActionProvider;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.google.android.gms.cast.MediaInfo;
+import com.google.android.gms.cast.MediaMetadata;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 
@@ -54,6 +57,30 @@ public class MainActivity extends ActionBarActivity implements
         setSupportActionBar(mToolbar);
 
         handleIntent(getIntent());
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        getGoogleCastHelper().addCallback();
+    }
+
+    @Override
+    protected void onStop() {
+        getGoogleCastHelper().removeCallback();
+        super.onStop();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getGoogleCastHelper().addCallback();
+    }
+
+    @Override
+    protected void onPause() {
+        getGoogleCastHelper().removeCallback();
+        super.onPause();
     }
 
     @Override
@@ -168,6 +195,11 @@ public class MainActivity extends ActionBarActivity implements
         mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(mShareItem);
         setShareIntent(null);
 
+        MenuItem mediaRouteMenuItem = menu.findItem(R.id.media_route_menu_item);
+        MediaRouteActionProvider mediaRouteActionProvider =
+                (MediaRouteActionProvider) MenuItemCompat.getActionProvider(mediaRouteMenuItem);
+        mediaRouteActionProvider.setRouteSelector(getGoogleCastHelper().getMediaRouteSelector());
+
         return true;
     }
 
@@ -232,5 +264,25 @@ public class MainActivity extends ActionBarActivity implements
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                 .addToBackStack(null)
                 .commit();
+    }
+
+    private GoogleCastHelper getGoogleCastHelper() {
+        final ImageSearchWithVolley application = (ImageSearchWithVolley) getApplication();
+        return application.getGoogleCastHelper();
+    }
+
+    public void castPhoto(PhotoInfo photoInfo) {
+        final GoogleCastHelper helper = getGoogleCastHelper();
+        if (helper.canCast()) {
+            MediaMetadata mediaMetadata = new MediaMetadata(MediaMetadata.MEDIA_TYPE_PHOTO);
+            mediaMetadata.putString(MediaMetadata.KEY_TITLE, photoInfo.getTitle());
+            MediaInfo mediaInfo = new MediaInfo.Builder(
+                    photoInfo.getImageUrl())
+                    .setContentType("image/*")
+                    .setStreamType(MediaInfo.STREAM_TYPE_BUFFERED)
+                    .setMetadata(mediaMetadata)
+                    .build();
+            helper.loadMedia(mediaInfo);
+        }
     }
 }

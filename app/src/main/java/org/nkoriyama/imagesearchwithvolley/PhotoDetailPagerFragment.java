@@ -56,6 +56,14 @@ public class PhotoDetailPagerFragment extends Fragment {
         return view;
     }
 
+    private void updateActivity(PhotoInfo photoInfo) {
+        final MainActivity activity = (MainActivity) getActivity();
+        assert activity != null;
+
+        activity.updateActionBar(photoInfo);
+        activity.castPhoto(photoInfo);
+    }
+
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -64,17 +72,14 @@ public class PhotoDetailPagerFragment extends Fragment {
         mViewPager.setCurrentItem(mPosition);
         mViewPager.setPageTransformer(true, new DepthPageTransformer());
 
-        final MainActivity activity = (MainActivity) getActivity();
-        assert activity != null;
-
-        activity.updateActionBar(mPhotoAdapter.getItem(mPosition));
+        updateActivity(mPhotoAdapter.getItem(mPosition));
 
         mViewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
                 super.onPageSelected(position);
                 mPosition = position;
-                activity.updateActionBar(mPhotoAdapter.getItem(position));
+                updateActivity(mPhotoAdapter.getItem(mPosition));
             }
         });
 
