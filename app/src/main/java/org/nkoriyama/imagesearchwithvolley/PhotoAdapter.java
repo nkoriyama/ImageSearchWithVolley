@@ -7,6 +7,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.android.volley.toolbox.NetworkImageView;
+import com.google.common.base.Predicate;
+import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Iterables;
 
 import org.nkoriyama.imagesearchwithvolley.model.PhotoInfo;
 
@@ -22,7 +26,7 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder> 
     public boolean mIsInUse;
 
     public PhotoAdapter() {
-        mPhotoInfoList = new ArrayList<PhotoInfo>();
+        mPhotoInfoList = new ArrayList<>();
         mIsInUse = false;
     }
 
@@ -64,7 +68,14 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder> 
         if (itemCount == 0) {
             return false;
         }
-        mPhotoInfoList.addAll(photoInfoList);
+        mPhotoInfoList.addAll(ImmutableList.copyOf(Iterables.filter(
+                photoInfoList, new Predicate<PhotoInfo>() {
+                    @Override
+                    public boolean apply(PhotoInfo input) {
+                        return !Strings.isNullOrEmpty(input.getImageUrl());
+                    }
+                }
+        )));
         notifyItemRangeInserted(positionStart, itemCount);
         return true;
     }
