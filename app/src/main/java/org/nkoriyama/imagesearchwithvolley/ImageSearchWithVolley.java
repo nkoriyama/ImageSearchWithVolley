@@ -5,7 +5,7 @@ import android.app.Application;
 import com.crashlytics.android.Crashlytics;
 
 public class ImageSearchWithVolley extends Application {
-    private GoogleCastHelper mGoogleCastHelper = null;
+    private GoogleCastManager mGoogleCastManager = null;
 
     public void onCreate() {
         super.onCreate();
@@ -17,10 +17,10 @@ public class ImageSearchWithVolley extends Application {
         }
     }
 
-    public synchronized GoogleCastHelper getGoogleCastHelper() {
-        if (mGoogleCastHelper == null) {
-            mGoogleCastHelper = new GoogleCastHelper(getApplicationContext());
+    public synchronized GoogleCastManager getGoogleCastManager() {
+        if (mGoogleCastManager == null) {
+            mGoogleCastManager = new GoogleCastManager(getApplicationContext());
         }
-        return mGoogleCastHelper;
+        return mGoogleCastManager;
     }
 }

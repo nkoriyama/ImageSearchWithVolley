@@ -62,24 +62,24 @@ public class MainActivity extends ActionBarActivity implements
     @Override
     protected void onStart() {
         super.onStart();
-        getGoogleCastHelper().addCallback();
+        getGoogleCastManager().addCallback();
     }
 
     @Override
     protected void onStop() {
-        getGoogleCastHelper().removeCallback();
+        getGoogleCastManager().removeCallback();
         super.onStop();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        getGoogleCastHelper().addCallback();
+        getGoogleCastManager().addCallback();
     }
 
     @Override
     protected void onPause() {
-        getGoogleCastHelper().removeCallback();
+        getGoogleCastManager().removeCallback();
         super.onPause();
     }
 
@@ -196,7 +196,7 @@ public class MainActivity extends ActionBarActivity implements
         mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(mShareItem);
         setShareIntent(null);
 
-        mCastItem = getGoogleCastHelper().addMediaRouterButton(menu, R.id.media_route_menu_item);
+        mCastItem = getGoogleCastManager().addMediaRouterButton(menu, R.id.media_route_menu_item);
         assert mCastItem != null;
 
         return true;
@@ -265,14 +265,13 @@ public class MainActivity extends ActionBarActivity implements
                 .commit();
     }
 
-    private GoogleCastHelper getGoogleCastHelper() {
+    private GoogleCastManager getGoogleCastManager() {
         final ImageSearchWithVolley application = (ImageSearchWithVolley) getApplication();
-        return application.getGoogleCastHelper();
+        return application.getGoogleCastManager();
     }
 
     public void castPhoto(PhotoInfo photoInfo) {
-        final GoogleCastHelper helper = getGoogleCastHelper();
-        if (helper.canCast()) {
+        if (getGoogleCastManager().isConnected()) {
             MediaMetadata mediaMetadata = new MediaMetadata(MediaMetadata.MEDIA_TYPE_PHOTO);
             mediaMetadata.putString(MediaMetadata.KEY_TITLE, photoInfo.getTitle());
             MediaInfo mediaInfo = new MediaInfo.Builder(
@@ -281,7 +280,7 @@ public class MainActivity extends ActionBarActivity implements
                     .setStreamType(MediaInfo.STREAM_TYPE_BUFFERED)
                     .setMetadata(mediaMetadata)
                     .build();
-            helper.loadMedia(mediaInfo);
+            getGoogleCastManager().loadMedia(mediaInfo);
         }
     }
 }
