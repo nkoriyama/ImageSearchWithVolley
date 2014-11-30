@@ -13,7 +13,6 @@ import android.provider.SearchRecentSuggestions;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.MediaRouteActionProvider;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.ShareActionProvider;
 import android.support.v7.widget.Toolbar;
@@ -39,6 +38,7 @@ public class MainActivity extends ActionBarActivity implements
     Toolbar mToolbar;
     private MenuItem mSearchItem;
     private MenuItem mShareItem;
+    private MenuItem mCastItem;
     private ShareActionProvider mShareActionProvider;
 
     public static Context getContext() {
@@ -196,10 +196,8 @@ public class MainActivity extends ActionBarActivity implements
         mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(mShareItem);
         setShareIntent(null);
 
-        MenuItem mediaRouteMenuItem = menu.findItem(R.id.media_route_menu_item);
-        MediaRouteActionProvider mediaRouteActionProvider =
-                (MediaRouteActionProvider) MenuItemCompat.getActionProvider(mediaRouteMenuItem);
-        mediaRouteActionProvider.setRouteSelector(getGoogleCastHelper().getMediaRouteSelector());
+        mCastItem = getGoogleCastHelper().addMediaRouterButton(menu, R.id.media_route_menu_item);
+        assert mCastItem != null;
 
         return true;
     }

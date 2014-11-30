@@ -2,9 +2,13 @@ package org.nkoriyama.imagesearchwithvolley;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.view.MenuItemCompat;
+import android.support.v7.app.MediaRouteActionProvider;
 import android.support.v7.media.MediaRouteSelector;
 import android.support.v7.media.MediaRouter;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import com.google.android.gms.cast.Cast;
 import com.google.android.gms.cast.CastDevice;
@@ -45,6 +49,8 @@ public class GoogleCastHelper {
             @Override
             public void onApplicationStatusChanged() {
                 super.onApplicationStatusChanged();
+                Log.d(TAG, "onApplicationStatusChanged: "
+                        + Cast.CastApi.getApplicationStatus(mApiClient));
             }
 
             @Override
@@ -55,6 +61,7 @@ public class GoogleCastHelper {
             @Override
             public void onApplicationDisconnected(int statusCode) {
                 super.onApplicationDisconnected(statusCode);
+                Log.d(TAG, "onApplicationDisconnected: " + statusCode);
                 teardown();
             }
         };
@@ -96,6 +103,15 @@ public class GoogleCastHelper {
         mSessionId = null;
     }
 
+    public MenuItem addMediaRouterButton(Menu menu, int menuResourceId) {
+        MenuItem mediaRouteMenuItem = menu.findItem(menuResourceId);
+        MediaRouteActionProvider mediaRouteActionProvider = (MediaRouteActionProvider)
+                MenuItemCompat.getActionProvider(mediaRouteMenuItem);
+        mediaRouteActionProvider.setRouteSelector(mMediaRouteSelector);
+
+        return mediaRouteMenuItem;
+    }
+
     public boolean canCast() {
         return mApiClient != null && mApiClient.isConnected() && mApplicationStarted;
     }
@@ -125,10 +141,6 @@ public class GoogleCastHelper {
 
     public void removeCallback() {
         mMediaRouter.removeCallback(mMediaRouterCallback);
-    }
-
-    public MediaRouteSelector getMediaRouteSelector() {
-        return mMediaRouteSelector;
     }
 
     private class ConnectionCallbacks implements
