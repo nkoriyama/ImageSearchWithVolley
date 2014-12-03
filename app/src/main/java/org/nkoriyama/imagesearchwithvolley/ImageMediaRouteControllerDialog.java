@@ -1,7 +1,6 @@
 package org.nkoriyama.imagesearchwithvolley;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.MediaRouteControllerDialog;
 import android.view.LayoutInflater;
@@ -11,6 +10,7 @@ import android.widget.TextView;
 import com.android.volley.toolbox.NetworkImageView;
 import com.google.android.gms.cast.MediaInfo;
 import com.google.android.gms.cast.MediaMetadata;
+import com.google.common.base.Strings;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -22,8 +22,6 @@ public class ImageMediaRouteControllerDialog extends MediaRouteControllerDialog 
     TextView mTitle;
     @InjectView(R.id.controller_subtitle)
     TextView mSubtitle;
-
-    private Uri mIconUri;
 
     private GoogleCastManager mCastManager;
 
@@ -50,20 +48,18 @@ public class ImageMediaRouteControllerDialog extends MediaRouteControllerDialog 
             return;
         }
         MediaMetadata metadata = info.getMetadata();
-        mTitle.setText(metadata.getString(MediaMetadata.KEY_TITLE));
-        mSubtitle.setText(metadata.getString(MediaMetadata.KEY_SUBTITLE));
-        setIcon(metadata.hasImages() ? metadata.getImages().get(0).getUrl() : null);
-    }
+        String title = metadata.getString(MediaMetadata.KEY_TITLE);
+        String subtitle = metadata.getString(MediaMetadata.KEY_SUBTITLE);
+        String iconUrl = metadata.hasImages() ? metadata.getImages().get(0).getUrl().toString() : "";
 
-    private void setIcon(Uri uri) {
-        if (mIconUri != null && mIconUri.equals(uri)) {
-            return;
+        if (!Strings.isNullOrEmpty(title)) {
+            mTitle.setText(title);
         }
-        mIconUri = uri;
-        if (mIconUri == null) {
-            return;
+        if (!Strings.isNullOrEmpty(subtitle)) {
+            mSubtitle.setText(subtitle);
         }
-
-        mIcon.setImageUrl(mIconUri.toString(), ImageLoaderHelper.getImageLoader());
+        if (!Strings.isNullOrEmpty(iconUrl)) {
+            mIcon.setImageUrl(iconUrl, ImageLoaderHelper.getImageLoader());
+        }
     }
 }
