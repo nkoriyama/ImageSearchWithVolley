@@ -30,6 +30,7 @@ public class GoogleCastManager implements GoogleApiClient.ConnectionCallbacks, G
     private static final int WHAT_UI_VISIBLE = 0;
     private static final int WHAT_UI_HIDDEN = 1;
     private static final int UI_VISIBILITY_DELAY_MS = 300;
+    private static GoogleCastManager sInstance;
     private final String mApplicationId;
     private final Handler mUiVisibilityHandler;
     private Context mContext;
@@ -80,8 +81,18 @@ public class GoogleCastManager implements GoogleApiClient.ConnectionCallbacks, G
 
     }
 
-    public void setContext(Context context) {
-        mContext = context;
+    public static GoogleCastManager getInstance() {
+        if (sInstance == null) {
+            Log.e(TAG, "No GoogleCastManager instance.");
+        }
+        return sInstance;
+    }
+
+    public static synchronized GoogleCastManager initialize(Context context, String applicationId) {
+        if (sInstance == null) {
+            sInstance = new GoogleCastManager(context, applicationId);
+        }
+        return sInstance;
     }
 
     private void setDevice(CastDevice device) {
@@ -218,6 +229,7 @@ public class GoogleCastManager implements GoogleApiClient.ConnectionCallbacks, G
         MediaRouteActionProvider mediaRouteActionProvider = (MediaRouteActionProvider)
                 MenuItemCompat.getActionProvider(mediaRouteMenuItem);
         mediaRouteActionProvider.setRouteSelector(mMediaRouteSelector);
+        mediaRouteActionProvider.setDialogFactory(new ImageMediaRouteDialogFactory());
 
         return mediaRouteMenuItem;
     }
@@ -276,7 +288,6 @@ public class GoogleCastManager implements GoogleApiClient.ConnectionCallbacks, G
         }
     }
 
-
     private void onUiVisibilityChanged(final boolean visible) {
         if (visible) {
             if (null != mMediaRouter && null != mMediaRouterCallback) {
@@ -298,6 +309,10 @@ public class GoogleCastManager implements GoogleApiClient.ConnectionCallbacks, G
 
     public void stopCastDiscovery() {
         mMediaRouter.removeCallback(mMediaRouterCallback);
+    }
+
+    public MediaInfo getRemoteMediaInformation() {
+        return mRemoteMediaPlayer.getMediaInfo();
     }
 
     @Override
@@ -332,10 +347,6 @@ public class GoogleCastManager implements GoogleApiClient.ConnectionCallbacks, G
     @Override
     public void onConnectionFailed(ConnectionResult result) {
         disconnectDevice();
-    }
-
-    public void clearContext() {
-        mContext = null;
     }
 
     public void clearContext(Context context) {

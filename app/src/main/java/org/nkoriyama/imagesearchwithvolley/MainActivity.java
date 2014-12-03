@@ -8,6 +8,7 @@ import android.app.SearchableInfo;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.SearchRecentSuggestions;
 import android.support.v4.view.MenuItemCompat;
@@ -19,8 +20,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.google.android.gms.cast.CastMediaControlIntent;
 import com.google.android.gms.cast.MediaInfo;
 import com.google.android.gms.cast.MediaMetadata;
+import com.google.android.gms.common.images.WebImage;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 
@@ -60,13 +63,14 @@ public class MainActivity extends ActionBarActivity implements
 
         handleIntent(getIntent());
 
-        mCastManager = ImageSearchWithVolley.getCastManager(this);
+        String applicationId = CastMediaControlIntent.DEFAULT_MEDIA_RECEIVER_APPLICATION_ID;
+        //"1421B487";
+        mCastManager = GoogleCastManager.initialize(this, applicationId);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        mCastManager = ImageSearchWithVolley.getCastManager(this);
         mCastManager.incrementUiCounter();
     }
 
@@ -269,6 +273,7 @@ public class MainActivity extends ActionBarActivity implements
         if (mCastManager.isConnected()) {
             MediaMetadata mediaMetadata = new MediaMetadata(MediaMetadata.MEDIA_TYPE_PHOTO);
             mediaMetadata.putString(MediaMetadata.KEY_TITLE, photoInfo.getTitle());
+            mediaMetadata.addImage(new WebImage(Uri.parse(photoInfo.getThumbnailUrl())));
             MediaInfo mediaInfo = new MediaInfo.Builder(
                     photoInfo.getImageUrl())
                     .setContentType("image/*")
