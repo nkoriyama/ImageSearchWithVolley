@@ -2,6 +2,8 @@ package org.nkoriyama.imagesearchwithvolley;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.MediaRouteActionProvider;
 import android.support.v7.media.MediaRouteSelector;
@@ -25,9 +27,14 @@ import java.io.IOException;
 
 public class GoogleCastManager implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
     private static final String TAG = "GoogleCastManger";
-
+    private static final int WHAT_UI_VISIBLE = 0;
+    private static final int WHAT_UI_HIDDEN = 1;
+    private static final int UI_VISIBILITY_DELAY_MS = 300;
     private final String mApplicationId;
+    private final Handler mUiVisibilityHandler;
     private Context mContext;
+    private int mVisibilityCounter;
+    private boolean mUiVisible;
     private MediaRouter mMediaRouter;
     private MediaRouteSelector mMediaRouteSelector;
     private GoogleApiClient mApiClient;
@@ -42,10 +49,14 @@ public class GoogleCastManager implements GoogleApiClient.ConnectionCallbacks, G
         mContext = context;
         mApplicationId = applicationId;
 
+        mUiVisibilityHandler = new Handler(new UpdateUiVisibilityHandlerCallback());
+
         mMediaRouter = MediaRouter.getInstance(mContext);
         mMediaRouteSelector = new MediaRouteSelector.Builder()
                 .addControlCategory(CastMediaControlIntent.categoryForCast(mApplicationId))
                 .build();
+        mMediaRouterCallback = new MediaRouterCallback();
+
         mCastClientListener = new Cast.Listener() {
             @Override
             public void onApplicationStatusChanged() {
@@ -66,7 +77,7 @@ public class GoogleCastManager implements GoogleApiClient.ConnectionCallbacks, G
                 disconnectDevice();
             }
         };
-        mMediaRouterCallback = new MediaRouterCallback();
+
     }
 
     public void setContext(Context context) {
@@ -237,12 +248,55 @@ public class GoogleCastManager implements GoogleApiClient.ConnectionCallbacks, G
         }
     }
 
-    public void addCallback() {
+    public synchronized void incrementUiCounter() {
+        mVisibilityCounter++;
+        if (!mUiVisible) {
+            mUiVisible = true;
+            mUiVisibilityHandler.removeMessages(WHAT_UI_HIDDEN);
+            mUiVisibilityHandler.sendEmptyMessageDelayed(WHAT_UI_VISIBLE, UI_VISIBILITY_DELAY_MS);
+        }
+        if (mVisibilityCounter == 0) {
+            Log.d(TAG, "UI is no longer visible");
+        } else {
+            Log.d(TAG, "UI is visible");
+        }
+    }
+
+    public synchronized void decrementUiCounter() {
+        if (--mVisibilityCounter == 0) {
+            Log.d(TAG, "UI is no longer visible");
+            if (mUiVisible) {
+                mUiVisible = false;
+                mUiVisibilityHandler.removeMessages(WHAT_UI_VISIBLE);
+                mUiVisibilityHandler.sendEmptyMessageDelayed(WHAT_UI_HIDDEN,
+                        UI_VISIBILITY_DELAY_MS);
+            }
+        } else {
+            Log.d(TAG, "UI is visible");
+        }
+    }
+
+
+    private void onUiVisibilityChanged(final boolean visible) {
+        if (visible) {
+            if (null != mMediaRouter && null != mMediaRouterCallback) {
+                Log.d(TAG, "onUiVisibilityChanged() addCallback called");
+                startCastDiscovery();
+            }
+        } else {
+            if (null != mMediaRouter) {
+                Log.d(TAG, "onUiVisibilityChanged() removeCallback called");
+                stopCastDiscovery();
+            }
+        }
+    }
+
+    public void startCastDiscovery() {
         mMediaRouter.addCallback(mMediaRouteSelector, mMediaRouterCallback,
                 MediaRouter.CALLBACK_FLAG_REQUEST_DISCOVERY);
     }
 
-    public void removeCallback() {
+    public void stopCastDiscovery() {
         mMediaRouter.removeCallback(mMediaRouterCallback);
     }
 
@@ -299,6 +353,14 @@ public class GoogleCastManager implements GoogleApiClient.ConnectionCallbacks, G
         @Override
         public void onRouteUnselected(MediaRouter router, MediaRouter.RouteInfo info) {
             disconnectDevice();
+        }
+    }
+
+    private class UpdateUiVisibilityHandlerCallback implements Handler.Callback {
+        @Override
+        public boolean handleMessage(Message msg) {
+            onUiVisibilityChanged(msg.what == WHAT_UI_VISIBLE);
+            return true;
         }
     }
 }

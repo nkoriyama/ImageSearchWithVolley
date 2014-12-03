@@ -67,12 +67,12 @@ public class MainActivity extends ActionBarActivity implements
     protected void onResume() {
         super.onResume();
         mCastManager = ImageSearchWithVolley.getCastManager(this);
-        mCastManager.addCallback();
+        mCastManager.incrementUiCounter();
     }
 
     @Override
     protected void onPause() {
-        mCastManager.removeCallback();
+        mCastManager.decrementUiCounter();
         super.onPause();
     }
 
