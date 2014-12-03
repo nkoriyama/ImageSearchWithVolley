@@ -266,7 +266,6 @@ public class MainActivity extends ActionBarActivity implements
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                 .addToBackStack(null)
                 .commit();
-        castPhoto(adapter.getItem(position));
     }
 
     public void castPhoto(PhotoInfo photoInfo) {
