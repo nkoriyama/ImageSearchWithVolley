@@ -25,9 +25,8 @@ import java.io.IOException;
 
 public class GoogleCastManager implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
     private final String TAG = "org.nkoriyama.imagesearchwithvolley.GoogleCastManger";
-
-    private final Context mContext;
     private final String mApplicationId;
+    private Context mContext;
     private MediaRouter mMediaRouter;
     private MediaRouteSelector mMediaRouteSelector;
     private GoogleApiClient mApiClient;
@@ -67,6 +66,10 @@ public class GoogleCastManager implements GoogleApiClient.ConnectionCallbacks, G
             }
         };
         mMediaRouterCallback = new MediaRouterCallback();
+    }
+
+    public void setContext(Context context) {
+        mContext = context;
     }
 
     private void setDevice(CastDevice device) {
