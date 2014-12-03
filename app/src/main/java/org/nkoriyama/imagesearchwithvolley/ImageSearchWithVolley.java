@@ -8,14 +8,14 @@ import com.google.android.gms.cast.CastMediaControlIntent;
 
 public class ImageSearchWithVolley extends Application {
     private static Context sContext = null;
-    private static GoogleCastManager sGoogleCastManager = null;
+    private static GoogleCastManager sCastManager = null;
     private static String sReceiverApplicationId = null;
 
-    public synchronized static GoogleCastManager getGoogleCastManager() {
-        if (sGoogleCastManager == null) {
-            sGoogleCastManager = new GoogleCastManager(sContext, sReceiverApplicationId);
+    public synchronized static GoogleCastManager getCastManager() {
+        if (sCastManager == null) {
+            sCastManager = new GoogleCastManager(sContext, sReceiverApplicationId);
         }
-        return sGoogleCastManager;
+        return sCastManager;
     }
 
     public void onCreate() {

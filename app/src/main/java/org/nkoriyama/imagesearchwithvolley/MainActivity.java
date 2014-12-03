@@ -62,24 +62,24 @@ public class MainActivity extends ActionBarActivity implements
     @Override
     protected void onStart() {
         super.onStart();
-        getGoogleCastManager().addCallback();
+        ImageSearchWithVolley.getCastManager().addCallback();
     }
 
     @Override
     protected void onStop() {
-        getGoogleCastManager().removeCallback();
+        ImageSearchWithVolley.getCastManager().removeCallback();
         super.onStop();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        getGoogleCastManager().addCallback();
+        ImageSearchWithVolley.getCastManager().addCallback();
     }
 
     @Override
     protected void onPause() {
-        getGoogleCastManager().removeCallback();
+        ImageSearchWithVolley.getCastManager().removeCallback();
         super.onPause();
     }
 
@@ -196,7 +196,7 @@ public class MainActivity extends ActionBarActivity implements
         mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(mShareItem);
         setShareIntent(null);
 
-        mCastItem = getGoogleCastManager().addMediaRouterButton(menu, R.id.media_route_menu_item);
+        mCastItem = ImageSearchWithVolley.getCastManager().addMediaRouterButton(menu, R.id.media_route_menu_item);
         assert mCastItem != null;
 
         return true;
@@ -265,12 +265,8 @@ public class MainActivity extends ActionBarActivity implements
                 .commit();
     }
 
-    private GoogleCastManager getGoogleCastManager() {
-        return ImageSearchWithVolley.getGoogleCastManager();
-    }
-
     public void castPhoto(PhotoInfo photoInfo) {
-        if (getGoogleCastManager().isConnected()) {
+        if (ImageSearchWithVolley.getCastManager().isConnected()) {
             MediaMetadata mediaMetadata = new MediaMetadata(MediaMetadata.MEDIA_TYPE_PHOTO);
             mediaMetadata.putString(MediaMetadata.KEY_TITLE, photoInfo.getTitle());
             MediaInfo mediaInfo = new MediaInfo.Builder(
@@ -279,7 +275,7 @@ public class MainActivity extends ActionBarActivity implements
                     .setStreamType(MediaInfo.STREAM_TYPE_BUFFERED)
                     .setMetadata(mediaMetadata)
                     .build();
-            getGoogleCastManager().loadMedia(mediaInfo);
+            ImageSearchWithVolley.getCastManager().loadMedia(mediaInfo);
         }
     }
 }
