@@ -41,6 +41,8 @@ public class MainActivity extends ActionBarActivity implements
     private MenuItem mCastItem;
     private ShareActionProvider mShareActionProvider;
 
+    private GoogleCastManager mCastManager;
+
     public static Context getContext() {
         return sContext;
     }
@@ -57,30 +59,27 @@ public class MainActivity extends ActionBarActivity implements
         setSupportActionBar(mToolbar);
 
         handleIntent(getIntent());
-    }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        ImageSearchWithVolley.getCastManager().addCallback();
-    }
-
-    @Override
-    protected void onStop() {
-        ImageSearchWithVolley.getCastManager().removeCallback();
-        super.onStop();
+        mCastManager = ImageSearchWithVolley.getCastManager(this);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        ImageSearchWithVolley.getCastManager().addCallback();
+        mCastManager = ImageSearchWithVolley.getCastManager(this);
+        mCastManager.addCallback();
     }
 
     @Override
     protected void onPause() {
-        ImageSearchWithVolley.getCastManager().removeCallback();
+        mCastManager.removeCallback();
         super.onPause();
+    }
+
+    @Override
+    protected void onDestroy() {
+        mCastManager.clearContext(this);
+        super.onDestroy();
     }
 
     @Override
@@ -196,7 +195,7 @@ public class MainActivity extends ActionBarActivity implements
         mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(mShareItem);
         setShareIntent(null);
 
-        mCastItem = ImageSearchWithVolley.getCastManager().addMediaRouterButton(menu, R.id.media_route_menu_item);
+        mCastItem = mCastManager.addMediaRouterButton(menu, R.id.media_route_menu_item);
         assert mCastItem != null;
 
         return true;
@@ -266,7 +265,7 @@ public class MainActivity extends ActionBarActivity implements
     }
 
     public void castPhoto(PhotoInfo photoInfo) {
-        if (ImageSearchWithVolley.getCastManager().isConnected()) {
+        if (mCastManager.isConnected()) {
             MediaMetadata mediaMetadata = new MediaMetadata(MediaMetadata.MEDIA_TYPE_PHOTO);
             mediaMetadata.putString(MediaMetadata.KEY_TITLE, photoInfo.getTitle());
             MediaInfo mediaInfo = new MediaInfo.Builder(
@@ -275,7 +274,7 @@ public class MainActivity extends ActionBarActivity implements
                     .setStreamType(MediaInfo.STREAM_TYPE_BUFFERED)
                     .setMetadata(mediaMetadata)
                     .build();
-            ImageSearchWithVolley.getCastManager().loadMedia(mediaInfo);
+            mCastManager.loadMedia(mediaInfo);
         }
     }
 }

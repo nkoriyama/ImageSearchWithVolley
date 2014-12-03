@@ -24,7 +24,8 @@ import com.google.android.gms.common.api.Status;
 import java.io.IOException;
 
 public class GoogleCastManager implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
-    private final String TAG = "org.nkoriyama.imagesearchwithvolley.GoogleCastManger";
+    private static final String TAG = "GoogleCastManger";
+
     private final String mApplicationId;
     private Context mContext;
     private MediaRouter mMediaRouter;
@@ -277,6 +278,16 @@ public class GoogleCastManager implements GoogleApiClient.ConnectionCallbacks, G
     @Override
     public void onConnectionFailed(ConnectionResult result) {
         disconnectDevice();
+    }
+
+    public void clearContext() {
+        mContext = null;
+    }
+
+    public void clearContext(Context context) {
+        if (mContext != null && mContext == context) {
+            mContext = null;
+        }
     }
 
     private class MediaRouterCallback extends MediaRouter.Callback {

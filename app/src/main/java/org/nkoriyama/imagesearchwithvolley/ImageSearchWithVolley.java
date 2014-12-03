@@ -7,23 +7,21 @@ import com.crashlytics.android.Crashlytics;
 import com.google.android.gms.cast.CastMediaControlIntent;
 
 public class ImageSearchWithVolley extends Application {
-    private static Context sContext = null;
     private static GoogleCastManager sCastManager = null;
     private static String sReceiverApplicationId = null;
 
-    public synchronized static GoogleCastManager getCastManager() {
+    public synchronized static GoogleCastManager getCastManager(Context context) {
         if (sCastManager == null) {
-            sCastManager = new GoogleCastManager(sContext, sReceiverApplicationId);
+            sCastManager = new GoogleCastManager(context, sReceiverApplicationId);
         }
+        sCastManager.setContext(context);
         return sCastManager;
     }
 
     public void onCreate() {
         super.onCreate();
 
-        sContext = getApplicationContext();
-
-        RequestQueueHelper.init(sContext);
+        RequestQueueHelper.init(getApplicationContext());
 
         sReceiverApplicationId = CastMediaControlIntent.DEFAULT_MEDIA_RECEIVER_APPLICATION_ID;
         //sReceiverApplicationId = "1421B487";
