@@ -38,9 +38,9 @@ public class GoogleCastManager implements GoogleApiClient.ConnectionCallbacks, G
     private RemoteMediaPlayer mRemoteMediaPlayer;
     private android.support.v7.media.MediaRouter.Callback mMediaRouterCallback;
 
-    public GoogleCastManager(Context context) {
+    public GoogleCastManager(Context context, String applicationId) {
         mContext = context;
-        mApplicationId = CastMediaControlIntent.DEFAULT_MEDIA_RECEIVER_APPLICATION_ID;
+        mApplicationId = applicationId;
 
         mMediaRouter = MediaRouter.getInstance(mContext);
         mMediaRouteSelector = new MediaRouteSelector.Builder()
@@ -66,7 +66,6 @@ public class GoogleCastManager implements GoogleApiClient.ConnectionCallbacks, G
                 disconnectDevice();
             }
         };
-        mRemoteMediaPlayer = new RemoteMediaPlayer();
         mMediaRouterCallback = new MediaRouterCallback();
     }
 
@@ -94,9 +93,6 @@ public class GoogleCastManager implements GoogleApiClient.ConnectionCallbacks, G
 
     private void disconnectDevice() {
         Log.d(TAG, "disconnectDevice");
-        if (mSelectedDevice == null) {
-            return;
-        }
         mSelectedDevice = null;
 
         mWaitingForReconnect = false;
@@ -104,6 +100,8 @@ public class GoogleCastManager implements GoogleApiClient.ConnectionCallbacks, G
         if (isConnected() || isConnecting()) {
             stopApplication();
         }
+
+        detachMediaChannel();
 
         if (mApiClient != null) {
             mApiClient.disconnect();
@@ -115,10 +113,36 @@ public class GoogleCastManager implements GoogleApiClient.ConnectionCallbacks, G
         mSessionId = null;
     }
 
+    private void attachMediaChannel() {
+        Log.d(TAG, "attachMediaChannel");
+
+        if (mRemoteMediaPlayer == null) {
+            mRemoteMediaPlayer = new RemoteMediaPlayer();
+        }
+        try {
+            Cast.CastApi.setMessageReceivedCallbacks(mApiClient, mRemoteMediaPlayer.getNamespace(), mRemoteMediaPlayer);
+        } catch (IOException e) {
+            Log.e(TAG, "Failed setMessageReceivedCallbacks", e);
+        }
+    }
+
+    private void detachMediaChannel() {
+        Log.d(TAG, "detachMediaChannel");
+        if (mRemoteMediaPlayer != null) {
+            try {
+                Cast.CastApi.removeMessageReceivedCallbacks(mApiClient, mRemoteMediaPlayer.getNamespace());
+            } catch (IOException e) {
+                Log.e(TAG, "Failed removeMessageReceivedCallbacks", e);
+            }
+            mRemoteMediaPlayer = null;
+        }
+    }
+
     private void onApplicationConnected(final ApplicationMetadata appMetadata, final String applicationStatus,
                                         final String sessionId, final boolean wasLaunched) {
         Log.d(TAG, "onApplicationConnected");
 
+        attachMediaChannel();
         mSessionId = sessionId;
         mRemoteMediaPlayer.requestStatus(mApiClient)
                 .setResultCallback(new ResultCallback<RemoteMediaPlayer.MediaChannelResult>() {
@@ -158,6 +182,7 @@ public class GoogleCastManager implements GoogleApiClient.ConnectionCallbacks, G
     }
 
     private void stopApplication() {
+        Log.d(TAG, "Stopping application");
         Cast.CastApi.stopApplication(mApiClient, mSessionId)
                 .setResultCallback(new ResultCallback<Status>() {
                     @Override
@@ -228,6 +253,9 @@ public class GoogleCastManager implements GoogleApiClient.ConnectionCallbacks, G
             } else {
                 reconnectDevice(mSelectedDevice);
             }
+            return;
+        }
+        if (!isConnected()) {
             return;
         }
         try {

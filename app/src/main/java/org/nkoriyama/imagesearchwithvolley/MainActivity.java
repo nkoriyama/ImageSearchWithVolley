@@ -266,8 +266,7 @@ public class MainActivity extends ActionBarActivity implements
     }
 
     private GoogleCastManager getGoogleCastManager() {
-        final ImageSearchWithVolley application = (ImageSearchWithVolley) getApplication();
-        return application.getGoogleCastManager();
+        return ImageSearchWithVolley.getGoogleCastManager();
     }
 
     public void castPhoto(PhotoInfo photoInfo) {
