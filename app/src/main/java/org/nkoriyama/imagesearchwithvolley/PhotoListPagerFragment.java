@@ -46,7 +46,6 @@ public class PhotoListPagerFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setRetainInstance(true);
 
         final Bundle bundle = getArguments();
         assert bundle != null;

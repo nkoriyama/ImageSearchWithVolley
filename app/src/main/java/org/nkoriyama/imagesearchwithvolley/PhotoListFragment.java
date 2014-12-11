@@ -1,6 +1,7 @@
 package org.nkoriyama.imagesearchwithvolley;
 
 import android.app.Fragment;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -104,6 +105,12 @@ public abstract class PhotoListFragment extends Fragment {
         DisplayMetrics dm = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);
         return dm.widthPixels / getResources().getDimensionPixelSize(R.dimen.list_item_width);
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        GridLayoutManager layoutManager = (GridLayoutManager) mRecyclerView.getLayoutManager();
+        layoutManager.setSpanCount(getSpanCount());
     }
 
     @Override
