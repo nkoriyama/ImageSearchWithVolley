@@ -1,6 +1,6 @@
 package org.nkoriyama.imagesearchwithvolley;
 
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;

@@ -1,8 +1,6 @@
 package org.nkoriyama.imagesearchwithvolley;
 
 import android.app.AlertDialog;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.app.SearchManager;
 import android.app.SearchableInfo;
 import android.content.Context;
@@ -11,6 +9,8 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.SearchRecentSuggestions;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
@@ -111,9 +111,10 @@ public class MainActivity extends ActionBarActivity implements
                     MySuggestionProvider.AUTHORITY, MySuggestionProvider.MODE);
             suggestions.saveRecentQuery(query, null);
 
-            getFragmentManager().popBackStack(null,
+
+            getSupportFragmentManager().popBackStack(null,
                     FragmentManager.POP_BACK_STACK_INCLUSIVE);
-            getFragmentManager()
+            getSupportFragmentManager()
                     .beginTransaction()
                     .replace(R.id.fragment_container,
                             PhotoListPagerFragment.newInstance(query),
@@ -207,8 +208,8 @@ public class MainActivity extends ActionBarActivity implements
 
     @Override
     public void onBackPressed() {
-        if (getFragmentManager().getBackStackEntryCount() > 0) {
-            getFragmentManager().popBackStack();
+        if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
+            getSupportFragmentManager().popBackStack();
         } else {
             super.onBackPressed();
         }
@@ -231,7 +232,7 @@ public class MainActivity extends ActionBarActivity implements
     @Override
     public void onPhotoDetailLongPressed(PhotoInfo photoinfo) {
         Preconditions.checkNotNull(photoinfo);
-        getFragmentManager()
+        getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.fragment_container,
                         PhotoDetailFragment.newInstance(photoinfo, true),
@@ -244,7 +245,7 @@ public class MainActivity extends ActionBarActivity implements
     @Override
     public void onPhotoDetailDoubleTapped(PhotoInfo photoinfo) {
         Preconditions.checkNotNull(photoinfo);
-        getFragmentManager()
+        getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.fragment_container,
                         PhotoDetailFragment.newInstance(photoinfo, true),
@@ -258,7 +259,7 @@ public class MainActivity extends ActionBarActivity implements
     public void onPhotoListItemSelected(PhotoAdapter adapter, int position) {
         Preconditions.checkNotNull(adapter);
         Preconditions.checkElementIndex(position, adapter.getItemCount());
-        getFragmentManager()
+        getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.fragment_container,
                         PhotoDetailPagerFragment.newInstance(adapter, position),
