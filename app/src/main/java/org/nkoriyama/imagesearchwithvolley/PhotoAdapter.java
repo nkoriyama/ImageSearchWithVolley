@@ -63,9 +63,7 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder> 
     }
 
     public boolean addAll(Collection<? extends PhotoInfo> photoInfoList) {
-        final int positionStart = mPhotoInfoList.size();
-        final int itemCount = photoInfoList.size();
-        if (itemCount == 0) {
+        if (photoInfoList == null || photoInfoList.size() == 0) {
             return false;
         }
         mPhotoInfoList.addAll(ImmutableList.copyOf(Iterables.filter(
@@ -76,7 +74,7 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder> 
                     }
                 }
         )));
-        notifyItemRangeInserted(positionStart, itemCount);
+        notifyItemRangeInserted(mPhotoInfoList.size(), photoInfoList.size());
         return true;
     }
 
