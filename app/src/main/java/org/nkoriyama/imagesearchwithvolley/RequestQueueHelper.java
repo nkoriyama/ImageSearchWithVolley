@@ -11,9 +11,9 @@ import java.util.Map;
 import oauth.signpost.OAuthConsumer;
 
 public class RequestQueueHelper {
+    final private static Map<OAuthConsumer, RequestQueue> sOAuthConsumerRequestQueueMap = new HashMap<>();
     private static Context sContext;
     private static RequestQueue sRequestQueue;
-    private static Map<OAuthConsumer, RequestQueue> sOAuthConsumerRequestQueueMap = new HashMap<OAuthConsumer, RequestQueue>();
 
     public static void init(Context context) {
         sContext = context;

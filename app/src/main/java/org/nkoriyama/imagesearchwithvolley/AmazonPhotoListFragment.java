@@ -36,11 +36,7 @@ public class AmazonPhotoListFragment extends PhotoListFragment {
 
         try {
             helper = SignedRequestsHelper.getInstance(AWS_ENDPOINT, AWS_ACCESS_KEY_ID, AWS_SECRET_KEY);
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        } catch (InvalidKeyException e) {
+        } catch (UnsupportedEncodingException | NoSuchAlgorithmException | InvalidKeyException e) {
             e.printStackTrace();
         }
     }
@@ -61,7 +57,7 @@ public class AmazonPhotoListFragment extends PhotoListFragment {
     @Override
     protected void loadMoreItems() {
         mPhotoAdapter.mIsInUse = true;
-        RequestQueueHelper.getRequestQueue().add(new SimpleXmlRequest<AmazonPhotoResponse>(
+        RequestQueueHelper.getRequestQueue().add(new SimpleXmlRequest<>(
                 Request.Method.GET,
                 getPhotoListUrl(),
                 AmazonPhotoResponse.class,

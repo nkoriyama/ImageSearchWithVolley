@@ -67,7 +67,7 @@ public class BingPhotoListFragment extends PhotoListFragment {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> headers = super.getHeaders();
-                Map<String, String> newHeaders = new HashMap<String, String>();
+                Map<String, String> newHeaders = new HashMap<>();
                 newHeaders.putAll(headers);
                 newHeaders.put("Authorization", "Basic " + Base64.encodeToString(BING_API_KEY.getBytes(), Base64.NO_WRAP));
                 return newHeaders;

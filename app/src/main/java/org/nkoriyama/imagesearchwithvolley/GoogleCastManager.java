@@ -33,18 +33,18 @@ public class GoogleCastManager implements GoogleApiClient.ConnectionCallbacks, G
     private static GoogleCastManager sInstance;
     private final String mApplicationId;
     private final Handler mUiVisibilityHandler;
+    final private MediaRouter mMediaRouter;
+    final private MediaRouteSelector mMediaRouteSelector;
+    final private Cast.Listener mCastClientListener;
+    final private android.support.v7.media.MediaRouter.Callback mMediaRouterCallback;
     private Context mContext;
     private int mVisibilityCounter;
     private boolean mUiVisible;
-    private MediaRouter mMediaRouter;
-    private MediaRouteSelector mMediaRouteSelector;
     private GoogleApiClient mApiClient;
     private CastDevice mSelectedDevice;
-    private Cast.Listener mCastClientListener;
     private boolean mWaitingForReconnect;
     private String mSessionId;
     private RemoteMediaPlayer mRemoteMediaPlayer;
-    private android.support.v7.media.MediaRouter.Callback mMediaRouterCallback;
 
     public GoogleCastManager(Context context, String applicationId) {
         mContext = context;
@@ -290,7 +290,7 @@ public class GoogleCastManager implements GoogleApiClient.ConnectionCallbacks, G
 
     private void onUiVisibilityChanged(final boolean visible) {
         if (visible) {
-            if (null != mMediaRouter && null != mMediaRouterCallback) {
+            if (null != mMediaRouter) {
                 Log.d(TAG, "onUiVisibilityChanged() addCallback called");
                 startCastDiscovery();
             }

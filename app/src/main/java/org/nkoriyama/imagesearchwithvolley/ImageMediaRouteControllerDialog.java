@@ -16,14 +16,13 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 public class ImageMediaRouteControllerDialog extends MediaRouteControllerDialog {
+    final private GoogleCastManager mCastManager;
     @InjectView(R.id.controller_icon)
     NetworkImageView mIcon;
     @InjectView(R.id.controller_title)
     TextView mTitle;
     @InjectView(R.id.controller_subtitle)
     TextView mSubtitle;
-
-    private GoogleCastManager mCastManager;
 
     public ImageMediaRouteControllerDialog(Context context) {
         super(context);

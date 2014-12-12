@@ -26,11 +26,7 @@ public class PhotoListPagerItem {
         try {
             Method method = mPhotoListFragmentClass.getMethod("newInstance", String.class);
             return (PhotoListFragment) method.invoke(null, query);
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
+        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
             e.printStackTrace();
         }
         return null;

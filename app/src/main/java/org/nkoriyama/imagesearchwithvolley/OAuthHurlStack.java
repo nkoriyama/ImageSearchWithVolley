@@ -22,11 +22,7 @@ public class OAuthHurlStack extends OkHttpStack {
         HttpURLConnection connection = super.createConnection(url);
         try {
             this.consumer.sign(connection);
-        } catch (OAuthMessageSignerException e) {
-            e.printStackTrace();
-        } catch (OAuthExpectationFailedException e) {
-            e.printStackTrace();
-        } catch (OAuthCommunicationException e) {
+        } catch (OAuthMessageSignerException | OAuthExpectationFailedException | OAuthCommunicationException e) {
             e.printStackTrace();
         }
         return connection;

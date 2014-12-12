@@ -42,7 +42,7 @@ public class InstagramPhotoListFragment extends PhotoListFragment {
     @Override
     protected void loadMoreItems() {
         mPhotoAdapter.mIsInUse = true;
-        RequestQueueHelper.getRequestQueue().add(new GsonRequest<InstagramPhotoResponse>(
+        RequestQueueHelper.getRequestQueue().add(new GsonRequest<>(
                 getPhotoListUrl(),
                 InstagramPhotoResponse.class,
                 null,
