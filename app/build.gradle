@@ -76,14 +76,13 @@ android {
 
     buildTypes {
         debug {
-            minifyEnabled false
             buildConfigField "boolean", "USE_CRASHLYTICS", "false"
             ext.enableCrashlytics = false
         }
         release {
             minifyEnabled true
-            proguardFile file('proguard-project.txt')
-            proguardFile getDefaultProguardFile('proguard-android-optimize.txt')
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+
             signingConfig signingConfigs.release
 
             buildConfigField "boolean", "USE_CRASHLYTICS", "true"
