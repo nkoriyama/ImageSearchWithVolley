@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             android:layout_width="fill_parent"
-             android:layout_height="fill_parent">
+             android:layout_width="match_parent"
+             android:layout_height="match_parent">
 
     <org.nkoriyama.imagesearchwithvolley.PinchZoomNetworkImageView
         android:id="@+id/detail_image"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:contentDescription="@string/detail_image_description"/>
 
     <TextView
         android:id="@+id/detail_title"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:background="#b4555555"
@@ -22,5 +22,6 @@
         android:padding="8dip"
         android:scrollHorizontally="true"
         android:singleLine="true"
-        android:textColor="@android:color/white"/>
+        android:textColor="@android:color/primary_text_dark"
+        android:visibility="invisible"/>
 </FrameLayout>
