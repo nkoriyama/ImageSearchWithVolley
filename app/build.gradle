@@ -76,6 +76,9 @@ android {
 
     buildTypes {
         debug {
+            applicationIdSuffix ".d"
+            versionNameSuffix "-debug"
+
             buildConfigField "boolean", "USE_CRASHLYTICS", "false"
             ext.enableCrashlytics = false
         }
