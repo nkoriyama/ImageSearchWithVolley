@@ -166,7 +166,6 @@ public class MainActivity extends ActionBarActivity implements
         final ActionBar actionBar = getSupportActionBar();
         assert actionBar != null;
 
-        actionBar.setHomeButtonEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
         //actionBar.setTitle(photoInfo.getTitle());
         actionBar.setTitle("");

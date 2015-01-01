@@ -80,7 +80,6 @@ public class PhotoListPagerFragment extends Fragment {
         final ActionBar actionBar = activity.getSupportActionBar();
         assert actionBar != null;
 
-        actionBar.setHomeButtonEnabled(false);
         actionBar.setDisplayHomeAsUpEnabled(false);
         actionBar.setTitle(mQuery);
 
