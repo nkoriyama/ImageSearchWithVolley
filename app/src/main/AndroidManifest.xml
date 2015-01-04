@@ -35,7 +35,7 @@
         </activity>
         <provider
             android:name=".MySuggestionProvider"
-            android:authorities="${applicationId}.provider"
+            android:authorities="@string/authorities"
             android:exported="false"/>
         <meta-data
             android:name="com.crashlytics.ApiKey"

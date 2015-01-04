@@ -81,6 +81,8 @@ android {
 
             buildConfigField "boolean", "USE_CRASHLYTICS", "false"
             ext.enableCrashlytics = false
+
+            resValue "string", "authorities", defaultConfig.applicationId + applicationIdSuffix + '.provider'
         }
         release {
             minifyEnabled true
@@ -90,6 +92,8 @@ android {
 
             buildConfigField "boolean", "USE_CRASHLYTICS", "true"
             ext.enableCrashlytics = true
+
+            resValue "string", "authorities", defaultConfig.applicationId + '.provider'
         }
     }
 
