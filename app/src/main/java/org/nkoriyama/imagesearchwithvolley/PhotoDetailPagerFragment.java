@@ -1,5 +1,6 @@
 package org.nkoriyama.imagesearchwithvolley;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -52,6 +53,11 @@ public class PhotoDetailPagerFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_photodetailpager, container, false);
         ButterKnife.inject(this, view);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            ((MainActivity) getActivity()).setToolbarElevation(10);
+        }
+
         return view;
     }
 
