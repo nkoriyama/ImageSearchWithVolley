@@ -1,18 +1,26 @@
+allprojects {
+    gradle.projectsEvaluated {
+        tasks.withType(JavaCompile) {
+            options.compilerArgs << "-Xlint:deprecation"
+        }
+    }
+}
 buildscript {
     repositories {
-        maven { url 'http://download.crashlytics.com/maven' }
+        maven { url 'https://maven.fabric.io/public' }
     }
     dependencies {
-        classpath 'com.crashlytics.tools.gradle:crashlytics-gradle:+'
+        //classpath 'com.crashlytics.tools.gradle:crashlytics-gradle:+'
+        classpath 'io.fabric.tools:gradle:+'
 
     }
 }
 apply plugin: 'com.android.application'
-apply plugin: 'crashlytics'
+apply plugin: 'io.fabric'
 
 repositories {
     jcenter()
-    maven { url 'http://download.crashlytics.com/maven' }
+    maven { url 'https://maven.fabric.io/public' }
 }
 
 dependencies {
@@ -26,6 +34,7 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:+'
     compile 'com.android.support:palette-v7:+'
     compile 'com.google.guava:guava:+'
+    compile 'com.android.support:multidex:+'
     compile 'com.google.code.gson:gson:+'
     compile 'com.squareup.okhttp:okhttp:+'
     compile 'com.squareup.okhttp:okhttp-urlconnection:+'
@@ -36,12 +45,15 @@ dependencies {
         exclude module: 'xpp3'
     }
     compile 'com.jakewharton:butterknife:+'
-    compile 'com.crashlytics.android:crashlytics:+'
+    compile('com.crashlytics.sdk.android:crashlytics:2.3.2@aar') {
+        transitive = true;
+    }
 }
 
 android {
-    compileSdkVersion 21
-    buildToolsVersion "21.1.2"
+    compileSdkVersion 22
+    buildToolsVersion "22.0.1"
+
 
     defaultConfig {
         applicationId "org.nkoriyama.imagesearchwithvolley"
@@ -59,6 +71,12 @@ android {
         buildConfigField "String", "INSTAGRAM_CLIENT_ID", project.properties.INSTAGRAM_CLIENT_ID
         buildConfigField "String", "YAHOO_API_CONSUMER_KEY", project.properties.YAHOO_API_CONSUMER_KEY
         buildConfigField "String", "YAHOO_API_CONSUMER_SECRET", project.properties.YAHOO_API_CONSUMER_SECRET
+        multiDexEnabled true
+    }
+
+    dexOptions {
+        preDexLibraries false
+        javaMaxHeapSize "2g" // ヒープの最大を 2GB にする
     }
 
     lintOptions {
