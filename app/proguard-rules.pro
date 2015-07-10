@@ -40,16 +40,16 @@
 # Not remove unused code
 -dontshrink
 
--optimizations !code/simplification/arithmetic,!field/*,!class/merging/*
+-optimizations !method/inlining/*
 
--keep public class * extends android.app.Activity
--keep public class * extends android.app.Application
--keep public class * extends android.app.Service
--keep public class * extends android.content.BroadcastReceiver
--keep public class * extends android.content.ContentProvider
--keep public class * extends android.app.backup.BackupAgentHelper
--keep public class * extends android.preference.Preference
--keep public class com.android.vending.licensing.ILicensingService
+#-keep public class * extends android.app.Activity
+#-keep public class * extends android.app.Application
+#-keep public class * extends android.app.Service
+#-keep public class * extends android.content.BroadcastReceiver
+#-keep public class * extends android.content.ContentProvider
+#-keep public class * extends android.app.backup.BackupAgentHelper
+#-keep public class * extends android.preference.Preference
+#-keep public class com.android.vending.licensing.ILicensingService
 
 # Guava
 -dontwarn com.google.common.**
@@ -61,10 +61,17 @@
 -dontwarn okio.**
 
 # Butter Knife
+-keep class butterknife.** { *; }
 -dontwarn butterknife.internal.**
--keep class butterknife.internal.* { *; }
--keep class **$$ViewInjector { *; }
--keepnames class * { @butterknife.InjectView *;}
+-keep class **$$ViewBinder { *; }
+
+-keepclasseswithmembernames class * {
+    @butterknife.* <fields>;
+}
+
+-keepclasseswithmembernames class * {
+    @butterknife.* <methods>;
+}
 
 # Simple XML
 -dontwarn org.simpleframework.xml.stream.**
@@ -77,13 +84,14 @@
 -keep class org.apache.commons.codec.binary.** { *; }
 
 # Annotations and signatures
--keepattributes *Annotation*
+#-keepattributes *Annotation*
 -keepattributes Signature
+#-renamesourcefileattribute SourceFile
 -keepattributes SourceFile,LineNumberTable
 
--keepclasseswithmembernames class * {
-    native <methods>;
-}
+#-keepclasseswithmembernames class * {
+#    native <methods>;
+#}
 
 -keepclasseswithmembers class * {
     public <init>(android.content.Context, android.util.AttributeSet);
