@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent">
+<com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout
+    android:id="@+id/swiperefreshlayout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/list"
@@ -13,4 +15,4 @@
         android:numColumns="auto_fit"
         android:scrollbars="vertical"
         android:stretchMode="columnWidth"/>
-</FrameLayout>
+</com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout>

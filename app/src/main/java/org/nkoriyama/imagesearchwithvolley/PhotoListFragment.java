@@ -12,19 +12,24 @@ import android.view.ViewGroup;
 
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
+import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout;
+import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayoutDirection;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 
-public abstract class PhotoListFragment extends Fragment {
+public abstract class PhotoListFragment extends Fragment implements
+        com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout.OnRefreshListener {
     protected PhotoAdapter mPhotoAdapter;
     protected String mQuery;
     protected int mInitialPage;
     protected int mPerPage;
     protected int mPage;
     protected boolean mHasMoreItems;
-    @InjectView(R.id.list)
+    @Bind(R.id.list)
     RecyclerView mRecyclerView;
+    @Bind(R.id.swiperefreshlayout)
+    SwipyRefreshLayout mSwipeRefreshLayout;
 
     protected static void setBundle(Bundle bundle, String query, int initialPage, int perPage) {
         Preconditions.checkNotNull(bundle);
@@ -36,11 +41,24 @@ public abstract class PhotoListFragment extends Fragment {
 
     protected abstract void loadMoreItems();
 
+    protected void refreshing(boolean refreshing) {
+        if (mSwipeRefreshLayout != null)
+            mSwipeRefreshLayout.setRefreshing(refreshing);
+    }
+
     protected synchronized void loadItems() {
         if (!Strings.isNullOrEmpty(mQuery) && mHasMoreItems && !mPhotoAdapter.mIsInUse) {
+            refreshing(true);
             loadMoreItems();
+            // ここでは単純に2秒後にインジケータ非表示
         }
     }
+
+    @Override
+    public void onRefresh(SwipyRefreshLayoutDirection swipyRefreshLayoutDirection) {
+        loadItems();
+    }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -66,7 +84,13 @@ public abstract class PhotoListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_photolist, container, false);
-        ButterKnife.inject(this, view);
+        ButterKnife.bind(this, view);
+        mSwipeRefreshLayout.setColorSchemeResources(R.color.red,
+                R.color.green, R.color.blue,
+                R.color.orange);
+        // Listenerをセット
+        mSwipeRefreshLayout.setOnRefreshListener(this);
+        mSwipeRefreshLayout.setDirection(SwipyRefreshLayoutDirection.BOTTOM);
         return view;
     }
 
@@ -81,7 +105,8 @@ public abstract class PhotoListFragment extends Fragment {
         layoutManager.setOrientation(GridLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(layoutManager);
 
-        mRecyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
+        // incremental loading
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
@@ -116,7 +141,7 @@ public abstract class PhotoListFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        ButterKnife.reset(this);
+        ButterKnife.unbind(this);
     }
 
     @Override

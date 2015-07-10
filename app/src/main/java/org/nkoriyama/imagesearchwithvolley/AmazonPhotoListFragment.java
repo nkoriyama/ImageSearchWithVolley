@@ -72,12 +72,14 @@ public class AmazonPhotoListFragment extends PhotoListFragment {
                             mHasMoreItems = false;
                         }
                         mPhotoAdapter.mIsInUse = false;
+                        refreshing(false);
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError volleyError) {
                         mPhotoAdapter.mIsInUse = false;
+                        refreshing(false);
                         volleyError.printStackTrace();
                     }
                 }

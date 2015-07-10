@@ -18,9 +18,9 @@ import butterknife.ButterKnife;
 
 public class PhotoDetailFragment extends Fragment {
     @Bind(R.id.detail_title)
-    private TextView mTitle;
+    TextView mTitle;
     @Bind(R.id.detail_image)
-    private NetworkImageView mImage;
+    NetworkImageView mImage;
 
     private PhotoInfo mPhotoInfo;
     private boolean mZoomEnabled;

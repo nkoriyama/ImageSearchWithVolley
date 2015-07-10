@@ -14,11 +14,11 @@ import com.google.common.base.Preconditions;
 
 import org.nkoriyama.imagesearchwithvolley.model.PhotoInfo;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 
 public class PhotoDetailPagerFragment extends Fragment {
-    @InjectView(R.id.detail_pager)
+    @Bind(R.id.detail_pager)
     ViewPager mViewPager;
 
     private int mPosition;
@@ -52,7 +52,7 @@ public class PhotoDetailPagerFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_photodetailpager, container, false);
-        ButterKnife.inject(this, view);
+        ButterKnife.bind(this, view);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             ((MainActivity) getActivity()).setToolbarElevation(10);
@@ -79,7 +79,7 @@ public class PhotoDetailPagerFragment extends Fragment {
 
         updateActivity(mPhotoAdapter.getItem(mPosition));
 
-        mViewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+        mViewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
                 super.onPageSelected(position);
@@ -126,14 +126,14 @@ public class PhotoDetailPagerFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        ButterKnife.reset(this);
+        ButterKnife.unbind(this);
     }
 
-    public static interface OnPhotoDetailLongPressedListener {
-        public abstract void onPhotoDetailLongPressed(PhotoInfo photoinfo);
+    public interface OnPhotoDetailLongPressedListener {
+        void onPhotoDetailLongPressed(PhotoInfo photoinfo);
     }
 
-    public static interface OnPhotoDetailDoubleTappedListener {
-        public abstract void onPhotoDetailDoubleTapped(PhotoInfo photoinfo);
+    public interface OnPhotoDetailDoubleTappedListener {
+        void onPhotoDetailDoubleTapped(PhotoInfo photoinfo);
     }
 }
