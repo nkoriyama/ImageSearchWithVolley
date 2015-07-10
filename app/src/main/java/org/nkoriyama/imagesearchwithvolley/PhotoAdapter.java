@@ -18,8 +18,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 
 public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder> {
     private final List<PhotoInfo> mPhotoInfoList;
@@ -62,6 +62,12 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder> 
         return mPhotoInfoList.get(position);
     }
 
+    /*
+    画像のＵＲＬがあるもののみをコピーする。
+    todo サムネイルのURLチェックもするか。
+    todo バリデーションチェックもするか。
+    todo 存在確認チェックするか。
+     */
     public boolean addAll(Collection<? extends PhotoInfo> photoInfoList) {
         if (photoInfoList == null || photoInfoList.size() == 0) {
             return false;
@@ -78,19 +84,19 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder> 
         return true;
     }
 
-    public static interface OnPhotoListItemSelectedListener {
-        public abstract void onPhotoListItemSelected(PhotoAdapter adapter, int position);
+    public interface OnPhotoListItemSelectedListener {
+        void onPhotoListItemSelected(PhotoAdapter adapter, int position);
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        @InjectView(R.id.list_item_title)
+        @Bind(R.id.list_item_title)
         TextView title;
-        @InjectView(R.id.list_item_image)
+        @Bind(R.id.list_item_image)
         NetworkImageView image;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            ButterKnife.inject(this, itemView);
+            ButterKnife.bind(this, itemView);
         }
     }
 }
