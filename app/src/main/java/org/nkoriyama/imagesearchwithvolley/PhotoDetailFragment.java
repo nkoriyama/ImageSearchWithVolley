@@ -13,14 +13,14 @@ import com.google.common.base.Preconditions;
 import org.nkoriyama.imagesearchwithvolley.model.PhotoInfo;
 import org.nkoriyama.imagesearchwithvolley.model.PhotoInfoParcelable;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 
 public class PhotoDetailFragment extends Fragment {
-    @InjectView(R.id.detail_title)
-    TextView mTitle;
-    @InjectView(R.id.detail_image)
-    NetworkImageView mImage;
+    @Bind(R.id.detail_title)
+    private TextView mTitle;
+    @Bind(R.id.detail_image)
+    private NetworkImageView mImage;
 
     private PhotoInfo mPhotoInfo;
     private boolean mZoomEnabled;
@@ -53,7 +53,7 @@ public class PhotoDetailFragment extends Fragment {
         }
         assert bundle != null;
 
-        mPhotoInfo = (PhotoInfo) bundle.getParcelable("photoInfo");
+        mPhotoInfo = bundle.getParcelable("photoInfo");
         assert mPhotoInfo != null;
         mZoomEnabled = bundle.getBoolean("zoomEnabled");
     }
@@ -68,7 +68,7 @@ public class PhotoDetailFragment extends Fragment {
         }
 
         final View view = inflater.inflate(resource, container, false);
-        ButterKnife.inject(this, view);
+        ButterKnife.bind(this, view);
         return view;
     }
 
@@ -95,7 +95,7 @@ public class PhotoDetailFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        ButterKnife.reset(this);
+        ButterKnife.unbind(this);
     }
 
     @Override
