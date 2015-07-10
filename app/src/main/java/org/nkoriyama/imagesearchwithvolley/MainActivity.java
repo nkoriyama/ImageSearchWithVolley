@@ -14,7 +14,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.ShareActionProvider;
 import android.support.v7.widget.Toolbar;
@@ -30,16 +30,17 @@ import com.google.common.base.Strings;
 
 import org.nkoriyama.imagesearchwithvolley.model.PhotoInfo;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 
-public class MainActivity extends ActionBarActivity implements
+public class MainActivity extends AppCompatActivity implements
         PhotoAdapter.OnPhotoListItemSelectedListener,
         PhotoDetailPagerFragment.OnPhotoDetailLongPressedListener,
         PhotoDetailPagerFragment.OnPhotoDetailDoubleTappedListener {
     private static Context sContext;
-    @InjectView(R.id.toolbar)
+    @Bind(R.id.toolbar)
     Toolbar mToolbar;
+    private SearchView mSearchView;
     private MenuItem mSearchItem;
     private MenuItem mShareItem;
     private MenuItem mCastItem;
@@ -59,7 +60,7 @@ public class MainActivity extends ActionBarActivity implements
 
         setContentView(R.layout.activity_main);
 
-        ButterKnife.inject(this);
+        ButterKnife.bind(this);
         setSupportActionBar(mToolbar);
 
         handleIntent(getIntent());
@@ -94,33 +95,36 @@ public class MainActivity extends ActionBarActivity implements
         handleIntent(intent);
     }
 
+    private void doQuery(String query) {
+        if (Strings.isNullOrEmpty(query)) {
+            return;
+        }
+        mSearchView.clearFocus();
+        setTitle(query);
+        MenuItemCompat.collapseActionView(mSearchItem);
+
+        SearchRecentSuggestions suggestions = new SearchRecentSuggestions(this,
+                MySuggestionProvider.AUTHORITY, MySuggestionProvider.MODE);
+        suggestions.saveRecentQuery(query, null);
+
+        getSupportFragmentManager().popBackStack(null,
+                FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment_container,
+                        PhotoListPagerFragment.newInstance(query),
+                        "PHOTO_LIST_PAGER")
+                .commit();
+    }
+
     private void handleIntent(Intent intent) {
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-            if (mSearchItem == null) {
-                return;
-            }
 
             String query = intent.getStringExtra(SearchManager.QUERY);
-            if (Strings.isNullOrEmpty(query)) {
-                return;
+            if (!Strings.isNullOrEmpty(query)) {
+                mSearchView.setQuery(query, false);
             }
 
-            setTitle(query);
-            MenuItemCompat.collapseActionView(mSearchItem);
-
-            SearchRecentSuggestions suggestions = new SearchRecentSuggestions(this,
-                    MySuggestionProvider.AUTHORITY, MySuggestionProvider.MODE);
-            suggestions.saveRecentQuery(query, null);
-
-
-            getSupportFragmentManager().popBackStack(null,
-                    FragmentManager.POP_BACK_STACK_INCLUSIVE);
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.fragment_container,
-                            PhotoListPagerFragment.newInstance(query),
-                            "PHOTO_LIST_PAGER")
-                    .commit();
         }
     }
 
@@ -147,8 +151,8 @@ public class MainActivity extends ActionBarActivity implements
         };
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Are you sure?").setPositiveButton("Yes", dialogClickListener)
-                .setNegativeButton("No", dialogClickListener).show();
+        builder.setMessage(getResources().getString(R.string.clear_confirmation)).setPositiveButton(getResources().getString(R.string.pos_button_text), dialogClickListener)
+                .setNegativeButton(getResources().getString(R.string.neg_button_text), dialogClickListener).show();
 
     }
 
@@ -187,12 +191,24 @@ public class MainActivity extends ActionBarActivity implements
         mSearchItem = menu.findItem(R.id.action_search);
         assert mSearchItem != null;
 
-        SearchView searchView = (SearchView) MenuItemCompat.getActionView(mSearchItem);
-        assert searchView != null;
+        mSearchView = (SearchView) MenuItemCompat.getActionView(mSearchItem);
+        assert mSearchView != null;
+        mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                doQuery(s);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                return false;
+            }
+        });
 
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         SearchableInfo searchableInfo = searchManager.getSearchableInfo(getComponentName());
-        searchView.setSearchableInfo(searchableInfo);
+        mSearchView.setSearchableInfo(searchableInfo);
 
         mShareItem = menu.findItem(R.id.action_share);
         assert mShareItem != null;
