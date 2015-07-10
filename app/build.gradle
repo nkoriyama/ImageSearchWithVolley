@@ -10,7 +10,6 @@ buildscript {
         maven { url 'https://maven.fabric.io/public' }
     }
     dependencies {
-        //classpath 'com.crashlytics.tools.gradle:crashlytics-gradle:+'
         classpath 'io.fabric.tools:gradle:+'
 
     }
@@ -44,8 +43,9 @@ dependencies {
         exclude module: 'stax-api'
         exclude module: 'xpp3'
     }
-    compile 'com.jakewharton:butterknife:+'
-    compile('com.crashlytics.sdk.android:crashlytics:2.3.2@aar') {
+    compile 'com.github.orangegangsters:swipy:1.2.0@aar'
+    compile 'com.jakewharton:butterknife:7.0.0'
+    compile('com.crashlytics.sdk.android:crashlytics:2.4.0@aar') {
         transitive = true;
     }
 }
@@ -97,6 +97,10 @@ android {
             applicationIdSuffix ".d"
             versionNameSuffix "-debug"
 
+            //minifyEnabled true
+            //shrinkResources true
+            //proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+
             buildConfigField "boolean", "USE_CRASHLYTICS", "false"
             ext.enableCrashlytics = false
 
@@ -104,6 +108,7 @@ android {
         }
         release {
             minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
 
             signingConfig signingConfigs.release
