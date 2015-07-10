@@ -8,10 +8,9 @@ import com.android.volley.Response;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.android.volley.toolbox.HttpHeaderParser;
+import com.google.common.net.HttpHeaders;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
-
-import org.apache.http.protocol.HTTP;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Map;
@@ -54,13 +53,13 @@ public class GsonRequest<T> extends Request<T> {
     protected Response<T> parseNetworkResponse(NetworkResponse response) {
         try {
             final String TYPE_UTF8_CHARSET = "charset=UTF-8";
-            String type = response.headers.get(HTTP.CONTENT_TYPE);
+            String type = response.headers.get(HttpHeaders.CONTENT_TYPE);
             if (type == null) {
                 type = TYPE_UTF8_CHARSET;
-                response.headers.put(HTTP.CONTENT_TYPE, type);
+                response.headers.put(HttpHeaders.CONTENT_TYPE, type);
             } else if (!type.contains("UTF-8")) {
                 type += ";" + TYPE_UTF8_CHARSET;
-                response.headers.put(HTTP.CONTENT_TYPE, type);
+                response.headers.put(HttpHeaders.CONTENT_TYPE, type);
             }
 
             String json = new String(
