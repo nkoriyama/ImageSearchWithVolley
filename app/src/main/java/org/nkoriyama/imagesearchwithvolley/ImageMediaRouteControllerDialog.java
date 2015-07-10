@@ -12,16 +12,16 @@ import com.google.android.gms.cast.MediaInfo;
 import com.google.android.gms.cast.MediaMetadata;
 import com.google.common.base.Strings;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 
 public class ImageMediaRouteControllerDialog extends MediaRouteControllerDialog {
     final private GoogleCastManager mCastManager;
-    @InjectView(R.id.controller_icon)
+    @Bind(R.id.controller_icon)
     NetworkImageView mIcon;
-    @InjectView(R.id.controller_title)
+    @Bind(R.id.controller_title)
     TextView mTitle;
-    @InjectView(R.id.controller_subtitle)
+    @Bind(R.id.controller_subtitle)
     TextView mSubtitle;
 
     public ImageMediaRouteControllerDialog(Context context) {
@@ -34,7 +34,7 @@ public class ImageMediaRouteControllerDialog extends MediaRouteControllerDialog 
     public View onCreateMediaControlView(Bundle savedInstanceState) {
         LayoutInflater inflater = getLayoutInflater();
         View view = inflater.inflate(R.layout.dialog_imagemediaroutecontroller, null);
-        ButterKnife.inject(this, view);
+        ButterKnife.bind(this, view);
 
         updateMetadata();
 
