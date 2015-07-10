@@ -9,5 +9,8 @@
     <string name="list_image_description">list_image</string>
     <string name="search_hint">Keyword for Image search</string>
     <string name="send_to"> Share Image info to ..</string>
+    <string name="clear_confirmation">are you shure?</string>
+    <string name="pos_button_text">yes</string>
+    <string name="neg_button_text">no</string>
 </resources>
 
