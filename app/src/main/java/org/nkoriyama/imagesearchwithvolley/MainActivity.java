@@ -122,7 +122,8 @@ public class MainActivity extends AppCompatActivity implements
 
             String query = intent.getStringExtra(SearchManager.QUERY);
             if (!Strings.isNullOrEmpty(query)) {
-                mSearchView.setQuery(query, false);
+                //mSearchView.setQuery(query, false);
+                doQuery(query);
             }
 
         }

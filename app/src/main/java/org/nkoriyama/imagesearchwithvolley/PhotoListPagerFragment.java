@@ -4,6 +4,7 @@ import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
@@ -12,7 +13,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.android.common.view.SlidingTabLayout;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 
@@ -26,7 +26,7 @@ public class PhotoListPagerFragment extends Fragment {
     @Bind(R.id.list_pager)
     ViewPager mPager;
     @Bind(R.id.sliding_tabs)
-    SlidingTabLayout mSlidingTabLayout;
+    TabLayout mTabLayout;
 
     private String mQuery;
 
@@ -71,7 +71,7 @@ public class PhotoListPagerFragment extends Fragment {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             ((MainActivity) getActivity()).setToolbarElevation(0);
-            mSlidingTabLayout.setElevation(10);
+            mTabLayout.setElevation(10);
         }
 
         return view;
@@ -93,7 +93,11 @@ public class PhotoListPagerFragment extends Fragment {
         mPager.setAdapter(mPhotoListPagerAdapter);
         mPager.setPageTransformer(true, new ZoomOutPageTransformer());
 
-        mSlidingTabLayout.setViewPager(mPager);
+        mTabLayout.setTabsFromPagerAdapter(mPhotoListPagerAdapter);
+        mTabLayout.setupWithViewPager(mPager);
+        mTabLayout.setTabGravity(TabLayout.GRAVITY_CENTER);
+        mTabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
+
 
         final Resources.Theme theme = actionBar.getThemedContext().getTheme();
         TypedValue typedValue = new TypedValue();
@@ -103,21 +107,8 @@ public class PhotoListPagerFragment extends Fragment {
         //final int accentColor = typedValue.data;
         //theme.resolveAttribute(R.attr.actionMenuTextColor, typedValue, true);
         //final int textColor = typedValue.data;
-        mSlidingTabLayout.setBackgroundColor(primaryColor);
+        mTabLayout.setBackgroundColor(primaryColor);
 
-        mSlidingTabLayout.setCustomTabColorizer(new SlidingTabLayout.TabColorizer() {
-            @Override
-            public int getIndicatorColor(int position) {
-                Preconditions.checkElementIndex(position, mPhotoListPagerItems.size());
-                return mPhotoListPagerItems.get(position).getIndicatorColor();
-            }
-
-            @Override
-            public int getDividerColor(int position) {
-                Preconditions.checkElementIndex(position, mPhotoListPagerItems.size());
-                return mPhotoListPagerItems.get(position).getDividerColor();
-            }
-        });
     }
 
     @Override
