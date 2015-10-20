@@ -16,6 +16,7 @@ import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout;
 import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayoutDirection;
 
 import butterknife.Bind;
+import butterknife.BindDimen;
 import butterknife.ButterKnife;
 
 public abstract class PhotoListFragment extends Fragment implements
@@ -26,6 +27,7 @@ public abstract class PhotoListFragment extends Fragment implements
     protected int mPerPage;
     protected int mPage;
     protected boolean mHasMoreItems;
+    @BindDimen(R.dimen.list_item_width) int mListItemWidth;
     @Bind(R.id.list)
     RecyclerView mRecyclerView;
     @Bind(R.id.swiperefreshlayout)
@@ -129,7 +131,7 @@ public abstract class PhotoListFragment extends Fragment implements
     private int getSpanCount() {
         DisplayMetrics dm = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);
-        return dm.widthPixels / getResources().getDimensionPixelSize(R.dimen.list_item_width);
+        return dm.widthPixels / mListItemWidth;
     }
 
     @Override

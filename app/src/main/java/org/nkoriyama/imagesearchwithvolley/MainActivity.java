@@ -31,6 +31,7 @@ import com.google.common.base.Strings;
 import org.nkoriyama.imagesearchwithvolley.model.PhotoInfo;
 
 import butterknife.Bind;
+import butterknife.BindString;
 import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity implements
@@ -40,6 +41,9 @@ public class MainActivity extends AppCompatActivity implements
     private static Context sContext;
     @Bind(R.id.toolbar)
     Toolbar mToolbar;
+    @BindString(R.string.clear_confirmation) String mClearConfirmation;
+    @BindString(R.string.pos_button_text) String mPosButtonText;
+    @BindString(R.string.neg_button_text) String mNegButtonText;
     private SearchView mSearchView;
     private MenuItem mSearchItem;
     private MenuItem mShareItem;
@@ -152,8 +156,8 @@ public class MainActivity extends AppCompatActivity implements
         };
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage(getResources().getString(R.string.clear_confirmation)).setPositiveButton(getResources().getString(R.string.pos_button_text), dialogClickListener)
-                .setNegativeButton(getResources().getString(R.string.neg_button_text), dialogClickListener).show();
+        builder.setMessage(mClearConfirmation).setPositiveButton(mPosButtonText, dialogClickListener)
+                .setNegativeButton(mNegButtonText, dialogClickListener).show();
 
     }
 
