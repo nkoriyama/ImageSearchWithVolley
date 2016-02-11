@@ -98,8 +98,7 @@ public class GoogleCastManager implements GoogleApiClient.ConnectionCallbacks, G
     private void setDevice(CastDevice device) {
         mSelectedDevice = device;
         if (mApiClient == null) {
-            Cast.CastOptions.Builder apiOptionsBuilder = Cast.CastOptions
-                    .builder(mSelectedDevice, mCastClientListener);
+            Cast.CastOptions.Builder apiOptionsBuilder = new Cast.CastOptions.Builder(mSelectedDevice, mCastClientListener);
             mApiClient = new GoogleApiClient.Builder(mContext)
                     .addApi(Cast.API, apiOptionsBuilder.build())
                     .addConnectionCallbacks(this)
