@@ -1,6 +1,7 @@
 package org.nkoriyama.imagesearchwithvolley;
 
 import com.android.volley.toolbox.HurlStack;
+import com.google.common.base.Preconditions;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.OkUrlFactory;
 
@@ -20,10 +21,7 @@ public class OkHttpStack extends HurlStack {
     }
 
     public OkHttpStack(OkHttpClient client) {
-        if (client == null) {
-            throw new NullPointerException("Client must not be null.");
-        }
-        this.client = client;
+        this.client = Preconditions.checkNotNull(client, "Client must not be null.");
     }
 
     @Override
