@@ -93,7 +93,6 @@ public class PhotoListPagerFragment extends Fragment {
         mPager.setAdapter(mPhotoListPagerAdapter);
         mPager.setPageTransformer(true, new ZoomOutPageTransformer());
 
-        mTabLayout.setTabsFromPagerAdapter(mPhotoListPagerAdapter);
         mTabLayout.setupWithViewPager(mPager);
         mTabLayout.setTabGravity(TabLayout.GRAVITY_CENTER);
         mTabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
