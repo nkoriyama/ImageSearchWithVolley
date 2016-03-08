@@ -1,16 +1,16 @@
 package org.nkoriyama.imagesearchwithvolley.model;
 
 import com.google.common.base.Strings;
-import com.google.gson.annotations.SerializedName;
+import com.squareup.moshi.Json;
 
 import java.util.List;
 
 public class InstagramPhotoResponse {
-    @SerializedName(value = "pagination")
+    @Json(name = "pagination")
     Pagination pagination;
-    @SerializedName(value = "meta")
+    @Json(name = "meta")
     Meta meta;
-    @SerializedName(value = "data")
+    @Json(name = "data")
     List<ItemData> data;
 
     public boolean isOK() {
@@ -29,45 +29,45 @@ public class InstagramPhotoResponse {
     }
 
     static class Pagination {
-        @SerializedName(value = "next_max_tag_id")
+        @Json(name = "next_max_tag_id")
         String next_max_tag_id;
-        @SerializedName(value = "min_tag_id")
+        @Json(name = "min_tag_id")
         String min_tag_id;
-        @SerializedName(value = "next_url")
+        @Json(name = "next_url")
         String next_url;
     }
 
     static class Meta {
-        @SerializedName(value = "code")
+        @Json(name = "code")
         int code;
     }
 
     static class ItemData implements PhotoInfo {
-        @SerializedName(value = "tags")
+        @Json(name = "tags")
         List<String> tags;
-        @SerializedName(value = "location")
+        @Json(name = "location")
         Location location;
-        @SerializedName(value = "comments")
+        @Json(name = "comments")
         Comments comments;
-        @SerializedName(value = "filter")
+        @Json(name = "filter")
         String filter;
-        @SerializedName(value = "created_time")
+        @Json(name = "created_time")
         int created_time;
-        @SerializedName(value = "link")
+        @Json(name = "link")
         String link;
-        @SerializedName(value = "likes")
+        @Json(name = "likes")
         Likes likes;
-        @SerializedName(value = "images")
+        @Json(name = "images")
         Images images;
-        @SerializedName(value = "users_in_photo")
+        @Json(name = "users_in_photo")
         List<User> users_in_photo;
-        @SerializedName(value = "caption")
+        @Json(name = "caption")
         CommentData caption;
-        @SerializedName(value = "type")
+        @Json(name = "type")
         String type;
-        @SerializedName(value = "id")
+        @Json(name = "id")
         String id;
-        @SerializedName(value = "user")
+        @Json(name = "user")
         User user;
 
         @Override
@@ -126,73 +126,73 @@ public class InstagramPhotoResponse {
 
 
         static class Location {
-            @SerializedName(value = "latitude")
+            @Json(name = "latitude")
             String latitude;
-            @SerializedName(value = "longitude")
+            @Json(name = "longitude")
             String longitutde;
-            @SerializedName(value = "name")
+            @Json(name = "name")
             String name;
-            @SerializedName(value = "id")
+            @Json(name = "id")
             int id;
         }
 
         static class Comments {
-            @SerializedName(value = "count")
+            @Json(name = "count")
             int count;
-            @SerializedName(value = "data")
+            @Json(name = "data")
             List<CommentData> data;
         }
 
         static class Likes {
-            @SerializedName(value = "count")
+            @Json(name = "count")
             int count;
-            @SerializedName(value = "data")
+            @Json(name = "data")
             List<User> data;
         }
 
         static class Images {
-            @SerializedName(value = "low_resolution")
+            @Json(name = "low_resolution")
             Image low_resolution;
-            @SerializedName(value = "thumbnail")
+            @Json(name = "thumbnail")
             Image thumbnail;
-            @SerializedName(value = "standard_resolution")
+            @Json(name = "standard_resolution")
             Image standard_resolution;
 
         }
 
         static class CommentData {
-            @SerializedName(value = "created_time")
+            @Json(name = "created_time")
             int created_time;
-            @SerializedName(value = "text")
+            @Json(name = "text")
             String text;
-            @SerializedName(value = "from")
+            @Json(name = "from")
             User from;
-            @SerializedName(value = "id")
+            @Json(name = "id")
             String id;
 
         }
 
         static class User {
-            @SerializedName(value = "username")
+            @Json(name = "username")
             String username;
-            @SerializedName(value = "website")
+            @Json(name = "website")
             String website;
-            @SerializedName(value = "profile_picture")
+            @Json(name = "profile_picture")
             String profile_picture;
-            @SerializedName(value = "full_name")
+            @Json(name = "full_name")
             String full_name;
-            @SerializedName(value = "bio")
+            @Json(name = "bio")
             String bio;
-            @SerializedName(value = "id")
+            @Json(name = "id")
             String id;
         }
 
         static class Image {
-            @SerializedName(value = "url")
+            @Json(name = "url")
             String url;
-            @SerializedName(value = "width")
+            @Json(name = "width")
             int width;
-            @SerializedName(value = "height")
+            @Json(name = "height")
             int height;
         }
     }

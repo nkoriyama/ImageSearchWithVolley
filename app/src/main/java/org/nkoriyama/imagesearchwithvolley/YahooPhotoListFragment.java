@@ -42,7 +42,7 @@ public class YahooPhotoListFragment extends PhotoListFragment {
     @Override
     protected void loadMoreItems() {
         mPhotoAdapter.mIsInUse = true;
-        RequestQueueHelper.getRequestQueue(mConsumer).add(new GsonRequest<>(
+        RequestQueueHelper.getRequestQueue(mConsumer).add(new MoshiRequest<>(
                 getPhotoListUrl(),
                 YahooPhotoResponse.class,
                 null,

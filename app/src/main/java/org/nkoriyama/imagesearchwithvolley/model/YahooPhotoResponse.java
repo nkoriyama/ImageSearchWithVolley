@@ -1,12 +1,12 @@
 package org.nkoriyama.imagesearchwithvolley.model;
 
 import com.google.common.base.Strings;
-import com.google.gson.annotations.SerializedName;
+import com.squareup.moshi.Json;
 
 import java.util.List;
 
 public class YahooPhotoResponse {
-    @SerializedName(value = "bossresponse")
+    @Json(name = "bossresponse")
     BossResponse bossresponse;
 
     public boolean isOK() {
@@ -22,46 +22,46 @@ public class YahooPhotoResponse {
     }
 
     static class BossResponse {
-        @SerializedName(value = "responsecode")
+        @Json(name = "responsecode")
         String responsecode;
-        @SerializedName(value = "images")
+        @Json(name = "images")
         Images images;
 
         static class Images {
-            @SerializedName(value = "start")
+            @Json(name = "start")
             String start;
-            @SerializedName(value = "count")
+            @Json(name = "count")
             String count;
-            @SerializedName(value = "totalresults")
+            @Json(name = "totalresults")
             String totalresults;
-            @SerializedName(value = "results")
+            @Json(name = "results")
             List<Result> results;
 
 
             static class Result implements PhotoInfo {
-                @SerializedName(value = "clickurl")
+                @Json(name = "clickurl")
                 String clickurl;
-                @SerializedName(value = "size")
+                @Json(name = "size")
                 String size;
-                @SerializedName(value = "format")
+                @Json(name = "format")
                 String format;
-                @SerializedName(value = "height")
+                @Json(name = "height")
                 String height;
-                @SerializedName(value = "refererclickurl")
+                @Json(name = "refererclickurl")
                 String refererclickurl;
-                @SerializedName(value = "refererurl")
+                @Json(name = "refererurl")
                 String refererurl;
-                @SerializedName(value = "title")
+                @Json(name = "title")
                 String title;
-                @SerializedName(value = "url")
+                @Json(name = "url")
                 String url;
-                @SerializedName(value = "width")
+                @Json(name = "width")
                 String width;
-                @SerializedName(value = "thumbnailurl")
+                @Json(name = "thumbnailurl")
                 String thumbnailurl;
-                @SerializedName(value = "thumbnailheight")
+                @Json(name = "thumbnailheight")
                 String thumbnailheight;
-                @SerializedName(value = "thumbnailwidth")
+                @Json(name = "thumbnailwidth")
                 String thumbnailwidth;
 
                 @Override

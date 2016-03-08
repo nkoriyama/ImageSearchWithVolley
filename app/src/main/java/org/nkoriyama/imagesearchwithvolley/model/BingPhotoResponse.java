@@ -1,12 +1,12 @@
 package org.nkoriyama.imagesearchwithvolley.model;
 
 import com.google.common.base.Strings;
-import com.google.gson.annotations.SerializedName;
+import com.squareup.moshi.Json;
 
 import java.util.List;
 
 public class BingPhotoResponse {
-    @SerializedName(value = "d")
+    @Json(name = "d")
     SearchResponse d;
 
     public boolean isOK() {
@@ -22,31 +22,31 @@ public class BingPhotoResponse {
     }
 
     static class SearchResponse {
-        @SerializedName(value = "__next")
+        @Json(name = "__next")
         String next;
-        @SerializedName(value = "results")
+        @Json(name = "results")
         List<Result> results;
 
         static class Result implements PhotoInfo {
-            @SerializedName(value = "ContentType")
+            @Json(name = "ContentType")
             String contentType;
-            @SerializedName(value = "DisplayUrl")
+            @Json(name = "DisplayUrl")
             String displayUrl;
-            @SerializedName(value = "FileSize")
+            @Json(name = "FileSize")
             int fileSize;
-            @SerializedName(value = "Height")
+            @Json(name = "Height")
             int height;
-            @SerializedName(value = "ID")
+            @Json(name = "ID")
             String id;
-            @SerializedName(value = "MediaUrl")
+            @Json(name = "MediaUrl")
             String mediaUrl;
-            @SerializedName(value = "SourceUrl")
+            @Json(name = "SourceUrl")
             String sourceUrl;
-            @SerializedName(value = "Thumbnail")
+            @Json(name = "Thumbnail")
             Thumbnail thumbnail;
-            @SerializedName(value = "Title")
+            @Json(name = "Title")
             String title;
-            @SerializedName(value = "Width")
+            @Json(name = "Width")
             int width;
 
             @Override
@@ -82,15 +82,15 @@ public class BingPhotoResponse {
             }
 
             static class Thumbnail {
-                @SerializedName(value = "ContentType")
+                @Json(name = "ContentType")
                 String contentType;
-                @SerializedName(value = "FileSize")
+                @Json(name = "FileSize")
                 int fileSize;
-                @SerializedName(value = "Height")
+                @Json(name = "Height")
                 int height;
-                @SerializedName(value = "MediaUrl")
+                @Json(name = "MediaUrl")
                 String mediaUrl;
-                @SerializedName(value = "Width")
+                @Json(name = "Width")
                 int width;
             }
         }

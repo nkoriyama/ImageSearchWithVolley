@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.google.common.base.Preconditions;
 
@@ -20,6 +21,8 @@ import butterknife.ButterKnife;
 public class PhotoDetailPagerFragment extends Fragment {
     @Bind(R.id.detail_pager)
     ViewPager mViewPager;
+    @Bind(R.id.indicator)
+    TextView mIndicator;
 
     private int mPosition;
 
@@ -65,6 +68,9 @@ public class PhotoDetailPagerFragment extends Fragment {
         final MainActivity activity = (MainActivity) getActivity();
         assert activity != null;
 
+        int position = mViewPager.getCurrentItem() + 1;
+        int total = mViewPager.getAdapter().getCount();
+        mIndicator.setText("Position:" + position + "/" + total);
         activity.updateActionBar(photoInfo);
         activity.castPhoto(photoInfo);
     }

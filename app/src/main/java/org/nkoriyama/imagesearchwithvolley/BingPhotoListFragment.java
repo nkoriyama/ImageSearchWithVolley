@@ -39,7 +39,7 @@ public class BingPhotoListFragment extends PhotoListFragment {
     @Override
     protected void loadMoreItems() {
         mPhotoAdapter.mIsInUse = true;
-        RequestQueueHelper.getRequestQueue().add(new GsonRequest<BingPhotoResponse>(
+        RequestQueueHelper.getRequestQueue().add(new MoshiRequest<BingPhotoResponse>(
                 getPhotoListUrl(),
                 BingPhotoResponse.class,
                 null,

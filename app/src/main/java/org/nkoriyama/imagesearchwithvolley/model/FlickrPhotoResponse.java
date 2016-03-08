@@ -1,14 +1,14 @@
 package org.nkoriyama.imagesearchwithvolley.model;
 
 import com.google.common.base.Strings;
-import com.google.gson.annotations.SerializedName;
+import com.squareup.moshi.Json;
 
 import java.util.List;
 
 public class FlickrPhotoResponse {
-    @SerializedName(value = "photos")
+    @Json(name = "photos")
     Photos photos;
-    @SerializedName(value = "stat")
+    @Json(name = "stat")
     String stat;
 
     public boolean isOK() {
@@ -24,35 +24,35 @@ public class FlickrPhotoResponse {
     }
 
     static class Photos {
-        @SerializedName(value = "page")
+        @Json(name = "page")
         String page;
-        @SerializedName(value = "pages")
+        @Json(name = "pages")
         String pages;
-        @SerializedName(value = "perpage")
+        @Json(name = "perpage")
         String perpage;
-        @SerializedName(value = "photo")
+        @Json(name = "photo")
         List<Photo> photo;
-        @SerializedName(value = "total")
+        @Json(name = "total")
         String total;
 
         static class Photo implements PhotoInfo {
-            @SerializedName(value = "farm")
+            @Json(name = "farm")
             String farm;
-            @SerializedName(value = "id")
+            @Json(name = "id")
             String id;
-            @SerializedName(value = "isfamily")
+            @Json(name = "isfamily")
             String isfamily;
-            @SerializedName(value = "isfriend")
+            @Json(name = "isfriend")
             String isfriend;
-            @SerializedName(value = "ispublic")
+            @Json(name = "ispublic")
             String ispublic;
-            @SerializedName(value = "owner")
+            @Json(name = "owner")
             String owner;
-            @SerializedName(value = "secret")
+            @Json(name = "secret")
             String secret;
-            @SerializedName(value = "server")
+            @Json(name = "server")
             String server;
-            @SerializedName(value = "title")
+            @Json(name = "title")
             String title;
 
             @Override

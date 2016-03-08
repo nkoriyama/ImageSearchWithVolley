@@ -26,7 +26,7 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
     compile project(':volley')
     compile "com.android.support:appcompat-v7:+"
-    compile 'com.android.support:design:22+'
+    compile 'com.android.support:design:+'
     compile 'com.android.support:mediarouter-v7:+'
     compile 'com.google.android.gms:play-services:+'
     compile 'com.android.support:support-v4:+'
@@ -35,7 +35,7 @@ dependencies {
     compile 'com.android.support:palette-v7:+'
     compile 'com.google.guava:guava:+'
     compile 'com.android.support:multidex:+'
-    compile 'com.google.code.gson:gson:+'
+    compile 'com.squareup.moshi:moshi:+'
     compile 'com.squareup.okhttp:okhttp:+'
     compile 'com.squareup.okhttp:okhttp-urlconnection:+'
     compile 'oauth.signpost:signpost-core:+'
@@ -45,15 +45,15 @@ dependencies {
         exclude module: 'xpp3'
     }
     compile 'com.github.orangegangsters:swipy:1.2.0@aar'
-    compile 'com.jakewharton:butterknife:7.0.0'
-    compile('com.crashlytics.sdk.android:crashlytics:2.5.2@aar') {
+    compile 'com.jakewharton:butterknife:7.0.1'
+    compile('com.crashlytics.sdk.android:crashlytics:2.5.5@aar') {
         transitive = true;
     }
 }
 
 android {
     compileSdkVersion 23
-    buildToolsVersion "23.0.1"
+    buildToolsVersion "23.0.2"
 
     //useLibrary 'org.apache.http.legacy'
 
@@ -63,6 +63,7 @@ android {
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
+        //vectorDrawables.useSupportLibrary = true
 
         buildConfigField "String", "AWS_ENDPOINT", project.properties.AWS_ENDPOINT
         buildConfigField "String", "AWS_ACCESS_KEY_ID", project.properties.AWS_ACCESS_KEY_ID
@@ -127,6 +128,6 @@ android {
     }
 }
 // dummy task for crashlytics
-task dexRelease << {
-    println 'Hello world!'
-}
+//task dexRelease << {
+//   println 'Hello world!'
+//}

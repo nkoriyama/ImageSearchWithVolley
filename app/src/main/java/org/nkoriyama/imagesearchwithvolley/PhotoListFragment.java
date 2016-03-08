@@ -100,10 +100,18 @@ public abstract class PhotoListFragment extends Fragment implements
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        mRecyclerView.setHasFixedSize(true);
+        //mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setAdapter(mPhotoAdapter);
 
         final GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), getSpanCount());
+        /*
+        layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+            @Override
+            public int getSpanSize(int position) {
+                return getSpanCount();
+            }
+        });
+        */
         layoutManager.setOrientation(GridLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(layoutManager);
 
