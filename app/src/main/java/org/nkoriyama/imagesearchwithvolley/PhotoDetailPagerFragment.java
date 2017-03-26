@@ -15,19 +15,23 @@ import com.google.common.base.Preconditions;
 
 import org.nkoriyama.imagesearchwithvolley.model.PhotoInfo;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
+
 
 public class PhotoDetailPagerFragment extends Fragment {
-    @Bind(R.id.detail_pager)
+    @BindView(R.id.detail_pager)
     ViewPager mViewPager;
-    @Bind(R.id.indicator)
+    @BindView(R.id.indicator)
     TextView mIndicator;
 
     private int mPosition;
 
     private PhotoAdapter mPhotoAdapter;
     private PhotoDetailPagerAdapter mPhotoDetailPagerAdapter;
+
+    private Unbinder unbinder;
 
     public static PhotoDetailPagerFragment newInstance(PhotoAdapter photoAdapter, int position) {
         Preconditions.checkNotNull(photoAdapter);
@@ -55,7 +59,7 @@ public class PhotoDetailPagerFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_photodetailpager, container, false);
-        ButterKnife.bind(this, view);
+        unbinder = ButterKnife.bind(this, view);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             ((MainActivity) getActivity()).setToolbarElevation(10);
@@ -132,7 +136,7 @@ public class PhotoDetailPagerFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        ButterKnife.unbind(this);
+        unbinder.unbind();
     }
 
     public interface OnPhotoDetailLongPressedListener {

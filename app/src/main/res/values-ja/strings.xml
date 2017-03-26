@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Image Search With Volley</string>
     <string name="action_clear_history">検索履歴を消す</string>
     <string name="action_search">検索</string>
     <string name="clear_confirmation">消しても良いですか？</string>
     <string name="pos_button_text">はい</string>
     <string name="neg_button_text">いいえ</string>
     <string name="search_hint">キーワード</string>
+    <string name="send_to">画像情報を共有</string>
+    <string name="detail_image_description">詳細画像</string>
+    <string name="action_share">共有</string>
+    <string name="list_image_description">一覧画像</string>
+    <string name="media_route_menu_title">キャスト</string>
 </resources>

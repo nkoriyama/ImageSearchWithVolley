@@ -14,12 +14,15 @@ import com.google.common.collect.Iterables;
 
 import org.nkoriyama.imagesearchwithvolley.model.PhotoInfo;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
+
 
 public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder> {
     private final List<PhotoInfo> mPhotoInfoList;
@@ -76,12 +79,30 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder> 
                 photoInfoList, new Predicate<PhotoInfo>() {
                     @Override
                     public boolean apply(PhotoInfo input) {
-                        return !Strings.isNullOrEmpty(input.getImageUrl());
+                        return CheckUrl(input);
                     }
+                    //@Override
+                    //public boolean test(PhotoInfo input) {
+                    //return true;
+                    //}
                 }
         )));
         notifyItemRangeInserted(mPhotoInfoList.size(), photoInfoList.size());
         return true;
+    }
+
+    private boolean CheckUrl(PhotoInfo input) {
+        boolean ret = true;
+        try {
+            URI imageURI = new URI(input.getImageUrl());
+            URI thumbnailURI = new URI(input.getThumbnailUrl());
+        } catch (URISyntaxException e) {
+            ret = false;
+        } catch (NullPointerException e) {
+            ret = false;
+        }
+
+        return ret;
     }
 
     public interface OnPhotoListItemSelectedListener {
@@ -89,9 +110,9 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder> 
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        @Bind(R.id.list_item_title)
+        @BindView(R.id.list_item_title)
         TextView title;
-        @Bind(R.id.list_item_image)
+        @BindView(R.id.list_item_image)
         NetworkImageView image;
 
         public ViewHolder(View itemView) {
@@ -99,4 +120,5 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder> 
             ButterKnife.bind(this, itemView);
         }
     }
+
 }

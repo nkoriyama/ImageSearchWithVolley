@@ -15,9 +15,10 @@ import com.google.common.base.Strings;
 import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout;
 import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayoutDirection;
 
-import butterknife.Bind;
 import butterknife.BindDimen;
+import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 public abstract class PhotoListFragment extends Fragment implements
         com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout.OnRefreshListener {
@@ -28,10 +29,12 @@ public abstract class PhotoListFragment extends Fragment implements
     protected int mPage;
     protected boolean mHasMoreItems;
     @BindDimen(R.dimen.list_item_width) int mListItemWidth;
-    @Bind(R.id.list)
+    @BindView(R.id.list)
     RecyclerView mRecyclerView;
-    @Bind(R.id.swiperefreshlayout)
+    @BindView(R.id.swiperefreshlayout)
     SwipyRefreshLayout mSwipeRefreshLayout;
+    private Unbinder unbinder;
+
 
     protected static void setBundle(Bundle bundle, String query, int initialPage, int perPage) {
         Preconditions.checkNotNull(bundle);
@@ -86,7 +89,7 @@ public abstract class PhotoListFragment extends Fragment implements
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_photolist, container, false);
-        ButterKnife.bind(this, view);
+        unbinder = ButterKnife.bind(this, view);
         mSwipeRefreshLayout.setColorSchemeResources(R.color.red,
                 R.color.green, R.color.blue,
                 R.color.orange);
@@ -151,7 +154,7 @@ public abstract class PhotoListFragment extends Fragment implements
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        ButterKnife.unbind(this);
+        unbinder.unbind();
     }
 
     @Override

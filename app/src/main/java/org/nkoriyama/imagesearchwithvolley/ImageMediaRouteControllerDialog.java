@@ -12,16 +12,17 @@ import com.google.android.gms.cast.MediaInfo;
 import com.google.android.gms.cast.MediaMetadata;
 import com.google.common.base.Strings;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
+
 
 public class ImageMediaRouteControllerDialog extends MediaRouteControllerDialog {
     final private GoogleCastManager mCastManager;
-    @Bind(R.id.controller_icon)
+    @BindView(R.id.controller_icon)
     NetworkImageView mIcon;
-    @Bind(R.id.controller_title)
+    @BindView(R.id.controller_title)
     TextView mTitle;
-    @Bind(R.id.controller_subtitle)
+    @BindView(R.id.controller_subtitle)
     TextView mSubtitle;
 
     public ImageMediaRouteControllerDialog(Context context) {

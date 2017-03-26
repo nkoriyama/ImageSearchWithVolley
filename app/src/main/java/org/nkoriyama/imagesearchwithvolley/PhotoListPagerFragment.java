@@ -19,13 +19,15 @@ import com.google.common.base.Strings;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
+
 
 public class PhotoListPagerFragment extends Fragment {
-    @Bind(R.id.list_pager)
+    @BindView(R.id.list_pager)
     ViewPager mPager;
-    @Bind(R.id.sliding_tabs)
+    @BindView(R.id.sliding_tabs)
     TabLayout mTabLayout;
 
     private String mQuery;
@@ -33,6 +35,8 @@ public class PhotoListPagerFragment extends Fragment {
     private List<PhotoListPagerItem> mPhotoListPagerItems;
 
     private PhotoListPagerAdapter mPhotoListPagerAdapter;
+
+    private Unbinder unbinder;
 
     public static PhotoListPagerFragment newInstance(String query) {
         Preconditions.checkArgument(!Strings.isNullOrEmpty(query));
@@ -67,7 +71,7 @@ public class PhotoListPagerFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_photolistpager, container, false);
-        ButterKnife.bind(this, view);
+        unbinder = ButterKnife.bind(this, view);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             ((MainActivity) getActivity()).setToolbarElevation(0);
@@ -123,6 +127,6 @@ public class PhotoListPagerFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        ButterKnife.unbind(this);
+        unbinder.unbind();
     }
 }

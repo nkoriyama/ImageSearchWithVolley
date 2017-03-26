@@ -30,16 +30,17 @@ import com.google.common.base.Strings;
 
 import org.nkoriyama.imagesearchwithvolley.model.PhotoInfo;
 
-import butterknife.Bind;
 import butterknife.BindString;
+import butterknife.BindView;
 import butterknife.ButterKnife;
+
 
 public class MainActivity extends AppCompatActivity implements
         PhotoAdapter.OnPhotoListItemSelectedListener,
         PhotoDetailPagerFragment.OnPhotoDetailLongPressedListener,
         PhotoDetailPagerFragment.OnPhotoDetailDoubleTappedListener {
     private static Context sContext;
-    @Bind(R.id.toolbar)
+    @BindView(R.id.toolbar)
     Toolbar mToolbar;
     @BindString(R.string.clear_confirmation) String mClearConfirmation;
     @BindString(R.string.pos_button_text) String mPosButtonText;
@@ -105,7 +106,8 @@ public class MainActivity extends AppCompatActivity implements
         }
         mSearchView.clearFocus();
         setTitle(query);
-        MenuItemCompat.collapseActionView(mSearchItem);
+        //MenuItemCompat.collapseActionView(mSearchItem);
+        mSearchItem.collapseActionView();
 
         SearchRecentSuggestions suggestions = new SearchRecentSuggestions(this,
                 MySuggestionProvider.AUTHORITY, MySuggestionProvider.MODE);
@@ -196,7 +198,8 @@ public class MainActivity extends AppCompatActivity implements
         mSearchItem = menu.findItem(R.id.action_search);
         assert mSearchItem != null;
 
-        mSearchView = (SearchView) MenuItemCompat.getActionView(mSearchItem);
+        //mSearchView = (SearchView) MenuItemCompat.getActionView(mSearchItem);
+        mSearchView = (SearchView) mSearchItem.getActionView();
         assert mSearchView != null;
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
