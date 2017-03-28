@@ -6,91 +6,101 @@ import com.squareup.moshi.Json;
 import java.util.List;
 
 public class BingPhotoResponse {
-    SearchResponse d;
-
     public boolean isOK() {
-        return (d != null && d.results != null);
+        return (value != null);
     }
-
-    public List<SearchResponse.Result> getPhotoInfoList() {
-        return d.results;
-    }
-
     public boolean hasNext() {
-        return (d.next != null);
+        return (nextOffsetAddCount > 0);
     }
 
-    static class SearchResponse {
-        @Json(name = "__next")
-        String next;
-        List<Result> results;
+    public List<Image> getPhotoInfoList() {
+        return value;
+    }
 
-        static class Result implements PhotoInfo {
-            @Json(name = "ContentType")
-            String contentType;
-            @Json(name = "DisplayUrl")
-            String displayUrl;
-            @Json(name = "FileSize")
-            int fileSize;
-            @Json(name = "Height")
-            int height;
-            @Json(name = "ID")
-            String id;
-            @Json(name = "MediaUrl")
-            String mediaUrl;
-            @Json(name = "SourceUrl")
-            String sourceUrl;
-            @Json(name = "Thumbnail")
-            Thumbnail thumbnail;
-            @Json(name = "Title")
-            String title;
-            @Json(name = "Width")
-            int width;
+    String _type;
+    boolean displayRecipeSourcesBadges;
+    boolean displayShoppingSourcesBadges;
+    Instrumentation instrumentation;
+    List<Pivot> pivotSuggestions;
+    List<Query> queryExpansions;
+    String readLink;
+    Long totalEstimatedMatches;
+    String id;
+    boolean isFamilyFriendly;
+    int nextOffsetAddCount;
+    List<Image> value;
+    String webSearchUrl;
+    String webSearchUrlPingSuffix;
 
-            @Override
-            public String getImageUrl() {
-                return mediaUrl;
-            }
+    static class Instrumentation {
+        String pageLoadPingUrl;
+        String pingUrlBase;
+    }
 
-            @Override
-            public String getThumbnailUrl() {
-                return thumbnail.mediaUrl;
-            }
+    static class Pivot {
+        String pivot;
+    }
+    static class Query {
+        String q;
+    }
+    static class Image implements PhotoInfo {
+        String accentColor;
+        String contentSize;
+        String contentUrl;
+        String datePublished;
+        String encodingFormat;
+        short height;
+        String hostPageDisplayUrl;
+        String hostPageUrl;
+        String hostPageUrlPingSuffix;
+        String id;
+        String imageId;
+        String imageInsightsToken;
+        InsightsSourcesSummary insightsSourcesSummary;
+        String name;
+        MediaSize thumbnail;
+        String thumbnailUrl;
+        String webSearchUrl;
+        String webSearchUrlPingSuffix;
+        int width;
 
-            @Override
-            public String getTitle() {
-                return title;
-            }
-
-            @Override
-            public String getShareSubject() {
-                String shareSubject;
-                shareSubject = "[ImageSearchWithVolley] " +
-                        ((!Strings.isNullOrEmpty(title) && title.length() > 60) ? title.substring(0, 60) : title);
-                return shareSubject;
-            }
-
-            @Override
-            public String getShareText() {
-                String shareText = "Bing";
-                shareText += System.getProperty("line.separator") + "Title:[" + title + "]";
-                shareText += System.getProperty("line.separator") + "Image URL:[" + getImageUrl() + "]";
-                shareText += System.getProperty("line.separator") + "Page URL:[" + sourceUrl + "]";
-                return shareText;
-            }
-
-            static class Thumbnail {
-                @Json(name = "ContentType")
-                String contentType;
-                @Json(name = "FileSize")
-                int fileSize;
-                @Json(name = "Height")
-                int height;
-                @Json(name = "MediaUrl")
-                String mediaUrl;
-                @Json(name = "Width")
-                int width;
-            }
+        @Override
+        public String getImageUrl() {
+            return contentUrl;
         }
+
+        @Override
+        public String getThumbnailUrl() {
+            return thumbnailUrl;
+        }
+
+        @Override
+        public String getTitle() {
+            return name;
+        }
+
+        @Override
+        public String getShareSubject() {
+            String shareSubject;
+            shareSubject = "[ImageSearchWithVolley] " +
+                    ((!Strings.isNullOrEmpty(name) && name.length() > 60) ? name.substring(0, 60) : name);
+            return shareSubject;        }
+
+        @Override
+        public String getShareText() {
+            String shareText = "Bing";
+            shareText += System.getProperty("line.separator") + "Title:[" + name + "]";
+            shareText += System.getProperty("line.separator") + "Image URL:[" + getImageUrl() + "]";
+            shareText += System.getProperty("line.separator") + "Page URL:[" + hostPageDisplayUrl + "]";
+            return shareText;
+        }
+    }
+    static class InsightsSourcesSummary {
+        int recipeSourcesCount;
+        int shoppingSourcesCount;
+    }
+    static class MediaSize {
+        int height;
+        int width;
     }
 }

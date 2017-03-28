@@ -23,17 +23,18 @@ public class BingPhotoListFragment extends PhotoListFragment {
         Preconditions.checkArgument(!Strings.isNullOrEmpty(query));
         PhotoListFragment photoListFragment = new BingPhotoListFragment();
         Bundle bundle = new Bundle();
-        setBundle(bundle, query, 0, 50);
+        setBundle(bundle, query, 0, 50);//def35 max150
         photoListFragment.setArguments(bundle);
         return photoListFragment;
     }
 
     private String getPhotoListUrl() {
-        return "https://api.datamarket.azure.com/Bing/Search/Image" +
-                "?Query=" + UrlEscapers.urlPathSegmentEscaper().escape("'" + mQuery + "'") +
-                "&$format=json" +
-                "&$skip=" + (mPage * mPerPage) +
-                "&$top=" + mPerPage;
+        String ret;
+        ret = "https://api.cognitive.microsoft.com/bing/v5.0/images/search" +
+                "?q=" + UrlEscapers.urlPathSegmentEscaper().escape(mQuery) +
+                "&offset=" + (mPage * mPerPage) +
+                "&count=" + mPerPage;
+        return ret;
     }
 
     @Override
@@ -71,9 +72,10 @@ public class BingPhotoListFragment extends PhotoListFragment {
                 Map<String, String> headers = super.getHeaders();
                 Map<String, String> newHeaders = new HashMap<>();
                 newHeaders.putAll(headers);
-                newHeaders.put("Authorization", "Basic " + Base64.encodeToString(BING_API_KEY.getBytes(), Base64.NO_WRAP));
+                newHeaders.put("Ocp-Apim-Subscription-Key", BING_API_KEY);
                 return newHeaders;
             }
         });
     }
 }
+
