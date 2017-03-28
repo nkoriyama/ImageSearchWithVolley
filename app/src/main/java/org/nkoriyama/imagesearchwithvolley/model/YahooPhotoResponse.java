@@ -6,7 +6,6 @@ import com.squareup.moshi.Json;
 import java.util.List;
 
 public class YahooPhotoResponse {
-    @Json(name = "bossresponse")
     BossResponse bossresponse;
 
     public boolean isOK() {
@@ -22,46 +21,28 @@ public class YahooPhotoResponse {
     }
 
     static class BossResponse {
-        @Json(name = "responsecode")
         String responsecode;
-        @Json(name = "images")
         Images images;
 
         static class Images {
-            @Json(name = "start")
             String start;
-            @Json(name = "count")
             String count;
-            @Json(name = "totalresults")
             String totalresults;
-            @Json(name = "results")
             List<Result> results;
 
 
             static class Result implements PhotoInfo {
-                @Json(name = "clickurl")
                 String clickurl;
-                @Json(name = "size")
                 String size;
-                @Json(name = "format")
                 String format;
-                @Json(name = "height")
                 String height;
-                @Json(name = "refererclickurl")
                 String refererclickurl;
-                @Json(name = "refererurl")
                 String refererurl;
-                @Json(name = "title")
                 String title;
-                @Json(name = "url")
                 String url;
-                @Json(name = "width")
                 String width;
-                @Json(name = "thumbnailurl")
                 String thumbnailurl;
-                @Json(name = "thumbnailheight")
                 String thumbnailheight;
-                @Json(name = "thumbnailwidth")
                 String thumbnailwidth;
 
                 @Override

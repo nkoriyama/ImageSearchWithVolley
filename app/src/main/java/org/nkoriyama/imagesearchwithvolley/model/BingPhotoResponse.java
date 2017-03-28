@@ -6,7 +6,6 @@ import com.squareup.moshi.Json;
 import java.util.List;
 
 public class BingPhotoResponse {
-    @Json(name = "d")
     SearchResponse d;
 
     public boolean isOK() {
@@ -24,7 +23,6 @@ public class BingPhotoResponse {
     static class SearchResponse {
         @Json(name = "__next")
         String next;
-        @Json(name = "results")
         List<Result> results;
 
         static class Result implements PhotoInfo {

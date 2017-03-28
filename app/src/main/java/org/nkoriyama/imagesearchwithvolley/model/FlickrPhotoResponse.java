@@ -6,9 +6,7 @@ import com.squareup.moshi.Json;
 import java.util.List;
 
 public class FlickrPhotoResponse {
-    @Json(name = "photos")
     Photos photos;
-    @Json(name = "stat")
     String stat;
 
     public boolean isOK() {
@@ -24,35 +22,21 @@ public class FlickrPhotoResponse {
     }
 
     static class Photos {
-        @Json(name = "page")
         String page;
-        @Json(name = "pages")
         String pages;
-        @Json(name = "perpage")
         String perpage;
-        @Json(name = "photo")
         List<Photo> photo;
-        @Json(name = "total")
         String total;
 
         static class Photo implements PhotoInfo {
-            @Json(name = "farm")
             String farm;
-            @Json(name = "id")
             String id;
-            @Json(name = "isfamily")
             String isfamily;
-            @Json(name = "isfriend")
             String isfriend;
-            @Json(name = "ispublic")
             String ispublic;
-            @Json(name = "owner")
             String owner;
-            @Json(name = "secret")
             String secret;
-            @Json(name = "server")
             String server;
-            @Json(name = "title")
             String title;
 
             @Override
