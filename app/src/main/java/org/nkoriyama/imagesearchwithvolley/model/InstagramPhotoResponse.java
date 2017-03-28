@@ -29,7 +29,7 @@ public class InstagramPhotoResponse {
     }
 
     static class Pagination {
-        @Json(name = "next_max_tag_id")
+        @Json(name = "max_tag_id")
         String next_max_tag_id;
         @Json(name = "min_tag_id")
         String min_tag_id;

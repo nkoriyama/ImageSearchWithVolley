@@ -24,8 +24,7 @@ repositories {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
-    compile 'com.mcxiaoke.volley:library:+'
-
+    compile 'com.android.volley:volley:+'
     /*
     compile "com.android.support:appcompat-v7:23.2.1"
     compile 'com.android.support:design:23.2.1'
@@ -87,6 +86,7 @@ android {
         buildConfigField "String", "BING_API_KEY", project.properties.BING_API_KEY
         buildConfigField "String", "FLICKR_API_KEY", project.properties.FLICKR_API_KEY
         buildConfigField "String", "INSTAGRAM_CLIENT_ID", project.properties.INSTAGRAM_CLIENT_ID
+        buildConfigField "String", "INSTAGRAM_ACCESS_TOKEN", project.properties.INSTAGRAM_ACCESS_TOKEN
         buildConfigField "String", "YAHOO_API_CONSUMER_KEY", project.properties.YAHOO_API_CONSUMER_KEY
         buildConfigField "String", "YAHOO_API_CONSUMER_SECRET", project.properties.YAHOO_API_CONSUMER_SECRET
         multiDexEnabled true

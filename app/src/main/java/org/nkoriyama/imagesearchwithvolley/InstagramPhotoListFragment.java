@@ -12,6 +12,7 @@ import org.nkoriyama.imagesearchwithvolley.model.InstagramPhotoResponse;
 
 public class InstagramPhotoListFragment extends PhotoListFragment {
     private final String INSTAGRAM_CLIENT_ID = BuildConfig.INSTAGRAM_CLIENT_ID;
+    private final String INSTAGRAM_ACCESS_TOKEN = BuildConfig.INSTAGRAM_ACCESS_TOKEN;
 
     private String mPhotoListUrl;
 
@@ -31,7 +32,7 @@ public class InstagramPhotoListFragment extends PhotoListFragment {
             url = "https://api.instagram.com/v1/tags/" +
                     UrlEscapers.urlPathSegmentEscaper().escape(mQuery.replaceAll("\\s+", "")) +
                     "/media/recent" +
-                    "?client_id=" + INSTAGRAM_CLIENT_ID;
+                    "?access_token=" + INSTAGRAM_ACCESS_TOKEN;
         } else {
             url = mPhotoListUrl;
         }
